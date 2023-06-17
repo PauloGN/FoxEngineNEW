@@ -1,0 +1,27 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Inc">
+      <UniqueIdentifier>{6b1686a9-52a9-491c-bbe4-c398a64ef0a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src">
+      <UniqueIdentifier>{6b7a52c4-9d93-4b52-a474-ef8745661407}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Inc\Graphics.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\Common.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Precompiled.h">
+      <Filter>Src</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Src\Precompiled.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
