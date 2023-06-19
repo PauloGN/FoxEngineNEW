@@ -4,8 +4,8 @@
 
 using namespace FoxEngine;
 using namespace FoxEngine::Core;
+using namespace FoxEngine::Graphics;
 //using namespace FoxEngine::Input;
-//using namespace FoxEngine::Graphics;
 
 
 void FoxEngine::App::ChangeState(const std::string& stateName)
@@ -31,12 +31,12 @@ void App::Run(const FoxEngine::AppConfig& config)
 	);
 
 
-	//ASSERT(myWindow.IsActive(), "Window creation has failed!");
-	//
-	////initialize static classes
-	//auto handle = myWindow.GetWindowHandle();
+	ASSERT(myWindow.IsActive(), "Window creation has failed!");
+	
+	//initialize static classes
+	auto handle = myWindow.GetWindowHandle();
+	GraphicsSystem::StaticInitialize(handle, false);
 	//InputSystem::StaticInitialize(handle);
-	//GraphicsSystem::StaticInitialize(handle, false);
 	//DebugUI::StaticInitialize(handle, false, true);
 	//SimpleDraw::StaticInitialize(config.debugDrawLimit);
 
@@ -75,14 +75,14 @@ void App::Run(const FoxEngine::AppConfig& config)
 		{
 			mCurrentState->Update(deltaTime);
 		}
-
-		//auto graphicsSystem = GraphicsSystem::Get();
-		//graphicsSystem->BeginRender();
-		//	mCurrentState->Render();
+		
+		auto graphicsSystem = GraphicsSystem::Get();
+		graphicsSystem->BeginRender();
+			mCurrentState->Render();
 		//	DebugUI::BeginRender();
-		//	mCurrentState->DebugUI();
+			mCurrentState->DebugUI();
 		//	DebugUI::EndRender();
-		//graphicsSystem->EndRender();
+		graphicsSystem->EndRender();
 		
 		//Building shapes
 	}
@@ -92,7 +92,7 @@ void App::Run(const FoxEngine::AppConfig& config)
 
 	//SimpleDraw::StaticTerminate();
 	//DebugUI::StaticTerminate();
-	//GraphicsSystem::StaticTerminate();
+	GraphicsSystem::StaticTerminate();
 	//InputSystem::StaticTerminate();
 	myWindow.Terminate();
 }
