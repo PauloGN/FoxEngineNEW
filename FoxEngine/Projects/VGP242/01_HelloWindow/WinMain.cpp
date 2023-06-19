@@ -1,12 +1,6 @@
 #include "FoxEngine/Inc/FoxEngine.h"
+#include "GameState.h"
 
-using namespace FoxEngine;
-
-class GameState : public AppState
-{
-
-
-};
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int)
 {
