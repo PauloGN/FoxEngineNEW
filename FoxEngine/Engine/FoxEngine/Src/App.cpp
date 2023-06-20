@@ -5,6 +5,7 @@
 using namespace FoxEngine;
 using namespace FoxEngine::Core;
 using namespace FoxEngine::Graphics;
+using namespace FoxEngine::Input;
 //using namespace FoxEngine::Input;
 
 
@@ -36,7 +37,7 @@ void App::Run(const FoxEngine::AppConfig& config)
 	//initialize static classes
 	auto handle = myWindow.GetWindowHandle();
 	GraphicsSystem::StaticInitialize(handle, false);
-	//InputSystem::StaticInitialize(handle);
+	InputSystem::StaticInitialize(handle);
 	//DebugUI::StaticInitialize(handle, false, true);
 	//SimpleDraw::StaticInitialize(config.debugDrawLimit);
 
@@ -51,10 +52,10 @@ void App::Run(const FoxEngine::AppConfig& config)
 		//Process all the inputs from the window
 		myWindow.ProcessMessage();
 
-		//auto inputSystem = InputSystem::Get();
+		auto inputSystem = InputSystem::Get();
+		inputSystem->Update();
 
-		//inputSystem->Update();
-		if (!myWindow.IsActive() || GetAsyncKeyState(VK_ESCAPE) /*|| inputSystem->IsKeyPressed(KeyCode::ESCAPE)*/)
+		if (!myWindow.IsActive() || inputSystem->IsKeyPressed(KeyCode::ESCAPE))
 		{
 			Quit();
 			continue;
@@ -93,7 +94,7 @@ void App::Run(const FoxEngine::AppConfig& config)
 	//SimpleDraw::StaticTerminate();
 	//DebugUI::StaticTerminate();
 	GraphicsSystem::StaticTerminate();
-	//InputSystem::StaticTerminate();
+	InputSystem::StaticTerminate();
 	myWindow.Terminate();
 }
 
