@@ -40,6 +40,7 @@ void GraphicsSystem::StaticInitialize(HWND window, bool fullscreen)
 
 void FoxEngine::Graphics::GraphicsSystem::StaticTerminate()
 {
+
 	if (sGraphicsSystem != nullptr)
 	{
 		sGraphicsSystem->Terminate();
@@ -61,7 +62,7 @@ FoxEngine::Graphics::GraphicsSystem::~GraphicsSystem()
 
 void GraphicsSystem::Initialize(HWND window, bool fullscreen)
 {
-	//Screen view
+
 	RECT clientRect = {};
 
 	GetClientRect(window, &clientRect);
@@ -157,6 +158,7 @@ void FoxEngine::Graphics::GraphicsSystem::Resize(uint32_t width, uint32_t height
 		ASSERT(SUCCEEDED(hr), "Graphics failed to acces swap chain view");
 
 		mSwapChain->GetDesc(&mSwapChainDesc);
+
 	}
 
 	ID3D11Texture2D* backbuffer = nullptr;

@@ -4,9 +4,8 @@
 
 using namespace FoxEngine;
 using namespace FoxEngine::Core;
-using namespace FoxEngine::Graphics;
 using namespace FoxEngine::Input;
-//using namespace FoxEngine::Input;
+using namespace FoxEngine::Graphics;
 
 
 void FoxEngine::App::ChangeState(const std::string& stateName)
@@ -23,6 +22,7 @@ void App::Run(const FoxEngine::AppConfig& config)
 {
 
 	//create window
+	
 	Window myWindow;
 	myWindow.Initialize(
 		GetModuleHandle(nullptr), 
@@ -33,13 +33,13 @@ void App::Run(const FoxEngine::AppConfig& config)
 
 
 	ASSERT(myWindow.IsActive(), "Window creation has failed!");
-	
+
 	//initialize static classes
 	auto handle = myWindow.GetWindowHandle();
-	GraphicsSystem::StaticInitialize(handle, false);
 	InputSystem::StaticInitialize(handle);
-	//DebugUI::StaticInitialize(handle, false, true);
-	//SimpleDraw::StaticInitialize(config.debugDrawLimit);
+	GraphicsSystem::StaticInitialize(handle, false);
+	DebugUI::StaticInitialize(handle, false, true);
+	SimpleDraw::StaticInitialize(config.debugDrawLimit);
 
 
 	//States ***** Week 3
@@ -53,12 +53,12 @@ void App::Run(const FoxEngine::AppConfig& config)
 		myWindow.ProcessMessage();
 
 		auto inputSystem = InputSystem::Get();
-		inputSystem->Update();
 
+		inputSystem->Update();
 		if (!myWindow.IsActive() || inputSystem->IsKeyPressed(KeyCode::ESCAPE))
 		{
 			Quit();
-			continue;
+			break;
 		}
 
 		//if there is any new pending state change it and set it as a current state
@@ -76,13 +76,13 @@ void App::Run(const FoxEngine::AppConfig& config)
 		{
 			mCurrentState->Update(deltaTime);
 		}
-		
+
 		auto graphicsSystem = GraphicsSystem::Get();
 		graphicsSystem->BeginRender();
 			mCurrentState->Render();
-		//	DebugUI::BeginRender();
+			DebugUI::BeginRender();
 			mCurrentState->DebugUI();
-		//	DebugUI::EndRender();
+			DebugUI::EndRender();
 		graphicsSystem->EndRender();
 		
 		//Building shapes
@@ -91,8 +91,8 @@ void App::Run(const FoxEngine::AppConfig& config)
 	// terminate static classes
 	mCurrentState->Terminate();
 
-	//SimpleDraw::StaticTerminate();
-	//DebugUI::StaticTerminate();
+	SimpleDraw::StaticTerminate();
+	DebugUI::StaticTerminate();
 	GraphicsSystem::StaticTerminate();
 	InputSystem::StaticTerminate();
 	myWindow.Terminate();
@@ -100,5 +100,7 @@ void App::Run(const FoxEngine::AppConfig& config)
 
 void FoxEngine::App::Quit()
 {
+
 	mRunning = false;
+
 }

@@ -1,0 +1,92 @@
+﻿https://www.youtube.com/watch?v=jHcz22MDPeE&list=PLv8DnRaQOs5-MR-zbP1QUdq5FL0FWqVzg
+
+
+NDC - Normalized Device Coordinate
+
+         +-----------------+
+        /	              /|
+1.0 y  +-----------------+ |
+       |        ▲	     | |
+       |	    |	     | |
+       |◄-------+-------►| |
+       |        |        | | 1.0 z
+       |   .    ▼        |/ 
+-1.0 x +-----------------+ 0.0 z
+     -1.0 y             1.0x
+
+
+
+     Cube
+
+     void BasicRec::CreateShape()
+{
+
+	//Blue Front
+
+	mVertices.push_back({ Vector3(-0.5f,-0.5f,-0.5f),Colors::Gray });		// FBL
+	mVertices.push_back({ Vector3(-0.5f,0.5f,-0.5f),Colors::Black });		// FTL
+	mVertices.push_back({ Vector3(0.5f,-0.5f,-0.5f),Colors::Black });		// FBR
+
+	mVertices.push_back({ Vector3(0.5f,-0.5f,-0.5f),Colors::Black });		// FBR
+	mVertices.push_back({ Vector3(-0.5f, 0.5f,-0.5f),Colors::Black });		// FTL
+	mVertices.push_back({ Vector3(0.5f,0.5f,-0.5f),Colors::Gray});			// FTR
+
+	////Blue Back
+
+	mVertices.push_back({ Vector3(-0.5f,-0.5f,0.5f),Colors::Gray });		//BBL
+	mVertices.push_back({ Vector3(0.5f,-0.5f,0.5f),Colors::Black });		//BBR
+	mVertices.push_back({ Vector3(-0.5f,0.5f,0.5f),Colors::Black });		//BTL
+
+	mVertices.push_back({ Vector3(0.5f,-0.5f,0.5f),Colors::Black });		//BBR
+	mVertices.push_back({ Vector3(0.5f,0.5f,0.5f),Colors::Gray });			//BTR
+	mVertices.push_back({ Vector3(-0.5f,0.5f,0.5f),Colors::Black });		//BTL
+
+
+	//Right --->
+
+	mVertices.push_back({ Vector3(0.5f,-0.5f,-0.5f),Colors::Gray });		// FBR
+	mVertices.push_back({ Vector3(0.5f,0.5f,-0.5f),Colors::Black });		// FTR <---
+	mVertices.push_back({ Vector3(0.5f,-0.5f,0.5f),Colors::Black });		// BBR <---
+	
+	mVertices.push_back({ Vector3(0.5f,-0.5f,0.5f),Colors::Black });		//BBR <---
+	mVertices.push_back({ Vector3(0.5f,0.5f,-0.5f),Colors::Gray });			//FTR <---
+	mVertices.push_back({ Vector3(0.5f,0.5f,0.5f),Colors::Black });			//BTR
+
+	//Left <-----
+
+	mVertices.push_back({ Vector3(-0.5f,-0.5f,-0.5f),Colors::Gray });		//FBL       20
+	mVertices.push_back({ Vector3(-0.5f,-0.5f,0.5f),Colors::Black });		//BBL <---  21
+	mVertices.push_back({ Vector3(-0.5f,0.5f,-0.5f),Colors::Black });		//FTL <---  22
+									  
+	mVertices.push_back({ Vector3(-0.5f,-0.5f,0.5f),Colors::Black });		//BBL <---  21
+	mVertices.push_back({ Vector3(-0.5f,0.5f,0.5f),Colors::Black });		//BTL       23
+	mVertices.push_back({ Vector3(-0.5f,0.5f,-0.5f),Colors::Gray });		//FTL <---  22
+
+
+	//Blue top
+
+	mVertices.push_back({ Vector3(-0.5f,0.5f,-0.5f),Colors::Gray });		//FTL
+	mVertices.push_back({ Vector3(-0.5f,0.5f,0.5f),Colors::Black });		//BTL
+	mVertices.push_back({ Vector3(0.5f,0.5f,-0.5f),Colors::Black });		//FTR
+
+	mVertices.push_back({ Vector3(0.5f,0.5f,-0.5f),Colors::Black });		//FTR
+	mVertices.push_back({ Vector3(-0.5f,0.5f,0.5f),Colors::Black });		//BTL
+	mVertices.push_back({ Vector3(0.5f,0.5f,0.5f),Colors::Gray });			//BTR
+
+	//Blue Bottom
+
+	mVertices.push_back({ Vector3(-0.5f,-0.5f,-0.5f),Colors::Gray });		//FBL
+	mVertices.push_back({ Vector3(0.5f,-0.5f,-0.5f),Colors::Black });		//FBR
+	mVertices.push_back({ Vector3(-0.5f,-0.5f,0.5f),Colors::Black });		//BBL
+																				
+	mVertices.push_back({ Vector3(0.5f,-0.5f,-0.5f),Colors::Black });		//FBR
+	mVertices.push_back({ Vector3(0.5f,-0.5f,0.5f),Colors::Gray });			//BBR
+	mVertices.push_back({ Vector3(-0.5f,-0.5f,0.5f),Colors::Black });		//BBL
+									  
+}
+
+
+TEXTURING
+
+Top Left		0.0
+Bottom Right	1.1

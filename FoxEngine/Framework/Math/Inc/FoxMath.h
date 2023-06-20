@@ -135,8 +135,6 @@ namespace FoxEngine::FoxMath
 
 	//Vector 4
 
-	// Vector4
-
 	constexpr float Dot(Vector4 a, Vector4 b)
 	{
 		return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
@@ -149,53 +147,52 @@ namespace FoxEngine::FoxMath
 
 	inline float Magnitude(Vector4 a)
 	{
-		return std::sqrt(a.x * a.x + a.y * a.y + a.z * a.z + a.w * a.w);
+		return sqrt(a.x * a.x + a.y * a.y + a.z * a.z + a.w * a.w);
 	}
 
 	inline float DistanceSqr(Vector4 a, Vector4 b)
 	{
-		float dx = a.x - b.x;
-		float dy = a.y - b.y;
-		float dz = a.z - b.z;
-		float dw = a.w - b.w;
-		return dx * dx + dy * dy + dz * dz + dw * dw;
+		return abs((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z) + (a.w - b.w) * (a.w - b.w));
 	}
 
 	inline float Distance(Vector4 a, Vector4 b)
 	{
-		float dx = a.x - b.x;
-		float dy = a.y - b.y;
-		float dz = a.z - b.z;
-		float dw = a.w - b.w;
-		return std::sqrt(dx * dx + dy * dy + dz * dz + dw * dw);
+		return sqrt(abs((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y) + (a.z - b.z) * (a.z - b.z) + (a.w - b.w) * (a.w - b.w)));
 	}
 
 	inline Vector4 Normalize(Vector4 a)
 	{
-		float magnitude = Magnitude(a);
-		return Vector4(a.x / magnitude, a.y / magnitude, a.z / magnitude, a.w / magnitude);
+		float magA = sqrt(a.x * a.x + a.y * a.y + a.z * a.z + a.w * a.w);
+		return a / magA;
 	}
 
-	inline Vector4 TransformCoord(const Vector4& v, const Matrix4& m)
-	{
-		float x = v.x * m._11 + v.y * m._21 + v.z * m._31 + v.w * m._41;
-		float y = v.x * m._12 + v.y * m._22 + v.z * m._32 + v.w * m._42;
-		float z = v.x * m._13 + v.y * m._23 + v.z * m._33 + v.w * m._43;
-		float w = v.x * m._14 + v.y * m._24 + v.z * m._34 + v.w * m._44;
+	//constexpr Vector4 Cross(Vector4 a, Vector4 b)
+	//{
+	//	float x = a.y * b.z - a.z * b.y;
+	//	float y = a.z * b.x - a.x * b.z;
+	//	float z = a.x * b.y - a.y * b.x;
+	//	float w = a.w * b.y - a.y * b.x;
 
-		return Vector4(x, y, z, w);
-	}
+	//	return { x, y, z, w };
+	//}
 
-	inline Vector4 TransformNormal(const Vector4& v, const Matrix4& m)
-	{
-		float x = v.x * m._11 + v.y * m._21 + v.z * m._31 + v.w * m._41;
-		float y = v.x * m._12 + v.y * m._22 + v.z * m._32 + v.w * m._42;
-		float z = v.x * m._13 + v.y * m._23 + v.z * m._33 + v.w * m._43;
-		float w = v.x * m._14 + v.y * m._24 + v.z * m._34 + v.w * m._44;
+	//inline Vector3 TransformCoord(const Vector3& v, const Matrix4& m)
+	//{
+	//	float x = v.x * m._11 + v.y * m._21 + v.z * m._31 + m._41;
+	//	float y = v.x * m._12 + v.y * m._22 + v.z * m._32 + m._42;
+	//	float z = v.x * m._13 + v.y * m._23 + v.z * m._33 + m._43;
 
-		return Vector4(x, y, z, w);
-	}
+	//	return { x, y, z };
+	//}
 
+	//inline Vector3 TransformNormal(const Vector3& v, const Matrix4& m)
+	//{
+	//	float x = v.x * m._11 + v.y * m._21 + v.z * m._31;
+	//	float y = v.x * m._12 + v.y * m._22 + v.z * m._32;
+	//	float z = v.x * m._13 + v.y * m._23 + v.z * m._33;
+
+	//	return { x, y, z };
+	//}
 
 	//Matrix
 

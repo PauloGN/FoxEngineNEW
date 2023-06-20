@@ -9,7 +9,7 @@ namespace FoxEngine
 		virtual ~AppState() = default;
 		virtual void Initialize() {}
 		virtual void Terminate() {}
-		virtual void Update(const float deltaTime) {}
+		virtual void Update(float deltaTime) {}
 		virtual void Render() {}
 		virtual void DebugUI() {}
 	};

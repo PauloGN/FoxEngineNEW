@@ -2,7 +2,6 @@
 
 namespace FoxEngine
 {
-	//Forward declaration
 	class AppState;
 
 	struct AppConfig
@@ -33,10 +32,10 @@ namespace FoxEngine
 				if (mCurrentState == nullptr) 
 				{
 					LOG("App -- Current state %s", stateName.c_str());
-					LOG("App -- Current state %s", iter->first.c_str());
 					mCurrentState = ptr.get();
 				}
 			}
+
 		}
 
 		void ChangeState(const std::string& stateName);
@@ -53,5 +52,6 @@ namespace FoxEngine
 		AppState* mNextState = nullptr;
 
 		bool mRunning = false;
+
 	};
 }

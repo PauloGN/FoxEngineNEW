@@ -5,9 +5,9 @@ using namespace FoxEngine::Core;
 
 LRESULT CALLBACK WindowMessageHandler(HWND handle, UINT message, WPARAM wParam, LPARAM lParam)
 {
+
 	switch (message)
 	{
-		//listening to the destroy, it means if we hit the X button it will close the application.
 		case WM_DESTROY:
 		{
 			PostQuitMessage(0);
@@ -22,7 +22,7 @@ LRESULT CALLBACK WindowMessageHandler(HWND handle, UINT message, WPARAM wParam, 
 void FoxEngine::Core::Window::Initialize(HINSTANCE instance, const std::wstring& appName, uint32_t width, uint32_t height)
 {
 	mInstance = instance;
-	mAppName = appName;
+	mAppName = std::move(appName);
 
 	WNDCLASSEX wcex;
 
@@ -32,17 +32,16 @@ void FoxEngine::Core::Window::Initialize(HINSTANCE instance, const std::wstring&
 	wcex.cbClsExtra = 0;
 	wcex.cbWndExtra = 0;
 	wcex.hInstance = instance;
-	wcex.hIcon = LoadIcon(nullptr, IDI_APPLICATION);//top left corner when open up the window
-	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);//default windows cursor
-	wcex.hbrBackground = static_cast<HBRUSH>(GetStockObject(BLACK_BRUSH));
+	wcex.hIcon = LoadIcon(nullptr, IDI_APPLICATION);
+	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
+	wcex.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	wcex.lpszMenuName = nullptr;
 	wcex.lpszClassName = mAppName.c_str();
 	wcex.hIconSm = LoadIcon(nullptr, IDI_APPLICATION);
 
-	//After setting up the window parameters we have to register and pass by reference
 	RegisterClassExW(&wcex);
 
-	mScreenRec = { 0, 0, static_cast<LONG>(width), static_cast<LONG>(height) };
+	mScreenRec = { 0, 0, (LONG)width, (LONG)height };
 	AdjustWindowRect(&mScreenRec, WS_OVERLAPPEDWINDOW, FALSE);
 
 	const int screenWidth = GetSystemMetrics(SM_CXSCREEN);
@@ -83,6 +82,7 @@ void FoxEngine::Core::Window::Terminate()
 
 void FoxEngine::Core::Window::ProcessMessage()
 {
+
 	MSG msg{};
 
 	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))

@@ -4,6 +4,7 @@ namespace FoxEngine::Core
 {
 	class WindowMessageHandler
 	{
+
 	public:
 
 		using Callback = LRESULT(CALLBACK*)(HWND, UINT, WPARAM, LPARAM);

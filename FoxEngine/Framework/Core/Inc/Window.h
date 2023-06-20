@@ -2,6 +2,7 @@
 
 namespace FoxEngine::Core
 {
+
 	class Window
 	{
 
@@ -21,6 +22,8 @@ namespace FoxEngine::Core
 		HINSTANCE mInstance = nullptr;
 		HWND mWindow = nullptr;
 		std::wstring mAppName;
-		bool mActive = false;
+		bool mActive;
+
 	};
+
 }
