@@ -3,3 +3,8 @@
 #include "Common.h"
 #include "App.h"
 #include "AppState.h"
+
+namespace FoxEngine
+{
+	App& MainApp();
+}

@@ -7,10 +7,7 @@ using namespace FoxEngine::FoxMath;
 void GameState::Initialize()
 {
 	//Create shapes in NDC Normalized device coordinate
-	// -1 to 1 (x, y, z);
-	mVertices.push_back({ {-0.5f,0.0f,0.0f}, Colors::Azure });
-	mVertices.push_back({ {0.0f,0.75f,0.0f}, Colors::Green });
-	mVertices.push_back({ {0.5f,0.0f,0.0f}, Colors::Orange });
+	CreateShape();
 
 
 	auto device = GraphicsSystem::Get()->GetDevice();
@@ -136,4 +133,67 @@ void GameState::Render()
 	UINT offset = 0;
 	context->IASetVertexBuffers(0, 1, &mVertexBuffer, &stride, &offset);
 	context->Draw((UINT)mVertices.size(), 0);
+}
+
+void GameState::CreateShape()
+{
+	// -1 to 1 (x, y, z);
+	mVertices.push_back({ {-0.5f,0.0f,0.0f}, Colors::Blue }); // pixel position left side of scree
+	mVertices.push_back({ {0.0f,0.75f,0.0f}, Colors::Green }); // pixel position up top center of the screen
+	mVertices.push_back({ {0.5f,0.0f,0.0f}, Colors::Orange }); // pixel position right side of the screen
+}
+
+//======================================================
+//
+//SHAPE 01 TRIANGLE
+//
+//======================================================
+
+void Triangle::Update(const float deltaTime)
+{
+	GameState::Update(deltaTime);
+
+
+}
+
+void Triangle::CreateShape()
+{
+
+	// Triangle 1
+	mVertices.push_back({ Vector3(-0.15f,0.0f,0.0f),Colors::LimeGreen });
+	mVertices.push_back({ Vector3(0.0f,0.2f,0.0f),Colors::LimeGreen });
+	mVertices.push_back({ Vector3(0.15f,0.f,0.0f),Colors::LimeGreen });
+
+	// Triangle 2
+	mVertices.push_back({ Vector3(-0.35f,0.0f,0.0f),Colors::GreenYellow });
+	mVertices.push_back({ Vector3(0.0f,0.4f,0.0f),Colors::GreenYellow });
+	mVertices.push_back({ Vector3(0.35f,0.f,0.0f),Colors::GreenYellow });
+
+	// Triangle 3
+	mVertices.push_back({ Vector3(-0.55f,0.0f,0.0f),Colors::ForestGreen });
+	mVertices.push_back({ Vector3(0.0f,0.6f,0.0f),Colors::ForestGreen });
+	mVertices.push_back({ Vector3(0.55f,0.f,0.0f),Colors::ForestGreen });
+
+}
+
+//======================================================
+//
+//SHAPE 02 Square
+//
+//======================================================
+
+void Square::Update(const float deltaTime)
+{
+	GameState::Update(deltaTime);
+}
+
+void Square::CreateShape()
+{
+	mVertices.push_back({ {-0.5f, -0.5f, 0.0f}, Colors::Azure });
+	mVertices.push_back({ {-0.5f, 0.5f, 0.0f}, Colors::Green });
+	mVertices.push_back({ {0.5f, 0.5f, 0.0f}, Colors::Orange });
+
+	mVertices.push_back({ {-0.5f, -0.5f, 0.0f}, Colors::Azure });
+	mVertices.push_back({ {0.5f, 0.5f, 0.0f}, Colors::Orange });
+	mVertices.push_back({ {0.5f, -0.5f, 0.0f}, Colors::Red });
 }

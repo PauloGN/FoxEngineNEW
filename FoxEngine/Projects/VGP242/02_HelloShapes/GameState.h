@@ -14,9 +14,30 @@ public:
 	void Terminate() override;
 	void Render() override;
 	void DebugUI() override{}
-	void Update(const float deltaTime) override{}
+	void Update(const float deltaTime) override
+	{
+		if(GetAsyncKeyState(VK_UP))
+		{
+			MainApp().ChangeState("Square");
+			Graphics::GraphicsSystem::Get()->SetClearColor(Colors::DarkRed);
+		}
 
-private:
+		if (GetAsyncKeyState(VK_DOWN))
+		{
+			MainApp().ChangeState("Triangle");
+			Graphics::GraphicsSystem::Get()->SetClearColor(Colors::Black);
+		}
+
+		if (GetAsyncKeyState(VK_RIGHT))
+		{
+			MainApp().ChangeState("GameState");
+			Graphics::GraphicsSystem::Get()->SetClearColor(Colors::BlanchedAlmond);
+		}
+	}
+
+protected:
+
+	virtual void CreateShape();
 
 	struct Vertex
 	{
@@ -34,3 +55,22 @@ private:
 	ID3D11PixelShader* mPixelShader = nullptr;
 
 };
+
+
+class Triangle:public GameState
+{
+	void Update(const float deltaTime)override;
+protected:
+	void CreateShape() override;
+
+
+};
+
+class Square :public GameState
+{
+	void Update(const float deltaTime)override;
+protected:
+	void CreateShape() override;
+
+};
+
