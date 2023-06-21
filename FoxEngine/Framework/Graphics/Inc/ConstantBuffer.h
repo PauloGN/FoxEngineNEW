@@ -13,6 +13,7 @@ namespace FoxEngine::Graphics
 
 		void Update(const void* data);
 
+		//Bind the vertex buffer to vertex and pixel shader
 		void BindVS(uint32_t slot)const;
 		void BindPS(uint32_t slot);
 

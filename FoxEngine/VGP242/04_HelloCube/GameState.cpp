@@ -9,6 +9,9 @@ namespace
 {
 	float gRotationY = 0.0f;
 	float gRotationX = 0.0f;
+	float totalTime = 0.0f;
+	Vector3 position(0.0f);
+	static bool bToggleTranslationOnAndOff = true;
 }
 
 void GameState::Initialize() 
@@ -66,21 +69,32 @@ void GameState::Update(float deltaTime)
 	gRotationY += Constants::HalfPi * deltaTime * 0.5f;
 	gRotationX += Constants::HalfPi * deltaTime * 0.2f;
 
+	//Translation
+	if(input->IsKeyPressed(KeyCode::SPACE))
+	{
+		bToggleTranslationOnAndOff = !bToggleTranslationOnAndOff;
+	}
+
+	if(bToggleTranslationOnAndOff)
+	{
+		totalTime += deltaTime;
+		position.y = std::sin(totalTime);
+	}
 }
 void GameState::Render() 
 {
 
 	mVertexShader.Bind();
 	mPixelShader.Bind();
-
+	
 	//Use the Camera
-
 	//Matrix4 matWorld = Matrix4::Identity; Normal
-	Matrix4 matWorld = Matrix4::RotationY(gRotationY) * Matrix4::RotationX(gRotationX);
+	Matrix4 matWorld = Matrix4::Translation(position) * Matrix4::RotationY(gRotationY);
 	Matrix4 matView = mCamera.GetViewMatrix();
 	Matrix4 matProj = mCamera.GetProjectionMatrix();
 	Matrix4 matFinal = matWorld * matView * matProj;
 
+	//convert from left hand to right hand coordinated system
 	Matrix4 wvp = Transpose(matFinal);
 
 	mConstantBuffer.Update(&wvp);

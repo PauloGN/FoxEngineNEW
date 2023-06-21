@@ -2,7 +2,6 @@
 #include "ConstantBuffer.h"
 #include "GraphicsSystem.h"
 
-
 using namespace FoxEngine;
 using namespace FoxEngine::Graphics;
 

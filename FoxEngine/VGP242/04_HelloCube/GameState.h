@@ -2,13 +2,14 @@
 #include "FoxEngine/Inc/FoxEngine.h"
 
 using namespace FoxEngine;
-using namespace FoxEngine::FoxMath;
 using namespace FoxEngine::Graphics;
 
 class GameState : public FoxEngine::AppState
 {
 public:
-	
+
+	virtual ~GameState() = default;
+
 	void Initialize()override;
 	void Terminate()override;
 	void Update(float deltaTime)override;
