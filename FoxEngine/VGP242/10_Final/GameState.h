@@ -18,7 +18,7 @@ public:
     void DebugUI();
 
     //Controllers
-    void EngineCameraControll(float deltaTime);
+    void EngineCameraController(float deltaTime);
 
 protected:
 

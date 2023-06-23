@@ -69,7 +69,7 @@ void GameState::Update(float deltaTime)
 	}
 
 
-	EngineCameraControll(deltaTime);
+	EngineCameraController(deltaTime);
 
 }
 void GameState::Render() 
@@ -107,7 +107,7 @@ void GameState::Render()
 
 }
 
-void GameState::EngineCameraControll(float deltaTime)
+void GameState::EngineCameraController(float deltaTime)
 {
 	auto input = Input::InputSystem::Get();
 	const int moveSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? 10 : 1;

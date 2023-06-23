@@ -24,7 +24,7 @@ public:
 	void Terminate()override;
 	void Update(float deltaTime)override;
 	void Render()override;
-	void EngineCameraControll(float deltaTime);
+	void EngineCameraController(float deltaTime);
 	void DebugUI()override;
 	void LoadDebug();
 

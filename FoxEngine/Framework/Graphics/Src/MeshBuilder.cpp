@@ -436,8 +436,8 @@ MeshPX FoxEngine::Graphics::MeshBuilder::CreateSkyboxPX(float size)
 	const float onef = 1.0f;
 	
 	//thirds
-	const long double oneThird = onef / 3.0f;
-	const long double twoThird = (onef + onef) / 3.0f;
+	const float oneThird = onef / 3.0f;
+	const float twoThird = (onef + onef) / 3.0f;
 
 	//Front
 	skyMesh.vertices.push_back({ {-halfSize, halfSize, -halfSize},  { onef, oneThird } });		//0 FTL

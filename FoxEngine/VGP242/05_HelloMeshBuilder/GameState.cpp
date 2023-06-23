@@ -42,7 +42,7 @@ void GameState::Update(float deltaTime)
 	auto input = InputSystem::Get();
 	App& myApp = MainApp();
 
-
+	//update rotation
 	gRotationY += Constants::HalfPi * deltaTime * 0.5f;
 	gRotationX += Constants::HalfPi * deltaTime * 0.2f;
 
@@ -50,7 +50,7 @@ void GameState::Update(float deltaTime)
 	//A state with a new shape
 	if (input->IsKeyPressed(KeyCode::UP)) {
 
-		GraphicsSystem::Get()->SetClearColor(Colors::Black);
+		GraphicsSystem::Get()->SetClearColor(Colors::Gray);
 		myApp.ChangeState("BasicCube");
 
 	}
@@ -104,7 +104,6 @@ void BasicCubeTextureDebug::CreateShape()
 {
 	MeshPC cube = MeshBuilder::CreateCubePC(1.0, Colors::Aqua);
 	mMesheBuffer.Initialize(cube);
-
 }
 
 void BasicSphereTextureDebug::CreateShape()

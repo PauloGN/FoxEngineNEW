@@ -429,7 +429,7 @@ void GameState::RenderMesh(const Camera& camera, bool useTransform)
 
 void GameState::Update(float deltaTime)
 {
-    EngineCameraControll(deltaTime);
+    EngineCameraController(deltaTime);
 
     //Planets
     for (size_t i = 0; i < std::size(mPlanets); i++)
@@ -470,7 +470,7 @@ void GameState::DebugUI()
     ImGui::End();
 }
 
-void GameState::EngineCameraControll(float deltaTime)
+void GameState::EngineCameraController(float deltaTime)
 {
     auto input = Input::InputSystem::Get();
     const int moveSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? 10 : 1;

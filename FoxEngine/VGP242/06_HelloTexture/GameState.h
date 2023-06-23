@@ -13,8 +13,7 @@ public:
 	void Terminate()override;
 	void Update(float deltaTime)override;
 	void Render()override;
-	void FPSControl(float deltaTime);
-
+	void EngineCameraController(float deltaTime);
 
 protected:
 
@@ -32,7 +31,6 @@ protected:
 
 	Texture mDiffuseTexture2;
 	Sampler mSampler2;
-
 
 };
 
