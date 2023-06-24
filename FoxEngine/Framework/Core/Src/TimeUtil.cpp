@@ -1,7 +1,7 @@
 #include "PreCompiled.h"
 #include "TimeUtil.h"
 
-float FoxEngine::Core::TimeUtil::GetTime() 
+float FoxEngine::Core::TimeUtil::GetTime()
 {
 	//get the difference in time since the start of the app
 	static const auto startTime = std::chrono::high_resolution_clock::now();

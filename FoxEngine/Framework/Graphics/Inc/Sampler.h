@@ -1,9 +1,7 @@
 #pragma once
 
-
 namespace FoxEngine::Graphics
 {
-
 	class Sampler
 	{
 	public:

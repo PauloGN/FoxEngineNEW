@@ -30,11 +30,9 @@ void GameState::Initialize()
 	mVertexShader.Initialize<VertexPX>(shaderFile);
 	mPixelShader.Initialize(shaderFile);
 
-	//Texture
+	//INITIALIZE Texture
 	//mDiffuseTexture.Initialize(L"../../Assets/Textures/earth.jpg");
 	mDiffuseTexture.Initialize(L"../../Assets/Images/samples/happy.jpg");
-
-
 	mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
 
 }
@@ -100,13 +98,13 @@ void GameState::Render()
 
 	mVertexShader.Bind();
 	mPixelShader.Bind();
+
 	//Texture
 
 	//mSampler.BindVS(0);
 	//mDiffuseTexture.BindVS(0);
 	mDiffuseTexture.BindPS(0);
 	mSampler.BindPS(0);
-
 
 	//Use the Camera
 

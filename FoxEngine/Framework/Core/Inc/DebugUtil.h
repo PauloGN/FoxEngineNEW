@@ -22,3 +22,19 @@
 #define LOG(format, ...)
 #define ASSERT(condition, format, ...) do { (void)(sizeof(condition));}while(false)
 #endif // DEBUG
+
+/*
+ * do{}while reason
+ *
+ *  if(true){ do this} ***
+ *	do{	if(conditions){do macro stuff}} while(false)
+ *	else{ do that } ***
+ *
+ *  as macro is basically copy and past with out the 'do while' it would become the following
+ *
+ *	if(true){do this}
+ *		if(conditions){do macro stuff} ***
+ *		else{ do that } ***
+ *
+ *		it would change the meaning of the original code
+ */

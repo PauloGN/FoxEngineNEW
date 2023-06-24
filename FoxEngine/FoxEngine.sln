@@ -70,6 +70,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "02_HelloGraphics", "VGP242\
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "03_HelloShapes", "VGP242\03_HelloShapes\03_HelloShapes.vcxproj", "{8EA3D910-8FFC-4CC6-8975-79298DB45B34}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "00_HelloWorld", "VGP242\00_HelloWorld\00_HelloWorld.vcxproj", "{2ABAA61D-E1C5-4DCE-9280-44218D921515}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -206,6 +208,14 @@ Global
 		{8EA3D910-8FFC-4CC6-8975-79298DB45B34}.Release|x64.Build.0 = Release|x64
 		{8EA3D910-8FFC-4CC6-8975-79298DB45B34}.Release|x86.ActiveCfg = Release|Win32
 		{8EA3D910-8FFC-4CC6-8975-79298DB45B34}.Release|x86.Build.0 = Release|Win32
+		{2ABAA61D-E1C5-4DCE-9280-44218D921515}.Debug|x64.ActiveCfg = Debug|x64
+		{2ABAA61D-E1C5-4DCE-9280-44218D921515}.Debug|x64.Build.0 = Debug|x64
+		{2ABAA61D-E1C5-4DCE-9280-44218D921515}.Debug|x86.ActiveCfg = Debug|Win32
+		{2ABAA61D-E1C5-4DCE-9280-44218D921515}.Debug|x86.Build.0 = Debug|Win32
+		{2ABAA61D-E1C5-4DCE-9280-44218D921515}.Release|x64.ActiveCfg = Release|x64
+		{2ABAA61D-E1C5-4DCE-9280-44218D921515}.Release|x64.Build.0 = Release|x64
+		{2ABAA61D-E1C5-4DCE-9280-44218D921515}.Release|x86.ActiveCfg = Release|Win32
+		{2ABAA61D-E1C5-4DCE-9280-44218D921515}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -230,78 +240,9 @@ Global
 		{713771E0-9899-42FF-AFBF-B1EFE55DC914} = {A2552387-8093-4CAB-8C0B-531F825185B1}
 		{EA036725-D887-49A1-9FEE-DF47BFA0A777} = {A2552387-8093-4CAB-8C0B-531F825185B1}
 		{8EA3D910-8FFC-4CC6-8975-79298DB45B34} = {A2552387-8093-4CAB-8C0B-531F825185B1}
+		{2ABAA61D-E1C5-4DCE-9280-44218D921515} = {A2552387-8093-4CAB-8C0B-531F825185B1}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8AAEF0A-45CE-442C-8536-7E32257CE89E}
-	EndGlobalSection
-	GlobalSection(TeamFoundationVersionControl) = preSolution
-		SccNumberOfProjects = 17
-		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
-		SccTeamFoundationServer = https://dev.azure.com/paulogn
-		SccLocalPath0 = .
-		SccProjectUniqueName1 = Engine\\FoxEngine\\FoxEngine.vcxproj
-		SccProjectTopLevelParentUniqueName1 = FoxEngine.sln
-		SccProjectName1 = Engine/FoxEngine
-		SccLocalPath1 = Engine\\FoxEngine
-		SccProjectUniqueName2 = Framework\\Core\\Core.vcxproj
-		SccProjectTopLevelParentUniqueName2 = FoxEngine.sln
-		SccProjectName2 = Framework/Core
-		SccLocalPath2 = Framework\\Core
-		SccProjectUniqueName3 = Framework\\Input\\Input.vcxproj
-		SccProjectTopLevelParentUniqueName3 = FoxEngine.sln
-		SccProjectName3 = Framework/Input
-		SccLocalPath3 = Framework\\Input
-		SccProjectUniqueName4 = Framework\\Math\\Math.vcxproj
-		SccProjectTopLevelParentUniqueName4 = FoxEngine.sln
-		SccProjectName4 = Framework/Math
-		SccLocalPath4 = Framework\\Math
-		SccProjectUniqueName5 = Framework\\Graphics\\Graphics.vcxproj
-		SccProjectTopLevelParentUniqueName5 = FoxEngine.sln
-		SccProjectName5 = Framework/Graphics
-		SccLocalPath5 = Framework\\Graphics
-		SccProjectUniqueName6 = VGP242\\04_HelloCube\\04_HelloCube.vcxproj
-		SccProjectTopLevelParentUniqueName6 = FoxEngine.sln
-		SccProjectName6 = VGP242/04_HelloCube
-		SccLocalPath6 = VGP242\\04_HelloCube
-		SccProjectUniqueName7 = VGP242\\05_HelloMeshBuilder\\05_HelloMeshBuilder.vcxproj
-		SccProjectTopLevelParentUniqueName7 = FoxEngine.sln
-		SccProjectName7 = VGP242/05_HelloMeshBuilder
-		SccLocalPath7 = VGP242\\05_HelloMeshBuilder
-		SccProjectUniqueName8 = External\\DirectXTK\\DirectXTK_Desktop_2019.vcxproj
-		SccProjectTopLevelParentUniqueName8 = FoxEngine.sln
-		SccProjectName8 = External/DirectXTK
-		SccLocalPath8 = External\\DirectXTK
-		SccProjectUniqueName9 = VGP242\\06_HelloTexture\\06_HelloTexture.vcxproj
-		SccProjectTopLevelParentUniqueName9 = FoxEngine.sln
-		SccProjectName9 = VGP242/06_HelloTexture
-		SccLocalPath9 = VGP242\\06_HelloTexture
-		SccProjectUniqueName10 = VGP242\\07_HelloDebug\\07_HelloDebug.vcxproj
-		SccProjectTopLevelParentUniqueName10 = FoxEngine.sln
-		SccProjectName10 = VGP242/07_HelloDebug
-		SccLocalPath10 = VGP242\\07_HelloDebug
-		SccProjectUniqueName11 = External\\ImGui\\ImGui.vcxproj
-		SccProjectTopLevelParentUniqueName11 = FoxEngine.sln
-		SccProjectName11 = External/ImGui
-		SccLocalPath11 = External\\ImGui
-		SccProjectUniqueName12 = VGP242\\08_HelloObjs\\08_HelloObjs.vcxproj
-		SccProjectTopLevelParentUniqueName12 = FoxEngine.sln
-		SccProjectName12 = VGP242/08_HelloObjs
-		SccLocalPath12 = VGP242\\08_HelloObjs
-		SccProjectUniqueName13 = VGP242\\10_Final\\10_Final.vcxproj
-		SccProjectTopLevelParentUniqueName13 = FoxEngine.sln
-		SccProjectName13 = VGP242/10_Final
-		SccLocalPath13 = VGP242\\10_Final
-		SccProjectUniqueName14 = VGP242\\01_HelloWindow\\01_HelloWindow.vcxproj
-		SccProjectTopLevelParentUniqueName14 = FoxEngine.sln
-		SccProjectName14 = VGP242/01_HelloWindow
-		SccLocalPath14 = VGP242\\01_HelloWindow
-		SccProjectUniqueName15 = VGP242\\02_HelloGraphics\\02_HelloGraphics.vcxproj
-		SccProjectTopLevelParentUniqueName15 = FoxEngine.sln
-		SccProjectName15 = VGP242/02_HelloGraphics
-		SccLocalPath15 = VGP242\\02_HelloGraphics
-		SccProjectUniqueName16 = VGP242\\03_HelloShapes\\03_HelloShapes.vcxproj
-		SccProjectTopLevelParentUniqueName16 = FoxEngine.sln
-		SccProjectName16 = VGP242/03_HelloShapes
-		SccLocalPath16 = VGP242\\03_HelloShapes
 	EndGlobalSection
 EndGlobal

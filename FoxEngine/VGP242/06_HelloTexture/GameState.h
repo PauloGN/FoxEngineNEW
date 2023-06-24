@@ -25,13 +25,12 @@ protected:
 	VertexShader mVertexShader;
 	PixelShader mPixelShader;
 
-	// *** Week 07 ***
+	//Texturing
 	Texture mDiffuseTexture;
 	Sampler mSampler;
 
 	Texture mDiffuseTexture2;
 	Sampler mSampler2;
-
 };
 
 class BasicCubeTextureDebug :public GameState 

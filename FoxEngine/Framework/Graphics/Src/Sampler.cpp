@@ -69,9 +69,6 @@ void FoxEngine::Graphics::Sampler::Initialize(Filter filter, AddressMode address
 	auto device = GraphicsSystem::Get()->GetDevice();
 	HRESULT hr = device->CreateSamplerState(&desc, &mSampler);
 	ASSERT(SUCCEEDED(hr),"Sampler -- Failed to create Sampler state");
-
-
-
 }
 
 void FoxEngine::Graphics::Sampler::Terminate()
