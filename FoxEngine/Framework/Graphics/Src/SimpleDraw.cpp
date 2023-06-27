@@ -52,7 +52,6 @@ namespace
 
 	void SimpleDrawImpl::Initialize(uint32_t maxVertexCount)
 	{
-
 		std::filesystem::path shaderFile = L"../../Assets/Shaders/DoTransform.fx";
 		mVertexShader.Initialize<VertexPC>(shaderFile);
 		mPixelShader.Initialize(shaderFile);
@@ -76,6 +75,7 @@ namespace
 		mPixelShader.Terminate();
 		mVertexShader.Terminate();
 	}
+
 	void SimpleDrawImpl::AddLine(const Vector3& v0, const Vector3& v1, const Color& color)
 	{
 		if (mLineVertexCount + 2 <= mMaxVertexCount)
@@ -84,6 +84,7 @@ namespace
 			mLineVertices[mLineVertexCount++] = VertexPC{ v1, color };
 		}
 	}
+
 	void SimpleDrawImpl::AddFace(const Vector3& v0, const Vector3& v1, const Vector3& v2, const Color& color)
 	{
 		if (mFaceVertexCount + 3 <= mMaxVertexCount)
@@ -128,9 +129,7 @@ namespace
 
 }//end-->nameless namespace
 
-
 //-----------------------------------------------Functions from .h
-
 
 void FoxEngine::Graphics::SimpleDraw::StaticInitialize(uint32_t maxVertexCount)
 {
@@ -230,8 +229,7 @@ void FoxEngine::Graphics::SimpleDraw::AddFilledAABB(float minX, float minY, floa
 	//Left
 	AddFace(topLeftF, botLeftF, botLeftB, color);
 	AddFace(botLeftB, topLeftB, topLeftF, color);
-	
-	//1h 9min
+
 }
 
 
@@ -326,8 +324,9 @@ void FoxEngine::Graphics::SimpleDraw::AddGroundPlane(float size, const Color& co
 {
 
 	const float hs = size * 0.5f;
+	const uint32_t iSize = static_cast<uint32_t>(size);
 
-	for (int i = 0; i <= size; i++)
+	for (uint32_t i = 0; i <= iSize; i++)
 	{
 		AddLine({ i - hs, 0.0f, -hs }, { i - hs, 0.0f, hs }, color);
 		AddLine({ -hs, 0.0f, i -hs },{ hs, 0.0f, i - hs }, color);

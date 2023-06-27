@@ -50,7 +50,6 @@ void FoxEngine::Graphics::MeshBuffer::SetTopology(Topology topology)
 
 void FoxEngine::Graphics::MeshBuffer::Update(const void* vertices, uint32_t vertexCount)
 {
-
 	mVertexCount = vertexCount;
 	auto context = GraphicsSystem::Get()->GetContext();
 
@@ -58,7 +57,6 @@ void FoxEngine::Graphics::MeshBuffer::Update(const void* vertices, uint32_t vert
 	context->Map(mVertexBuffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &resource);
 	memcpy(resource.pData, vertices, vertexCount * mVertexSize);
 	context->Unmap(mVertexBuffer, 0);
-
 }
 
 void FoxEngine::Graphics::MeshBuffer::Render()
@@ -88,7 +86,6 @@ void FoxEngine::Graphics::MeshBuffer::CreateVertexBuffer(const void* vertices, u
 
 	const bool isDynamic = (vertices == nullptr);
 
-
 	ID3D11Device* device = GraphicsSystem::Get()->GetDevice();
 	//==========================================================
 	//Create a vertex buffer
@@ -105,7 +102,7 @@ void FoxEngine::Graphics::MeshBuffer::CreateVertexBuffer(const void* vertices, u
 	D3D11_SUBRESOURCE_DATA initiData{};
 	initiData.pSysMem = vertices;
 
-	//unising the information and the initialization to create the vertex buffer
+	//using the information and the initialization to create the vertex buffer
 
 	HRESULT hr = device->CreateBuffer(&bufferDesc, ((isDynamic)? nullptr: &initiData), &mVertexBuffer);
 	ASSERT(SUCCEEDED(hr), "Failed to create vertex buffer");
@@ -130,7 +127,7 @@ void FoxEngine::Graphics::MeshBuffer::CreateIndexBuffer(const uint32_t * indices
 	D3D11_SUBRESOURCE_DATA initiData{};
 	initiData.pSysMem = indices;
 
-	//unising the information and the initialization to create the vertex buffer
+	//using the information and the initialization to create the vertex buffer
 
 	HRESULT hr = device->CreateBuffer(&bufferDesc, &initiData, &mIndexBuffer);
 	ASSERT(SUCCEEDED(hr), "Failed to create index buffer");

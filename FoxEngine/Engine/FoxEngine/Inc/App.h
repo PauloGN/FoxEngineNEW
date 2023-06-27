@@ -10,7 +10,7 @@ namespace FoxEngine
 		uint32_t winWidth = 1280;
 		uint32_t winHeight = 720;
 
-		uint32_t debugDrawLimit = 1000000;
+		uint32_t debugDrawLimit = 10000;
 	};
 
 

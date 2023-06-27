@@ -7,7 +7,6 @@ using namespace FoxEngine::Core;
 using namespace FoxEngine::Input;
 using namespace FoxEngine::Graphics;
 
-
 void FoxEngine::App::ChangeState(const std::string& stateName)
 {
 	auto iter = mAppStates.find(stateName);
@@ -100,7 +99,5 @@ void App::Run(const FoxEngine::AppConfig& config)
 
 void FoxEngine::App::Quit()
 {
-
 	mRunning = false;
-
 }
