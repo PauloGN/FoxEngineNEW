@@ -18,15 +18,20 @@ namespace
 	{
 		switch (message)
 		{
-		case WM_LBUTTONDOWN: case WM_LBUTTONDBLCLK:
-		case WM_RBUTTONDOWN: case WM_RBUTTONDBLCLK:
-		case WM_MBUTTONDOWN: case WM_MBUTTONDBLCLK:
+		case WM_LBUTTONDOWN:
+		case WM_LBUTTONDBLCLK:
 		case WM_LBUTTONUP:
+		case WM_RBUTTONDOWN:
+		case WM_RBUTTONDBLCLK:
 		case WM_RBUTTONUP:
+		case WM_MBUTTONDOWN:
+		case WM_MBUTTONDBLCLK:
 		case WM_MBUTTONUP:
 		case WM_MOUSEWHEEL:
 		case WM_MOUSEHWHEEL:
 			return true;
+		default:
+			break;
 		}
 		return false;
 	}
@@ -41,6 +46,8 @@ namespace
 		case WM_SYSKEYUP:
 		case WM_CHAR:
 			return true;
+			default:
+				break;
 		}
 		return false;
 	}
@@ -52,15 +59,21 @@ LRESULT CALLBACK DebugUIMessageHandler(HWND window, UINT message, WPARAM wParam,
 
 	// When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application.
 	if (io.WantCaptureMouse && IsMouseInput(message))
+	{
 		return ImGui_ImplWin32_WndProcHandler(window, message, wParam, lParam);
+	}
 
 	// When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application.
 	if (io.WantCaptureKeyboard && IsKeyboardInput(message))
+	{
 		return ImGui_ImplWin32_WndProcHandler(window, message, wParam, lParam);
+	}
 
 	LRESULT result = ImGui_ImplWin32_WndProcHandler(window, message, wParam, lParam);
 	if (result != 0)
+	{
 		return result;
+	}
 
 	return sWindowMessageHandler.ForwardMessage(window, message, wParam, lParam);
 }
@@ -72,9 +85,13 @@ void DebugUI::StaticInitialize(HWND window, bool docking, bool multiViewport)
 
 	ImGuiIO& io = ImGui::GetIO();
 	if (docking)
+	{
 		io.ConfigFlags |= ImGuiConfigFlags_DockingEnable; // Enable Docking
+	}
 	if (multiViewport)
+	{
 		io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // Enable Multi-Viewport / Platform Windows
+	}
 
 	auto device = GraphicsSystem::Get()->GetDevice();
 	auto context = GraphicsSystem::Get()->GetContext();
@@ -114,6 +131,8 @@ void DebugUI::SetTheme(Theme theme)
 		ImGui::StyleColorsLight();
 		break;
 	}
+	default:
+		ImGui::StyleColorsClassic();
 	}
 }
 

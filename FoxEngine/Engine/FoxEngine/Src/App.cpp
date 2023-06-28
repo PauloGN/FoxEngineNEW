@@ -80,11 +80,9 @@ void App::Run(const FoxEngine::AppConfig& config)
 		graphicsSystem->BeginRender();
 			mCurrentState->Render();
 			DebugUI::BeginRender();
-			mCurrentState->DebugUI();
+				mCurrentState->DebugUI();
 			DebugUI::EndRender();
 		graphicsSystem->EndRender();
-		
-		//Building shapes
 	}
 
 	// terminate static classes
@@ -92,8 +90,8 @@ void App::Run(const FoxEngine::AppConfig& config)
 
 	SimpleDraw::StaticTerminate();
 	DebugUI::StaticTerminate();
-	GraphicsSystem::StaticTerminate();
 	InputSystem::StaticTerminate();
+	GraphicsSystem::StaticTerminate();
 	myWindow.Terminate();
 }
 
