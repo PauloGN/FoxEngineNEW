@@ -59,7 +59,7 @@ void FoxEngine::Graphics::MeshBuffer::Update(const void* vertices, uint32_t vert
 	context->Unmap(mVertexBuffer, 0);
 }
 
-void FoxEngine::Graphics::MeshBuffer::Render()
+void FoxEngine::Graphics::MeshBuffer::Render() const
 {
 	auto contex = GraphicsSystem::Get()->GetContext();
 

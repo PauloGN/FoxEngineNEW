@@ -3,6 +3,7 @@
 
 using namespace FoxEngine::Graphics;
 
+
 class GameState : public FoxEngine::AppState
 {
 public:
@@ -20,10 +21,9 @@ private:
 
 	Camera mCamera;
 	RenderObject mRenderObject;
+	RenderObject mRenderObject2;
 
 	ConstantBuffer mConstantBuffer;
 	VertexShader mVertexShader;
 	PixelShader mPixelShader;
-
-	Sampler mSampler;
 };
