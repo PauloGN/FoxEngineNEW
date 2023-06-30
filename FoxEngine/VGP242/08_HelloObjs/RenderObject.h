@@ -5,7 +5,7 @@ using namespace FoxEngine;
 using namespace FoxEngine::FoxMath;
 using namespace FoxEngine::Graphics;
 
-class RenderObject
+class RenderObjectx
 {
 public:
     virtual void Initialize() {}
@@ -25,7 +25,7 @@ protected:
     Matrix4 mTransform;
 };
 
-class Planet : public RenderObject
+class Planet : public RenderObjectx
 {
 public:
     void Initialize() override;
@@ -34,7 +34,7 @@ public:
     void Update(float deltaTime) override;
 };
 
-class SkySphere : public RenderObject
+class SkySphere : public RenderObjectx
 {
 public:
     void Initialize() override;
