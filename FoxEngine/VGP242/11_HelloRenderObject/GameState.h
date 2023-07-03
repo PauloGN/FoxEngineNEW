@@ -3,7 +3,6 @@
 
 using namespace FoxEngine::Graphics;
 
-
 class GameState : public FoxEngine::AppState
 {
 public:
@@ -19,6 +18,7 @@ private:
 	//Controllers
 	void EngineCameraController(float deltaTime);
 
+	//Main Camera and objects
 	Camera mCamera;
 	RenderObject mRenderObject;
 	RenderObject mBasktBall;

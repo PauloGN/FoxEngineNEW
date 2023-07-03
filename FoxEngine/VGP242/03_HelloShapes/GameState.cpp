@@ -8,8 +8,7 @@ void GameState::Initialize()
 {
 	//Create shapes in NDC Normalized device coordinate
 	CreateShape();
-
-
+	
 	auto device = GraphicsSystem::Get()->GetDevice();
 	//======================================================================================
 	//Crete a vertex buffer

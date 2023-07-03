@@ -27,8 +27,8 @@ void GameState::DebugUI()
 void GameState::ChangeScreenColor()
 {
 
-	auto I = InputSystem::Get();
-	auto GS = Graphics::GraphicsSystem::Get();
+	const auto I = InputSystem::Get();
+	const auto GS = Graphics::GraphicsSystem::Get();
 
 	if (I->IsKeyPressed(KeyCode::UP))
 	{

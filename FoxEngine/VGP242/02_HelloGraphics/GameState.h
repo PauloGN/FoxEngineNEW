@@ -15,5 +15,4 @@ public:
 private:
 	//Assignment Colors change
 	void ChangeScreenColor();
-
 };

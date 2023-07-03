@@ -4,16 +4,21 @@ using namespace FoxEngine::Input;
 
 void GameState::Initialize()
 {
+    //Main Camera
     mCamera.SetPosition({ 0.0f, 1.0f, -5.0f });
     mCamera.SetLookAt(Vector3::Zero);
 
+    //Create a shape
     MeshPX sphere = MeshBuilder::CreateSpherePX(30, 20, 1);
+
+    //Initialize meshBuffer and give it a texture to draw
     mRenderObject.meshBuffer.Initialize(sphere);
     mRenderObject.mDiffuseTexture.Initialize(L"../../Assets/Images/water/water_texture.jpg");
+
     mBasktBall.meshBuffer.Initialize(sphere);
     mBasktBall.mDiffuseTexture.Initialize(L"../../Assets/Images/misc/basketball.jpg");
 
-	//Buffer and rendering
+	//ConstantBuffer, rendering, Matrix4 calculus
 	mSimpleEffect.Initialize();
     mSimpleEffect.SetCamera(mCamera);
 
@@ -69,12 +74,13 @@ void GameState::DebugUI()
 };
 void GameState::Render()
 {
+    //constant buffer and more for the main view
 	mSimpleEffect.Begin();
 		mSimpleEffect.Render(mRenderObject);
 		mSimpleEffect.Render(mBasktBall);
 	mSimpleEffect.End();
 
-    //Render Target
+    //Render Target stuffs
     mRenderTarget.BeginRender();
 	    mSimpleEffectRenderTarget.Begin();
         mSimpleEffectRenderTarget.Render(mRenderObject);
@@ -92,15 +98,16 @@ void GameState::Terminate()
 };
 void GameState::Update(float deltaTime)
 {
+    //FPS movements for the view port
     EngineCameraController(deltaTime);
+    //Apply simple movement for the  basket ball mesh
     mBasktBall.transform.position.x += 0.2 * deltaTime;
-
+    //render basket ball mesh in a new position every frame
    const Vector3 lookAtBasket = {mBasktBall.transform.position.x,
         mBasktBall.transform.position.y,
         mBasktBall.transform.position.z - 3,
     };
     mRenderTargetCamera.SetPosition(lookAtBasket);
-
 };
 
 void GameState::EngineCameraController(float deltaTime)

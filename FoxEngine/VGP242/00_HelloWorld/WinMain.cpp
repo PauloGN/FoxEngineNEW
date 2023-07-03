@@ -9,9 +9,9 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int)
 
 	const std::string EngineName = "Fox Engine";
 
-	LOG("Hello Wolrd, I am %s", EngineName.c_str());
+	LOG("Hello World, I am %s", EngineName.c_str());
 	Sleep(1000);
-	LOG("Hello Wolrd, I am %s", EngineName.c_str());
+	LOG("Hello World, I am %s", EngineName.c_str());
 
 	const int n = 10;
 

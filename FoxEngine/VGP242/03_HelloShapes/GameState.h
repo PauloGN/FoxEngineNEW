@@ -62,8 +62,6 @@ class Triangle:public GameState
 	void Update(const float deltaTime)override;
 protected:
 	void CreateShape() override;
-
-
 };
 
 class Square :public GameState
@@ -71,6 +69,5 @@ class Square :public GameState
 	void Update(const float deltaTime)override;
 protected:
 	void CreateShape() override;
-
 };
 
