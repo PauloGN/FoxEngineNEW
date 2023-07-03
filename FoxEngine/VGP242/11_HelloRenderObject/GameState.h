@@ -21,9 +21,12 @@ private:
 
 	Camera mCamera;
 	RenderObject mRenderObject;
-	RenderObject mRenderObject2;
+	RenderObject mBasktBall;
+	SimpleEffect mSimpleEffect;
 
-	ConstantBuffer mConstantBuffer;
-	VertexShader mVertexShader;
-	PixelShader mPixelShader;
+	//Render Target
+	RenderTarget mRenderTarget;
+	Camera mRenderTargetCamera;
+	SimpleEffect mSimpleEffectRenderTarget;
+
 };

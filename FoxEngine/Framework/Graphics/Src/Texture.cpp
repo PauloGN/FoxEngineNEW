@@ -65,12 +65,12 @@ void FoxEngine::Graphics::Texture::BindPS(uint32_t slot) const
 
 DXGI_FORMAT FoxEngine::Graphics::Texture::GetDXGIFormat(Format format)
 {
-
 	switch (format)
 	{
 	case FoxEngine::Graphics::Texture::Format::RGBA_U8:		return DXGI_FORMAT_R8G8B8A8_UNORM;
 	case FoxEngine::Graphics::Texture::Format::RGBA_U32:	return DXGI_FORMAT_R32G32B32A32_UINT;
+		default:
+			break;
 	}
-
-	return DXGI_FORMAT_R8G8B8A8_UNORM;;
+	return DXGI_FORMAT_R8G8B8A8_UNORM;
 }

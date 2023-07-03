@@ -4,29 +4,32 @@ using namespace FoxEngine::Input;
 
 void GameState::Initialize()
 {
-    std::filesystem::path shaderFile = L"../../Assets/Shaders/DoTransform.fx";
-
-    //Create a Vertex shader
-	mVertexShader.Initialize<VertexPC>(shaderFile);
-    //Create a pixel shader
-    mPixelShader.Initialize(shaderFile);
-
     mCamera.SetPosition({ 0.0f, 1.0f, -5.0f });
     mCamera.SetLookAt(Vector3::Zero);
 
-    mConstantBuffer.Initialize(sizeof(Matrix4));
-
-    MeshPC sphere = MeshBuilder::CreateSpherePC(30, 20, 1);
+    MeshPX sphere = MeshBuilder::CreateSpherePX(30, 20, 1);
     mRenderObject.meshBuffer.Initialize(sphere);
-    mRenderObject2.meshBuffer.Initialize(sphere);
-    mRenderObject2.transform.position = {2.0f, 2.0f, 2.0f};
+    mRenderObject.mDiffuseTexture.Initialize(L"../../Assets/Images/water/water_texture.jpg");
+    mBasktBall.meshBuffer.Initialize(sphere);
+    mBasktBall.mDiffuseTexture.Initialize(L"../../Assets/Images/misc/basketball.jpg");
 
+	//Buffer and rendering
+	mSimpleEffect.Initialize();
+    mSimpleEffect.SetCamera(mCamera);
+
+    //Render Target
+    constexpr uint32_t size = 512;
+    mRenderTarget.Initialize(size, size, Texture::Format::RGBA_U32);
+    mSimpleEffectRenderTarget.Initialize();
+    mSimpleEffectRenderTarget.SetCamera(mRenderTargetCamera);
+    mRenderTargetCamera.SetAspectRatio(1.0f);
+    mRenderTargetCamera.SetLookAt(Vector3::Zero);
 };
 void GameState::DebugUI()
 {
     //ImGui
 
-    ImGui::Begin("Controls##", nullptr, ImGuiWindowFlags_DockNodeHost);
+    ImGui::Begin("Controls##", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 
     Vector3 pos = mRenderObject.transform.position;
     if(ImGui::DragFloat3("Sphere Position##", &pos.x, 0.1f, -5.0f, 5.f))
@@ -46,53 +49,58 @@ void GameState::DebugUI()
         mRenderObject.transform.scale = scale;
     }
 
+    ImGui::Separator();
+    ImGui::Text("RenderTarget");
+
+    ImGui::Image(
+    mRenderTarget.GetRawData(),//image data
+        {128, 128},//size of the image
+        {0, 0},
+        {1,1},
+        { 1,1,1,1 },
+        {1,1,1,1}
+    );
+
     ImGui::End();
 
     //Draw SimpleDraw stuffs
-    SimpleDraw::AddSphere(30,20,1, Vector3::One, Colors::Red);
     SimpleDraw::AddGroundPlane(55, Colors::White);
     SimpleDraw::Render(mCamera);
 };
 void GameState::Render()
 {
-    mVertexShader.Bind();
-    mPixelShader.Bind();
+	mSimpleEffect.Begin();
+		mSimpleEffect.Render(mRenderObject);
+		mSimpleEffect.Render(mBasktBall);
+	mSimpleEffect.End();
 
-	Matrix4 matworld = mRenderObject.transform.GetMatrix4();
-    Matrix4 matView = mCamera.GetViewMatrix();
-    Matrix4 matProj = mCamera.GetProjectionMatrix();
-    Matrix4 matFinal = matworld * matView * matProj;
-    Matrix4 wvp = Transpose(matFinal);
-
-    mConstantBuffer.Update(&wvp);
-    mConstantBuffer.BindVS(0);
-
-    mRenderObject.meshBuffer.Render();
-
-	//SECOND OBJ
-    matworld = mRenderObject2.transform.GetMatrix4();
-    matView = mCamera.GetViewMatrix();
-    matProj = mCamera.GetProjectionMatrix();
-    matFinal = matworld * matView * matProj;
-    wvp = Transpose(matFinal);
-
-    mConstantBuffer.Update(&wvp);
-    mConstantBuffer.BindVS(0);
-
-    mRenderObject2.meshBuffer.Render();
-
+    //Render Target
+    mRenderTarget.BeginRender();
+	    mSimpleEffectRenderTarget.Begin();
+        mSimpleEffectRenderTarget.Render(mRenderObject);
+        mSimpleEffectRenderTarget.Render(mBasktBall);
+	    mSimpleEffectRenderTarget.End();
+    mRenderTarget.EndRender();
 };
 void GameState::Terminate()
 {
+    mSimpleEffectRenderTarget.Terminate();
+    mRenderTarget.Terminate();
+    mSimpleEffect.Terminate();
     mRenderObject.Terminate();
-    mRenderObject2.Terminate();
-    mConstantBuffer.Terminate();
-    mPixelShader.Terminate();
-    mVertexShader.Terminate();
+    mBasktBall.Terminate();
 };
 void GameState::Update(float deltaTime)
 {
     EngineCameraController(deltaTime);
+    mBasktBall.transform.position.x += 0.2 * deltaTime;
+
+   const Vector3 lookAtBasket = {mBasktBall.transform.position.x,
+        mBasktBall.transform.position.y,
+        mBasktBall.transform.position.z - 3,
+    };
+    mRenderTargetCamera.SetPosition(lookAtBasket);
+
 };
 
 void GameState::EngineCameraController(float deltaTime)
