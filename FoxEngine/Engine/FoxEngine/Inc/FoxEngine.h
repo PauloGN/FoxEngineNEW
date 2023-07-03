@@ -4,7 +4,6 @@
 #include "App.h"
 #include "AppState.h"
 
-
 namespace FoxEngine
 {
 	App& MainApp();

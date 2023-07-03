@@ -111,7 +111,7 @@ void GameState::Render()
 
 a vertex is position color and UV
 
-float3, float4, float2 = 9 floats 4 bytes each witch means 36 bytes per vertex 
+float3, float4, float2 = 9 floats 4 bytes each, witch means 36 bytes per vertex 
 by using this technique we can save memory
 
 */

@@ -29,8 +29,6 @@ protected:
 	Texture mDiffuseTexture;
 	Sampler mSampler;
 
-	Texture mDiffuseTexture2;
-	Sampler mSampler2;
 };
 
 class BasicCubeTextureDebug :public GameState 

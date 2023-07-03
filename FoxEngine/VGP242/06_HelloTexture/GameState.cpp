@@ -89,7 +89,6 @@ void GameState::Update(float deltaTime)
 
 	}
 
-
 	EngineCameraController(deltaTime);
 
 }

@@ -19,7 +19,6 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int)
 	myApp.AddState<Week4Example>("Week4Example");
 	myApp.AddState<BasicCil>("BasicCil");
 	myApp.AddState<BasicSphere>("BasicSphere");
-	//myApp.ChangeState("OtherState");
 	myApp.Run(config);
 
 	return 0;

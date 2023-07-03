@@ -7,10 +7,9 @@ using namespace FoxEngine::Graphics;
 
 namespace
 {
-
 	float gRotationY = 0.0f;
 	float gRotationX = 0.0f;
-
+	App& myApp = MainApp();
 }
 
 void GameState::Initialize() 
@@ -40,7 +39,6 @@ void GameState::Terminate()
 void GameState::Update(float deltaTime) 
 {
 	auto input = InputSystem::Get();
-	App& myApp = MainApp();
 
 	//update rotation
 	gRotationY += Constants::HalfPi * deltaTime * 0.5f;
