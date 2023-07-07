@@ -440,6 +440,7 @@ void GameState::Update(float deltaTime)
         mPlanets[i].Update(deltaTime);
     }
 
+    mSkySphere.Update(deltaTime);
 }
 void GameState::DebugUI()
 {

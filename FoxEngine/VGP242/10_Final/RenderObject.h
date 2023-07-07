@@ -75,5 +75,7 @@ public:
     void Initialize() override;
     void Terminate()  override;
     void Render(const Camera& camera, ConstantBuffer& constantBuffer, bool useTransform) override;
-    void Update(float deltaTime) override;
+	void Update(float deltaTime) override;
+    float mRotationY = 0.0f;
+    float mRotationRate = 0.005f;
 };

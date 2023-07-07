@@ -124,6 +124,7 @@ void SkySphere::Render(const Camera& camera, ConstantBuffer& constantBuffer, boo
     mDiffuseTexture.BindPS(0);
 
     Matrix4 matWorld = (useTransform) ? mTransform : Matrix4::Identity;
+    matWorld = Matrix4::RotationY(mRotationY) * mTransform;
     Matrix4 matView = camera.GetViewMatrix();
     Matrix4 matProj = camera.GetProjectionMatrix();
     Matrix4 matFinal = matWorld * matView * matProj;
@@ -139,7 +140,7 @@ void SkySphere::Render(const Camera& camera, ConstantBuffer& constantBuffer, boo
 
 void SkySphere::Update(float deltaTime)
 {
-
+    mRotationY += Constants::HalfPi * deltaTime * mRotationRate;
 }
 
 //////   Star    \\\\\\
