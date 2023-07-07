@@ -9,6 +9,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int)
 
     App& myApp = MainApp();
     myApp.AddState<GameState>("GameState");
+    myApp.AddState<SecondGameState>("SecondGameState");
     myApp.Run(config);
 
     return(0);

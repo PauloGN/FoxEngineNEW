@@ -20,7 +20,7 @@ private:
 
 	//Main Camera and objects
 	Camera mCamera;
-	RenderObject mRenderObject;
+	RenderObject mRenderObject; //Gets a mesh and apply texture to it
 	RenderObject mBasktBall;
 	SimpleEffect mSimpleEffect;
 
@@ -28,5 +28,32 @@ private:
 	RenderTarget mRenderTarget;
 	Camera mRenderTargetCamera;
 	SimpleEffect mSimpleEffectRenderTarget;
+
+};
+
+
+class SecondGameState: public GameState
+{
+
+
+	void Initialize() override{}
+	void DebugUI() override{}
+	void Render() override{}
+	void Terminate() override{}
+	void Update(float deltaTime) override
+	{
+
+	auto input = FoxEngine::Input::InputSystem::Get();
+
+	if (input->IsKeyPressed(FoxEngine::Input::KeyCode::UP))
+	{
+		FoxEngine::MainApp().ChangeState("SecondGameState");
+	}
+	else if (input->IsKeyPressed(FoxEngine::Input::KeyCode::DOWN))
+	{
+		FoxEngine::MainApp().ChangeState("GameState");
+	}
+
+	}
 
 };

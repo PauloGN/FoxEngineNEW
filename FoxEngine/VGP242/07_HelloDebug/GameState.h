@@ -49,7 +49,7 @@ protected:
 protected:
 	/*
 		Render (true or false)
-		maipulate: color, position and size
+		manipulate: color, position and size
 	*/
 
 	bool mDrawTextureObj = true;
@@ -61,7 +61,6 @@ protected:
 	DebugObjInfo mFilledAABB;
 	Vector3 mPositionFilledAABB;
 	DebugObjInfo mGrid;
-
 };
 
 class BasicCubeTextureDebug :public GameState 

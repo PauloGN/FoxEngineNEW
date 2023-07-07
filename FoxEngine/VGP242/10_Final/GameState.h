@@ -1,7 +1,6 @@
 #pragma once
 
 #include <FoxEngine/Inc/FoxEngine.h>
-
 #include "RenderObject.h"
 
 using namespace FoxEngine;
@@ -26,22 +25,19 @@ protected:
 
     Camera mCamera;
     Camera mRenderTargetCamera;
-    ConstantBuffer mConstantBuffer;
 
+    //Became simple Effect
+	ConstantBuffer mConstantBuffer;
     VertexShader mVertexShader;
     PixelShader mPixelShader;
-    RenderTarget mRenderTarget;
+    Sampler mSampler;
+
+	RenderTarget mRenderTarget;
 
     SkySphere mSkySphere;
-   
     Planet mPlanets[9];
     Star mSun;
 
-
-    Sampler mSampler;
-
-
     bool mDrawCircleOrbits = true;
-
 
 };

@@ -403,12 +403,16 @@ void GameState::Render()
         pos = Vector3(0.0f, 0.0f, -20.0f);
         mRenderTargetCamera.SetPosition(pos);
         mSun.Render(mRenderTargetCamera, mConstantBuffer, true);
+        mSkySphere.Render(mRenderTargetCamera, mConstantBuffer, true);
+
     }
     else
     {
         pos = Vector3(mPlanets[gPlanetIndex].GetPosition().x, mPlanets[gPlanetIndex].GetPosition().y, mPlanets[gPlanetIndex].GetPosition().z + gPlanetOffset);
         mRenderTargetCamera.SetPosition(pos);
         mPlanets[gPlanetIndex].Render(mRenderTargetCamera, mConstantBuffer, true);
+        mSkySphere.Render(mRenderTargetCamera, mConstantBuffer, true);
+
     }
     mRenderTarget.EndRender();
 
@@ -419,7 +423,6 @@ void GameState::RenderMesh(const Camera& camera, bool useTransform)
 {
     mSkySphere.Render(camera, mConstantBuffer, useTransform);
     mSun.Render(camera, mConstantBuffer, true);
-    
     //Planets
     for (size_t i = 0; i < std::size(mPlanets); i++)
     {

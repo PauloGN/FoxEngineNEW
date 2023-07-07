@@ -3,7 +3,6 @@
 
 void GameState::Initialize()
 {
-
 	mCamera.SetPosition({0.0f, 0.0f, -5.0f});
 	mCamera.SetLookAt(Vector3::Zero);
 }

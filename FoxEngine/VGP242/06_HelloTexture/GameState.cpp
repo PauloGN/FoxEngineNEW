@@ -122,34 +122,32 @@ void GameState::Render()
 
 void GameState::EngineCameraController(float deltaTime)
 {
-	auto input = Input::InputSystem::Get();
+	const InputSystem* input = Input::InputSystem::Get();
 	const int moveSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? 10 : 1;
-	const float d = 0.01f * moveSpeed;
-
-
+	const float displacement = 0.01f * moveSpeed;
+	
 	//Foward and Backward
 	if (input->IsKeyDown(KeyCode::W))
 	{
-		mCamera.Walk(d);
+		mCamera.Walk(displacement);
 	}
 	else if (input->IsKeyDown(KeyCode::S))
 	{
-		mCamera.Walk(-d);
+		mCamera.Walk(-displacement);
 	}
 	//Right and Left
 	if (input->IsKeyDown(KeyCode::D))
 	{
-		mCamera.Strafe(d);
+		mCamera.Strafe(displacement);
 	}
 	else if (input->IsKeyDown(KeyCode::A))
 	{
-		mCamera.Strafe(-d);
+		mCamera.Strafe(-displacement);
 	}
 
 	//Rotation
 	if (input->IsMouseDown(MouseButton::RBUTTON))
 	{
-		
 		const int turnSpeedMultiplyer = input->IsKeyDown(KeyCode::LSHIFT) ? 2 : 1;
 
 		const float x = input->GetMouseMoveX() * deltaTime * turnSpeedMultiplyer;
@@ -157,21 +155,18 @@ void GameState::EngineCameraController(float deltaTime)
 		
 		mCamera.Yaw(x);
 		mCamera.Pitch(y);
-
 	}
 
 	//UP and Down
 
-
 	if (input->IsKeyDown(KeyCode::Q))
 	{
-		mCamera.Rise(-d);
+		mCamera.Rise(-displacement);
 	}
 	else if (input->IsKeyDown(KeyCode::E))
 	{
-		mCamera.Rise(d);
+		mCamera.Rise(displacement);
 	}
-
 
 }
 

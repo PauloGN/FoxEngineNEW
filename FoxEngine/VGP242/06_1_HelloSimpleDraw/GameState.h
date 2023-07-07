@@ -26,6 +26,11 @@ public:
 	void Render()override;
 	void EngineCameraController(float deltaTime);
 
+	//
+	void DebugUI()
+	{
+		SimpleDraw::AddAABB(2, 2, 2, 4, 4, 4, Colors::Red);
+	}
 protected:
 	
 	Camera mCamera;

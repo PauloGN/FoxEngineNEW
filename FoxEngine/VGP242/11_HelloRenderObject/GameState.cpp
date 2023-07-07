@@ -23,7 +23,7 @@ void GameState::Initialize()
     mSimpleEffect.SetCamera(mCamera);
 
     //Render Target
-    constexpr uint32_t size = 512;
+    constexpr uint32_t size = 128;
     mRenderTarget.Initialize(size, size, Texture::Format::RGBA_U32);
     mSimpleEffectRenderTarget.Initialize();
     mSimpleEffectRenderTarget.SetCamera(mRenderTargetCamera);
@@ -103,11 +103,25 @@ void GameState::Update(float deltaTime)
     //Apply simple movement for the  basket ball mesh
     mBasktBall.transform.position.x += 0.2 * deltaTime;
     //render basket ball mesh in a new position every frame
-   const Vector3 lookAtBasket = {mBasktBall.transform.position.x,
+    Vector3 lookAtBasket = {mBasktBall.transform.position.x,
         mBasktBall.transform.position.y,
         mBasktBall.transform.position.z - 3,
     };
+
     mRenderTargetCamera.SetPosition(lookAtBasket);
+
+    auto input = InputSystem::Get();
+
+    if(input->IsKeyPressed(KeyCode::UP))
+    {
+        MainApp().ChangeState("SecondGameState");
+    }else if(input->IsKeyPressed(KeyCode::DOWN))
+    {
+        MainApp().ChangeState("GameState");
+       
+    }
+
+
 };
 
 void GameState::EngineCameraController(float deltaTime)

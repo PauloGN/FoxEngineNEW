@@ -31,7 +31,6 @@ void GameState::Update(float deltaTime)
 
 
 	//Change State
-
 	if (input->IsKeyPressed(KeyCode::HOME))
 	{
 		GraphicsSystem::Get()->SetClearColor(Colors::Black);
@@ -68,9 +67,7 @@ void GameState::Update(float deltaTime)
 
 	}
 
-
 	EngineCameraController(deltaTime);
-
 }
 void GameState::Render() 
 {
