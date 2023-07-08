@@ -10,26 +10,25 @@ using namespace  FoxEngine;
 using namespace  FoxEngine::Graphics;
 using namespace  FoxEngine::FoxMath;
 
-
 void FoxEngine::Graphics::StandardEffect::Initialize(const std::filesystem::path& filePath)
 {
-    mConstantBuffer.Initialize(sizeof(FoxMath::Matrix4));
-    mVertexShader.Initialize<VertexPX>(filePath);
+    mConstantBuffer.Initialize(sizeof(Matrix4));
+    mVertexShader.Initialize<Vertex>(filePath);
     mPixelShader.Initialize(filePath);
     mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
 }
 
 void FoxEngine::Graphics::StandardEffect::Terminate()
 {
-    mConstantBuffer.Terminate();
-    mVertexShader.Terminate();
-    mPixelShader.Terminate();
     mSampler.Terminate();
+    mPixelShader.Terminate();
+    mVertexShader.Terminate();
+    mConstantBuffer.Terminate();
 }
 
 void FoxEngine::Graphics::StandardEffect::Begin()
 {
-    ASSERT(mCamera != nullptr, "StandardEffect: no Camera set");
+    ASSERT(mCamera != nullptr, "StandardEffect: No Camera set!");
 
     mVertexShader.Bind();
     mPixelShader.Bind();
@@ -66,7 +65,7 @@ void FoxEngine::Graphics::StandardEffect::SetCamera(const Camera& camera)
 
 void FoxEngine::Graphics::StandardEffect::DebugUI()
 {
-    if (ImGui::CollapsingHeader("Standard Effect"), ImGuiTreeNodeFlags_DefaultOpen)
+    if (ImGui::CollapsingHeader("Standard##Effect"), ImGuiTreeNodeFlags_DefaultOpen)
     {
 
     }

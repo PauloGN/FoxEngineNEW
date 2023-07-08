@@ -6,10 +6,7 @@ using namespace FoxEngine::Core;
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int)
 {
-
 	AppConfig config;
-	config.winWidth;
-	config.winHeight;
 	config.appName = L"Hello Lighting";
 
 	App& myApp = MainApp();

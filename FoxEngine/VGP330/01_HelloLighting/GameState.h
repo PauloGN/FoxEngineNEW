@@ -19,10 +19,15 @@ public:
 
 protected:
 
-	void RenderMesh(const Camera& camera, bool useTransform);
-
+	void RenderMesh(const Camera& camera, bool useTransform){}
+	
+	//View port Camera/Main Camera
 	Camera mCamera;
-	RenderObject mRenderObject;
 
+	//Holds-> ConstantBuffer, VertexShader, PixelShader, Sampler
 	FoxEngine::Graphics::StandardEffect mStandardEffect;
+
+	//Holds-> Transform, MeshBuffer, Texture
+	RenderObject mRenderObject;//this is the obj
+
 };

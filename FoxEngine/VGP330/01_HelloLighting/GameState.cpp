@@ -4,25 +4,19 @@ using namespace FoxEngine;
 using namespace FoxEngine::Input;
 using namespace FoxEngine::Graphics;
 
-
-namespace
-{
-	float gRotationY = 0.0f;
-	float gRotationX = 0.0f;
-}
-
 void GameState::Initialize()
 {
 
 	//Initialize the camera
 	mCamera.SetPosition(FoxMath::Vector3(0.f, 1.f, -3.f));//Offset back in z
-	mCamera.SetLookAt(FoxMath::Vector3(0.f, 0.f, 0.f));
+	mCamera.SetLookAt(FoxMath::Vector3(0.f));
 
 	std::filesystem::path shaderFile = L"../../Assets/Shaders/DoTexturing.fx";
 	mStandardEffect.Initialize(shaderFile);
 	mStandardEffect.SetCamera(mCamera);
 
-	MeshPX earth = MeshBuilder::CreateSpherePX(30, 30, 1.0f);
+	//Initialize render object
+	Mesh earth = MeshBuilder::CreateSphere(30, 30, 1.0f);
 	mRenderObject.meshBuffer.Initialize(earth);
 	mRenderObject.mDiffuseTexture.Initialize(L"../../Assets/Textures/earth.jpg");
 }
@@ -41,51 +35,14 @@ void GameState::Render()
 
 void GameState::DebugUI()
 {
-
-
-
+	ImGui::Begin("Debug Draw", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+		mStandardEffect.DebugUI();
+	ImGui::End();
 }
 
 void GameState::Update(float deltaTime)
 {
-	auto input = InputSystem::Get();
-	App& myApp = MainApp();
-
-
-	//Rotation control
-	if (input->IsKeyDown(KeyCode::UP))
-	{
-
-		gRotationX += Constants::HalfPi * deltaTime * 0.5f;
-
-	}
-	else if (input->IsKeyDown(KeyCode::DOWN))
-	{
-
-		gRotationX += -Constants::HalfPi * deltaTime * 0.5f;
-
-	}
-
-	if (input->IsKeyDown(KeyCode::RIGHT))
-	{
-
-		gRotationY += -Constants::HalfPi * deltaTime * 0.5f;
-
-	}
-	else if (input->IsKeyDown(KeyCode::LEFT))
-	{
-
-		gRotationY += Constants::HalfPi * deltaTime * 0.5f;
-
-	}
-
 	EngineCameraController(deltaTime);
-
-}
-
-void GameState::RenderMesh(const Camera& camera, bool useTransform)
-{
-	//mMeshBuffer.Render();
 }
 
 void GameState::EngineCameraController(float deltaTime)
