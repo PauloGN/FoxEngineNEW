@@ -1,7 +1,6 @@
 #pragma once
 
 
-
 namespace FoxEngine::Graphics
 {
 	class MeshBuffer final
@@ -51,8 +50,8 @@ namespace FoxEngine::Graphics
 		ID3D11Buffer* mIndexBuffer = nullptr;
 		D3D11_PRIMITIVE_TOPOLOGY mTopology = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
 
-		uint32_t mVertexSize;
-		uint32_t mVertexCount;
-		uint32_t mIndexCount;
+		uint32_t mVertexSize{};
+		uint32_t mVertexCount{};
+		uint32_t mIndexCount{};
 	};
 }

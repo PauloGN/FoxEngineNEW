@@ -1,7 +1,7 @@
 #pragma once
 #include "MeshBuffer.h"
-#include "Texture.h"
 #include "Transform.h"
+#include "Texture.h"
 
 namespace FoxEngine::Graphics
 {

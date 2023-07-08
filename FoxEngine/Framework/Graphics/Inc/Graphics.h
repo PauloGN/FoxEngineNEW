@@ -17,6 +17,7 @@
 #include "Sampler.h"
 #include "SimpleEffect.h"
 #include "SimpleDraw.h"
+#include "StandardEffect.h"
 #include "Texture.h"
 #include "Transform.h"
 #include "VertexShader.h"

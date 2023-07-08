@@ -85,21 +85,21 @@ void CreateSkyBoxIdices(std::vector<uint32_t>& indices)
 void CreatePlaneIndices(std::vector<uint32_t>& indices, int numRows, int numColums)
 {
 
-	for (int r = 0; r <= numRows; ++r)
+	for (int r = 0; r < numRows; ++r)
 	{
 		for (int c = 0; c < numColums; ++c)
 		{
-			int i = r * (numColums)+c;
+			int i = (r * (numColums +1)) + c;
 
 			//triangle 1
 			indices.push_back(i);
-			indices.push_back(i + numColums + 1);
+			indices.push_back(i + numColums + 2);
 			indices.push_back(i + 1);
 
 			//triangle 2
 			indices.push_back(i);
-			indices.push_back(i + numColums);
-			indices.push_back(i + numColums + 1);
+			indices.push_back(i + numColums +1);
+			indices.push_back(i + numColums + 2);
 		}
 	}
 }
@@ -109,21 +109,17 @@ void CreateCapIndices(std::vector<uint32_t>& indices, int slices, int topIndex, 
 	for (int s = 0; s < slices; s++)
 	{
 		//Bottom Triangles
+		indices.push_back(bottomIndex);
 		indices.push_back(s);
 		indices.push_back(s + 1);
-		indices.push_back(bottomIndex);
 
 		//Top Triangles
-
 		int topRowSIndex = topIndex - slices - 1 + s;
-
 		indices.push_back(topIndex);
 		indices.push_back(topRowSIndex + 1);
 		indices.push_back(topRowSIndex);
 	}
 }
-
-
 
 MeshPC FoxEngine::Graphics::MeshBuilder::CreateCubePC(float size, const Color& color)
 {
@@ -381,7 +377,6 @@ MeshPC FoxEngine::Graphics::MeshBuilder::CreateSpherePC(int slices, int rings, f
 	}
 
 	CreatePlaneIndices(mesh.indices, rings, slices);
-
 	return mesh;
 }
 

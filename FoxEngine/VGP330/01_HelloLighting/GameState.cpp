@@ -1,0 +1,138 @@
+#include "GameState.h"
+
+using namespace FoxEngine;
+using namespace FoxEngine::Input;
+using namespace FoxEngine::Graphics;
+
+
+namespace
+{
+	float gRotationY = 0.0f;
+	float gRotationX = 0.0f;
+}
+
+void GameState::Initialize()
+{
+
+	//Initialize the camera
+	mCamera.SetPosition(FoxMath::Vector3(0.f, 1.f, -3.f));//Offset back in z
+	mCamera.SetLookAt(FoxMath::Vector3(0.f, 0.f, 0.f));
+
+	std::filesystem::path shaderFile = L"../../Assets/Shaders/DoTexturing.fx";
+	mStandardEffect.Initialize(shaderFile);
+	mStandardEffect.SetCamera(mCamera);
+
+	MeshPX earth = MeshBuilder::CreateSpherePX(30, 30, 1.0f);
+	mRenderObject.meshBuffer.Initialize(earth);
+	mRenderObject.mDiffuseTexture.Initialize(L"../../Assets/Textures/earth.jpg");
+}
+void GameState::Terminate()
+{
+	mRenderObject.Terminate();
+	mStandardEffect.Terminate();
+}
+
+void GameState::Render()
+{
+	mStandardEffect.Begin();
+		mStandardEffect.Render(mRenderObject);
+	mStandardEffect.End();
+}
+
+void GameState::DebugUI()
+{
+
+
+
+}
+
+void GameState::Update(float deltaTime)
+{
+	auto input = InputSystem::Get();
+	App& myApp = MainApp();
+
+
+	//Rotation control
+	if (input->IsKeyDown(KeyCode::UP))
+	{
+
+		gRotationX += Constants::HalfPi * deltaTime * 0.5f;
+
+	}
+	else if (input->IsKeyDown(KeyCode::DOWN))
+	{
+
+		gRotationX += -Constants::HalfPi * deltaTime * 0.5f;
+
+	}
+
+	if (input->IsKeyDown(KeyCode::RIGHT))
+	{
+
+		gRotationY += -Constants::HalfPi * deltaTime * 0.5f;
+
+	}
+	else if (input->IsKeyDown(KeyCode::LEFT))
+	{
+
+		gRotationY += Constants::HalfPi * deltaTime * 0.5f;
+
+	}
+
+	EngineCameraController(deltaTime);
+
+}
+
+void GameState::RenderMesh(const Camera& camera, bool useTransform)
+{
+	//mMeshBuffer.Render();
+}
+
+void GameState::EngineCameraController(float deltaTime)
+{
+	const InputSystem* input = Input::InputSystem::Get();
+	const int moveSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? 10 : 1;
+	const float displacement = 0.01f * moveSpeed;
+
+	//Foward and Backward
+	if (input->IsKeyDown(KeyCode::W))
+	{
+		mCamera.Walk(displacement);
+	}
+	else if (input->IsKeyDown(KeyCode::S))
+	{
+		mCamera.Walk(-displacement);
+	}
+	//Right and Left
+	if (input->IsKeyDown(KeyCode::D))
+	{
+		mCamera.Strafe(displacement);
+	}
+	else if (input->IsKeyDown(KeyCode::A))
+	{
+		mCamera.Strafe(-displacement);
+	}
+
+	//Rotation
+	if (input->IsMouseDown(MouseButton::RBUTTON))
+	{
+		const int turnSpeedMultiplyer = input->IsKeyDown(KeyCode::LSHIFT) ? 2 : 1;
+
+		const float x = input->GetMouseMoveX() * deltaTime * turnSpeedMultiplyer;
+		const float y = input->GetMouseMoveY() * deltaTime * turnSpeedMultiplyer;
+
+		mCamera.Yaw(x);
+		mCamera.Pitch(y);
+	}
+
+	//UP and Down
+
+	if (input->IsKeyDown(KeyCode::Q))
+	{
+		mCamera.Rise(-displacement);
+	}
+	else if (input->IsKeyDown(KeyCode::E))
+	{
+		mCamera.Rise(displacement);
+	}
+}

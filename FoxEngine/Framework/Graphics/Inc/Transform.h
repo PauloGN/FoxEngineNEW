@@ -12,9 +12,10 @@ namespace FoxEngine::Graphics
 
 		FoxMath::Matrix4 GetMatrix4() const
 		{
-			return { FoxMath::Matrix4::Translation(position)*
-				 FoxMath::Matrix4::Scaling(scale)*
-				FoxMath::Matrix4::MatrixRotationQuaternion(rotation)
+			return { 
+				FoxMath::Matrix4::Scaling(scale)*
+				FoxMath::Matrix4::MatrixRotationQuaternion(rotation)*
+				FoxMath::Matrix4::Translation(position)
 			};
 		}
 	};
