@@ -11,14 +11,14 @@ void GameState::Initialize()
 	mCamera.SetPosition(FoxMath::Vector3(0.f, 1.f, -3.f));//Offset back in z
 	mCamera.SetLookAt(FoxMath::Vector3(0.f));
 
-	std::filesystem::path shaderFile = L"../../Assets/Shaders/DoTexturing.fx";
+	std::filesystem::path shaderFile = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFile);
 	mStandardEffect.SetCamera(mCamera);
 
 	//Initialize render object
 	Mesh earth = MeshBuilder::CreateSphere(30, 30, 1.0f);
 	mRenderObject.meshBuffer.Initialize(earth);
-	mRenderObject.mDiffuseTexture.Initialize(L"../../Assets/Textures/earth.jpg");
+	mRenderObject.diffuseMapId = TextureManager::Get()->LoadTexture(L"earth.jpg");
 }
 void GameState::Terminate()
 {

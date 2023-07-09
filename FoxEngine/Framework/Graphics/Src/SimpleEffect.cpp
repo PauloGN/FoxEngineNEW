@@ -56,7 +56,9 @@ void FoxEngine::Graphics::SimpleEffect::Render(const RenderObject& renderObject)
 
     mConstantBuffer.Update(&wvp);
     
-    renderObject.mDiffuseTexture.BindPS(0);
+    auto tm = TextureManager::Get();
+
+    tm->BindPS(renderObject.diffuseMapId, 0);
     renderObject.meshBuffer.Render();
 }
 

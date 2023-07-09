@@ -32,7 +32,7 @@ namespace  FoxEngine::Graphics
 
 	private:
 
-		ConstantBuffer mConstantBuffer;
+		ConstantBuffer mTransformBuffer;
 		VertexShader mVertexShader;
 		PixelShader mPixelShader;
 		Sampler mSampler;

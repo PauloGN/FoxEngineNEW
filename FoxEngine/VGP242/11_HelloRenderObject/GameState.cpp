@@ -13,10 +13,11 @@ void GameState::Initialize()
 
     //Initialize meshBuffer and give it a texture to draw
     mRenderObject.meshBuffer.Initialize(sphere);
-    mRenderObject.mDiffuseTexture.Initialize(L"../../Assets/Images/water/water_texture.jpg");
+    mRenderObject.diffuseMapId = TextureManager::Get()->LoadTexture(L"earth.jpg");
 
     mBasktBall.meshBuffer.Initialize(sphere);
-    mBasktBall.mDiffuseTexture.Initialize(L"../../Assets/Images/misc/basketball.jpg");
+
+    mBasktBall.diffuseMapId = TextureManager::Get()->LoadTexture(L"earth.jpg");
 
 	//ConstantBuffer, rendering, Matrix4 calculus
 	mSimpleEffect.Initialize();
@@ -120,8 +121,6 @@ void GameState::Update(float deltaTime)
         MainApp().ChangeState("GameState");
        
     }
-
-
 };
 
 void GameState::EngineCameraController(float deltaTime)

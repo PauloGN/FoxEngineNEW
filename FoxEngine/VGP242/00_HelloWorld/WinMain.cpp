@@ -15,7 +15,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int)
 
 	const int n = 10;
 
-	assert(n == 2+5, "Assert, test break point");
+	ASSERT(n == 2+5, "Assert, test break point");
 
 	return 0;
 }

@@ -19,6 +19,7 @@
 #include "SimpleDraw.h"
 #include "StandardEffect.h"
 #include "Texture.h"
+#include "TextureManager.h"
 #include "Transform.h"
 #include "VertexShader.h"
 #include "VertexTypes.h"

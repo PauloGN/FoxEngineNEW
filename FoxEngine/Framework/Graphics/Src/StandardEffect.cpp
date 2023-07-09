@@ -4,6 +4,7 @@
 #include "MeshBuffer.h"
 #include "Camera.h"
 #include "RenderObject.h"
+#include "TextureManager.h"
 #include "VertexTypes.h"
 
 using namespace  FoxEngine;
@@ -12,7 +13,7 @@ using namespace  FoxEngine::FoxMath;
 
 void FoxEngine::Graphics::StandardEffect::Initialize(const std::filesystem::path& filePath)
 {
-    mConstantBuffer.Initialize(sizeof(Matrix4));
+    mTransformBuffer.Initialize(sizeof(Matrix4));
     mVertexShader.Initialize<Vertex>(filePath);
     mPixelShader.Initialize(filePath);
     mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
@@ -23,7 +24,7 @@ void FoxEngine::Graphics::StandardEffect::Terminate()
     mSampler.Terminate();
     mPixelShader.Terminate();
     mVertexShader.Terminate();
-    mConstantBuffer.Terminate();
+    mTransformBuffer.Terminate();
 }
 
 void FoxEngine::Graphics::StandardEffect::Begin()
@@ -33,7 +34,7 @@ void FoxEngine::Graphics::StandardEffect::Begin()
     mVertexShader.Bind();
     mPixelShader.Bind();
 
-    mConstantBuffer.BindVS(0);
+    mTransformBuffer.BindVS(0);
 
     mSampler.BindVS(0);
     mSampler.BindPS(0);
@@ -52,9 +53,11 @@ void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObjec
     const Matrix4& matProj = mCamera->GetProjectionMatrix();
 
     const Matrix4& matFinal = Transpose(matworld * matView * matProj);
-    mConstantBuffer.Update(&matFinal);
+    mTransformBuffer.Update(&matFinal);
 
-    renderObject.mDiffuseTexture.BindPS(0);
+    auto tm = TextureManager::Get();
+
+    tm->BindPS(renderObject.diffuseMapId, 0);
     renderObject.meshBuffer.Render();
 }
 
