@@ -52,12 +52,12 @@ void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObjec
     const Matrix4& matView = mCamera->GetViewMatrix();
     const Matrix4& matProj = mCamera->GetProjectionMatrix();
 
-    const Matrix4& matFinal = Transpose(matworld * matView * matProj);
+    Matrix4 matFinal = Transpose(matworld * matView * matProj);
     mTransformBuffer.Update(&matFinal);
 
     auto tm = TextureManager::Get();
-
     tm->BindPS(renderObject.diffuseMapId, 0);
+
     renderObject.meshBuffer.Render();
 }
 

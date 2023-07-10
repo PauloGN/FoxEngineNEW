@@ -15,14 +15,24 @@ void GameState::Initialize()
 	mStandardEffect.Initialize(shaderFile);
 	mStandardEffect.SetCamera(mCamera);
 
+	//Sky
+	mStandardEffectSky.Initialize();
+	mStandardEffectSky.SetCamera(mCamera);
+
+
 	//Initialize render object
 	Mesh earth = MeshBuilder::CreateSphere(30, 30, 1.0f);
+	MeshPX sky = MeshBuilder::CreateSkySpherePX(100, 100, 50);
 	mRenderObject.meshBuffer.Initialize(earth);
-	mRenderObject.diffuseMapId = TextureManager::Get()->LoadTexture(L"earth.jpg");
+	mRenderObject.diffuseMapId = TextureManager::Get()->LoadTexture("earth.jpg");
+	mRenderSky.meshBuffer.Initialize(sky);
+	mRenderSky.diffuseMapId = TextureManager::Get()->LoadTexture("space.jpg");
 }
 void GameState::Terminate()
 {
+	mRenderSky.Terminate();
 	mRenderObject.Terminate();
+	mStandardEffectSky.Terminate();
 	mStandardEffect.Terminate();
 }
 
@@ -31,18 +41,35 @@ void GameState::Render()
 	mStandardEffect.Begin();
 		mStandardEffect.Render(mRenderObject);
 	mStandardEffect.End();
+
+	mStandardEffectSky.Begin();
+		mStandardEffectSky.Render(mRenderSky);
+	mStandardEffectSky.End();
+
+	SimpleDraw::Render(mCamera);
+
 }
 
 void GameState::DebugUI()
 {
 	ImGui::Begin("Debug Draw", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 		mStandardEffect.DebugUI();
+
+		ImGui::ShowDemoWindow();
+
 	ImGui::End();
 }
+
+Vector3 Line(5, 5, 0 );
 
 void GameState::Update(float deltaTime)
 {
 	EngineCameraController(deltaTime);
+
+	Line.z += 2 * deltaTime;
+
+	SimpleDraw::AddLine({0,0,0}, Line, Colors::Red);
+
 }
 
 void GameState::EngineCameraController(float deltaTime)

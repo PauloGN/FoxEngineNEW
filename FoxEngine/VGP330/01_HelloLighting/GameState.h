@@ -18,16 +18,17 @@ public:
 	void EngineCameraController(float deltaTime);
 
 protected:
-
-	void RenderMesh(const Camera& camera, bool useTransform){}
 	
 	//View port Camera/Main Camera
 	Camera mCamera;
 
 	//Holds-> ConstantBuffer, VertexShader, PixelShader, Sampler
 	FoxEngine::Graphics::StandardEffect mStandardEffect;
+	FoxEngine::Graphics::SimpleEffect mStandardEffectSky;
 
 	//Holds-> Transform, MeshBuffer, Texture
 	RenderObject mRenderObject;//this is the obj
+	RenderObject mRenderSky;//this is the obj
 
 };
+
