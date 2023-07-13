@@ -12,7 +12,7 @@ namespace FoxEngine::Graphics
 	namespace SimpleDraw
 	{
 		
-		void StaticInitialize(uint32_t maxVertexCount);
+		void StaticInitialize(uint32_t maxVertexCount = 10000);
 		void StaticTerminate();
 
 		void AddLine(const Vector3& v0, const Vector3& v1, const Color& color);

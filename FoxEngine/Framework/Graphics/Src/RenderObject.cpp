@@ -4,6 +4,4 @@
 void FoxEngine::Graphics::RenderObject::Terminate()
 {
 	meshBuffer.Terminate();
-	mDiffuseTexture.Terminate();
-	//meshBuffer.Terminate();
 }

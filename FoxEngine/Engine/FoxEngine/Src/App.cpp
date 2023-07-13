@@ -39,6 +39,7 @@ void App::Run(const FoxEngine::AppConfig& config)
 	GraphicsSystem::StaticInitialize(handle, false);
 	DebugUI::StaticInitialize(handle, false, true);
 	SimpleDraw::StaticInitialize(config.debugDrawLimit);
+	TextureManager::StaticInitialize("../../Assets/Textures/");
 
 
 	//States ***** Week 3
@@ -86,6 +87,7 @@ void App::Run(const FoxEngine::AppConfig& config)
 	}
 
 	// terminate static classes
+	TextureManager::StaticTerminate();
 	mCurrentState->Terminate();
 
 	SimpleDraw::StaticTerminate();

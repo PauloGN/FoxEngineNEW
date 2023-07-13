@@ -85,21 +85,21 @@ void CreateSkyBoxIdices(std::vector<uint32_t>& indices)
 void CreatePlaneIndices(std::vector<uint32_t>& indices, int numRows, int numColums)
 {
 
-	for (int r = 0; r <= numRows; ++r)
+	for (int r = 0; r < numRows; ++r)
 	{
 		for (int c = 0; c < numColums; ++c)
 		{
-			int i = r * (numColums)+c;
+			int i = (r * (numColums +1)) + c;
 
 			//triangle 1
 			indices.push_back(i);
-			indices.push_back(i + numColums + 1);
+			indices.push_back(i + numColums + 2);
 			indices.push_back(i + 1);
 
 			//triangle 2
 			indices.push_back(i);
-			indices.push_back(i + numColums);
-			indices.push_back(i + numColums + 1);
+			indices.push_back(i + numColums +1);
+			indices.push_back(i + numColums + 2);
 		}
 	}
 }
@@ -109,21 +109,17 @@ void CreateCapIndices(std::vector<uint32_t>& indices, int slices, int topIndex, 
 	for (int s = 0; s < slices; s++)
 	{
 		//Bottom Triangles
+		indices.push_back(bottomIndex);
 		indices.push_back(s);
 		indices.push_back(s + 1);
-		indices.push_back(bottomIndex);
 
 		//Top Triangles
-
 		int topRowSIndex = topIndex - slices - 1 + s;
-
 		indices.push_back(topIndex);
 		indices.push_back(topRowSIndex + 1);
 		indices.push_back(topRowSIndex);
 	}
 }
-
-
 
 MeshPC FoxEngine::Graphics::MeshBuilder::CreateCubePC(float size, const Color& color)
 {
@@ -381,7 +377,6 @@ MeshPC FoxEngine::Graphics::MeshBuilder::CreateSpherePC(int slices, int rings, f
 	}
 
 	CreatePlaneIndices(mesh.indices, rings, slices);
-
 	return mesh;
 }
 
@@ -423,6 +418,39 @@ MeshPX FoxEngine::Graphics::MeshBuilder::CreateSpherePX(int slices, int rings, f
 Mesh FoxEngine::Graphics::MeshBuilder::CreateSphere(int slices, int rings, float radius)
 {
 	Mesh mesh;
+
+	float verticalRotation = (FoxMath::Constants::Pi / static_cast<float> (rings - 1));
+	float horizontalRotation = (FoxMath::Constants::TwoPi / static_cast<float> (slices));
+	float uStep = 1.0f / static_cast<float>(slices);
+	float vStep = 1.0f / static_cast<float>(rings);
+
+	for (int r = 0; r <= rings; ++r)
+	{
+		float ring = static_cast<float>(r);
+		float phi = ring * verticalRotation;
+
+		for (int s = 0; s <= slices; ++s)
+		{
+			float slice = static_cast<float>(s);
+			float rotation = slice * horizontalRotation;
+
+			float u = 1.0f - (uStep * slice);
+			float v = vStep * ring;
+
+			float x = radius * sin(rotation) * sin(phi);
+			float y = radius * cos(phi);
+			float z = radius * cos(rotation)* sin(phi);
+
+			FoxMath::Vector3 pos = { x, y, z };
+			FoxMath::Vector3 norm = FoxMath::Normalize(pos);
+			FoxMath::Vector3 tang = FoxMath::Normalize({-z, 0.0f, x});
+
+			mesh.vertices.push_back({ pos, norm, tang , { u , v } });
+		}
+	}
+
+	CreatePlaneIndices(mesh.indices, rings, slices);
+
 	return mesh;
 }
 
