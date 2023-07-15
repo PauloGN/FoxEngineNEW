@@ -6,7 +6,6 @@ using namespace FoxEngine::FoxMath;
 
 namespace FoxEngine::Graphics
 {
-
 	class Camera;
 
 	namespace SimpleDraw
@@ -32,6 +31,5 @@ namespace FoxEngine::Graphics
 		void AddTransform(const Matrix4& m);//it is just a point in space
 
 		void Render(const Camera& camera);
-
 	}
 }

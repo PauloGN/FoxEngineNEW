@@ -19,10 +19,31 @@ public:
 	void EngineFPS(float deltaTime);
 
 protected:
-	
+
+	struct TransformData
+	{
+		Matrix4 world;
+		Matrix4 wvp;
+		Vector3 viewPosition;
+		float padding;
+	};
+
+
+	TypedConstantBuffer<TransformData> mTransformBuffer;
+	TypedConstantBuffer<DirectionalLight> mLightBuffer;
+	TypedConstantBuffer<Material> mMaterialBuffer;
+
+	DirectionalLight mDirectionalLight;
+	Material mMaterial;
+
+	MeshBuffer mSphereMeshBuffer;
+	VertexShader mSphereVS;
+	PixelShader mSheperePS;
+	Sampler mSphereSampler;
+	Texture mSphereTexture;
+
 	//View port Camera/Main Camera
 	Camera mCamera;
-	DirectionalLight mDirectionalLight;
 
 	//Holds-> ConstantBuffer, VertexShader, PixelShader, Sampler
 	FoxEngine::Graphics::StandardEffect mStandardEffect;
@@ -36,4 +57,3 @@ protected:
 	float mFPS = 0.0f;
 	int mFrameCount = 0.0f;
 };
-

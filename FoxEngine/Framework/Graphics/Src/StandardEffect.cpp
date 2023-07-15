@@ -13,7 +13,9 @@ using namespace  FoxEngine::FoxMath;
 
 void FoxEngine::Graphics::StandardEffect::Initialize(const std::filesystem::path& filePath)
 {
-    mTransformBuffer.Initialize(sizeof(Matrix4));
+    mTransformBuffer.Initialize();//HLSL size of data
+    mLightingtBuffer.Initialize();
+
     mVertexShader.Initialize<Vertex>(filePath);
     mPixelShader.Initialize(filePath);
     mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
@@ -24,6 +26,7 @@ void FoxEngine::Graphics::StandardEffect::Terminate()
     mSampler.Terminate();
     mPixelShader.Terminate();
     mVertexShader.Terminate();
+    mLightingtBuffer.Terminate();
     mTransformBuffer.Terminate();
 }
 
@@ -35,6 +38,9 @@ void FoxEngine::Graphics::StandardEffect::Begin()
     mPixelShader.Bind();
 
     mTransformBuffer.BindVS(0);
+
+    mLightingtBuffer.BindPS(1);
+    mLightingtBuffer.BindVS(1);
 
     mSampler.BindVS(0);
     mSampler.BindPS(0);
@@ -53,7 +59,14 @@ void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObjec
     const Matrix4& matProj = mCamera->GetProjectionMatrix();
 
     Matrix4 matFinal = Transpose(matworld * matView * matProj);
-    mTransformBuffer.Update(&matFinal);
+    
+    TransformData transformData;
+    transformData.world = Transpose(matworld);
+    transformData.wvp = matFinal;
+    transformData.viewPosition = mCamera->GetPosition();
+
+    mTransformBuffer.Update(transformData);
+    mLightingtBuffer.Update(*mDirectionalLight);
 
     auto tm = TextureManager::Get();
     tm->BindPS(renderObject.diffuseMapId, 0);
@@ -64,6 +77,11 @@ void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObjec
 void FoxEngine::Graphics::StandardEffect::SetCamera(const Camera& camera)
 {
     mCamera = &camera;
+}
+
+void FoxEngine::Graphics::StandardEffect::SetDirectionalLight(const DirectionalLight& dirLight)
+{
+    mDirectionalLight = &dirLight;
 }
 
 void FoxEngine::Graphics::StandardEffect::DebugUI()

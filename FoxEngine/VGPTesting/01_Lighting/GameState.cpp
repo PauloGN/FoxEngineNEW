@@ -6,21 +6,14 @@ using namespace FoxEngine::Graphics;
 
 void GameState::Initialize()
 {
-	//Initialize camera
+
+	//Initialize the camera
 	mCamera.SetPosition(FoxMath::Vector3(0.f, 1.f, -3.f));//Offset back in z
 	mCamera.SetLookAt(FoxMath::Vector3(0.f));
 
-	//Lights
-	mDirectionalLight.direction = FoxMath::Normalize({ 1.0f, -1.0f, 1.0f });
-	mDirectionalLight.ambient = { 0.4f, 0.4f, 0.4f, 1.0f };
-	mDirectionalLight.diffuse = { 0.7f, 0.7f, 0.7f, 1.0f };
-	mDirectionalLight.specular = {0.9f, 0.9f, 0.9f, 1.0f};
-
-	//Standard - Camera - light
 	std::filesystem::path shaderFile = L"../../Assets/Shaders/Standard.fx";
 	mStandardEffect.Initialize(shaderFile);
 	mStandardEffect.SetCamera(mCamera);
-	mStandardEffect.SetDirectionalLight(mDirectionalLight);
 
 	//Sky
 	mSimpleEffectSky.Initialize();
@@ -31,12 +24,32 @@ void GameState::Initialize()
 	MeshPX sky = MeshBuilder::CreateSkySpherePX(100, 100, 350);
 	mRenderObject.meshBuffer.Initialize(earth);
 	mRenderObject.diffuseMapId = TextureManager::Get()->LoadTexture("earth.jpg");
+	mRenderObject.transform.position = Vector3(-2.0f, 2.0f, 3.0f);
 	mRenderSky.meshBuffer.Initialize(sky);
 	mRenderSky.diffuseMapId = TextureManager::Get()->LoadTexture("space.jpg");
-}
 
+	//Light
+	mSphereMeshBuffer.Initialize(earth);
+	mSheperePS.Initialize(L"../../Assets/Shaders/Standard.fx");
+	mSphereVS.Initialize<Mesh::VertexType>(L"../../Assets/Shaders/Standard.fx");
+
+	mSphereSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
+	mSphereTexture.Initialize(L"../../Assets/Textures/earth.jpg");
+
+	mTransformBuffer.Initialize();
+	mLightBuffer.Initialize();
+	mMaterialBuffer.Initialize();
+
+}
 void GameState::Terminate()
 {
+	//Light
+	mSphereSampler.Terminate();
+	mSphereTexture.Terminate();
+	mMaterialBuffer.Terminate();
+	mLightBuffer.Terminate();
+	mTransformBuffer.Terminate();
+
 	mRenderSky.Terminate();
 	mRenderObject.Terminate();
 	mSimpleEffectSky.Terminate();
@@ -45,15 +58,41 @@ void GameState::Terminate()
 
 void GameState::Render()
 {
+	//Light
+	mTransformBuffer.BindVS(0);
+	mSphereVS.Bind();
+	mSheperePS.Bind();
+
+	Matrix4 matWorld = Matrix4::Translation(Vector3(0, 0, 1));
+	Matrix4 matView = mCamera.GetViewMatrix();
+	Matrix4 matProj = mCamera.GetProjectionMatrix();
+
+	TransformData transformData;
+	transformData.wvp = Transpose(matWorld* matView*matProj);
+	transformData.world = matWorld;
+	transformData.viewPosition = mCamera.GetPosition();
+
+	mSphereSampler.BindPS(0);
+	mSphereTexture.BindPS(0);
+
+	mLightBuffer.BindPS(1);
+	mLightBuffer.BindVS(1);
+	mMaterialBuffer.BindPS(2);
+	mMaterialBuffer.BindVS(2);
+
+	mLightBuffer.Update(mDirectionalLight);
+	mMaterialBuffer.Update(mMaterial);
+	mTransformBuffer.Update(transformData);
+
+	mSphereMeshBuffer.Render();
+
 	mStandardEffect.Begin();
-		mStandardEffect.Render(mRenderObject);
+	mStandardEffect.Render(mRenderObject);
 	mStandardEffect.End();
 
 	mSimpleEffectSky.Begin();
-		mSimpleEffectSky.Render(mRenderSky);
+	mSimpleEffectSky.Render(mRenderSky);
 	mSimpleEffectSky.End();
-
-	//SimpleDraw::Render(mCamera);
 }
 
 void GameState::DebugUI()
@@ -66,15 +105,40 @@ void GameState::DebugUI()
 		}
 		ImGui::PopID();
 
+		ImGui::PushID("Light");
+		if (ImGui::CollapsingHeader("Light"))
+		{
+			ImGui::DragFloat("DirectionX", &mDirectionalLight.direction.x);
+			ImGui::DragFloat("DirectionY", &mDirectionalLight.direction.y);
+			ImGui::DragFloat("DirectionZ", &mDirectionalLight.direction.z);
+			ImGui::Spacing();
+			ImGui::ColorEdit4("Ambient", &mDirectionalLight.ambient.r);
+			ImGui::ColorEdit4("Diffuse", &mDirectionalLight.diffuse.r);
+			ImGui::ColorEdit4("Specular", &mDirectionalLight.specular.r);
+		}
+		ImGui::PopID();
+
+		ImGui::PushID("Material");
+		if (ImGui::CollapsingHeader("Material"))
+		{
+			ImGui::ColorEdit4("Ambient", &mMaterial.ambient.r);
+			ImGui::ColorEdit4("Diffuse", &mMaterial.diffuse.r);
+			ImGui::ColorEdit4("Specular", &mMaterial.specular.r);
+			ImGui::DragFloat("Power", &mMaterial.power);
+		}
+		ImGui::PopID();
+
 		mStandardEffect.DebugUI();
 
-		//ImGui::ShowDemoWindow();
 	ImGui::End();
 }
 
+Vector3 Line(5, 5, 0);
+
 void GameState::Update(float deltaTime)
 {
-	//Controller
+	//Light
+
 	EngineCameraController(deltaTime);
 	//FPS
 	EngineFPS(deltaTime);

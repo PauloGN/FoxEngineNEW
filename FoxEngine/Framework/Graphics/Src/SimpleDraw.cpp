@@ -15,7 +15,6 @@ using namespace FoxEngine::FoxMath::Constants;
 
 namespace
 {
-	
 	class SimpleDrawImpl
 	{
 	public:
@@ -28,7 +27,6 @@ namespace
 
 		void Render(const Camera& camera);
 
-
 	private:
 
 		VertexShader mVertexShader;
@@ -37,7 +35,6 @@ namespace
 		MeshBuffer mMeshBuffer;
 		//Blend state
 		BlendState mBlendState;
-
 
 		std::unique_ptr<VertexPC[]> mLineVertices;
 		std::unique_ptr<VertexPC[]> mFaceVertices;

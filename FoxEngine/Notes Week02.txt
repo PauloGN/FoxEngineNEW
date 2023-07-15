@@ -1,0 +1,6 @@
+ In C++ and DirectX, the pixel shader is responsible for determining the color
+ of each pixel in the graphics pipeline. It achieves this by applying calculations
+ and operations, including color tinting, to produce the final color output for each pixel.
+ The pixel shader is an essential component for achieving various visual effects and
+ controlling the appearance of rendered images or scenes.
+

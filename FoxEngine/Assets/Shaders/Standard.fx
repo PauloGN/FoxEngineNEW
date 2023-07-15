@@ -2,7 +2,17 @@
 
 cbuffer TransformBuffer : register(b0)
 {
+    matrix world;
 	matrix wvp;
+    float3 viewPosition;
+}
+
+cbuffer LightBuffer : register(b1)
+{
+    float3 lightDirection;
+    float4 lightAmbient;
+    float4 lightDiffuse;
+    float4 lightSpecular;
 }
 
 Texture2D diffuseMap : register(t0);

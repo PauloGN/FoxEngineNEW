@@ -4,6 +4,7 @@
 #include "PixelShader.h"
 #include "Sampler.h"
 #include "VertexShader.h"
+#include "LightType.h"
 
 namespace  FoxEngine::Graphics
 {
@@ -27,16 +28,32 @@ namespace  FoxEngine::Graphics
 		void Render(const RenderObject& renderObject);
 		//Set the camera that is going to see the object
 		void SetCamera(const Camera& camera);
+		void SetDirectionalLight(const DirectionalLight& dirLight);
 
 		void DebugUI();
 
 	private:
 
-		ConstantBuffer mTransformBuffer;
+		//HLSL data
+		struct TransformData
+		{
+			FoxMath::Matrix4 world;
+			FoxMath::Matrix4 wvp;
+			FoxMath::Vector3 viewPosition;
+			float padding = 0.0f;
+		};
+
+		using TransformBuffer = TypedConstantBuffer<TransformData>;
+		using LightingBuffer = TypedConstantBuffer<DirectionalLight>;
+
+		TransformBuffer mTransformBuffer;
+		LightingBuffer mLightingtBuffer;
+
 		VertexShader mVertexShader;
 		PixelShader mPixelShader;
 		Sampler mSampler;
 
 		const Camera* mCamera = nullptr;
+		const DirectionalLight* mDirectionalLight;
 	};
 }

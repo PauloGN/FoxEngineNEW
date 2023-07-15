@@ -9,7 +9,6 @@ namespace FoxEngine::Graphics
 		enum class Filter { Point, Linear, Anisotropic };
 		enum class AddressMode { Border, Clamp, Mirror, Wrap };
 
-
 		Sampler() = default;
 		~Sampler();
 
@@ -27,6 +26,5 @@ namespace FoxEngine::Graphics
 	private:
 
 		ID3D11SamplerState* mSampler = nullptr;
-
 	};
 }
