@@ -18,7 +18,7 @@ namespace FoxEngine::Graphics
 		Transform transform;
 		Material material;
 		TextureId diffuseMapId;
-		TextureId normalMap;
+		TextureId normalMapId;
 		MeshBuffer meshBuffer;
 	};
 }

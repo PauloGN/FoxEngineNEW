@@ -24,6 +24,13 @@ cbuffer MaterialBuffer : register(b2)
     float materialPower;
 }
 
+cbuffer MaterialBuffer : register(b3)
+{
+    bool useDiffuseMap;
+    bool useNormalMap;
+}
+
+
 Texture2D diffuseMap : register(t0);
 Texture2D normalMap : register(t1);
 SamplerState textureSampler : register(s0);
@@ -70,13 +77,15 @@ float4 PS(VS_OUTPUT input) : SV_Target
     float3 view = normalize(input.dirToView);
     
     // set up normal from map
-    float3 t = normalize(input.worldTangent);
-    float3 b = normalize(cross(n, t));
-    float3x3 tbnw = float3x3(t, b, n);
-    float4 normalMapColor = normalMap.Sample(textureSampler, input.texCoord);
-    float3 unpackedNormalMap = normalize(float3((normalMapColor.xy *2.0f) -1.0f, normalMapColor.z));
-    
-    n = normalize(mul(unpackedNormalMap, tbnw));
+    if (useNormalMap)
+    {
+        float3 t = normalize(input.worldTangent);
+        float3 b = normalize(cross(n, t));
+        float3x3 tbnw = float3x3(t, b, n);
+        float4 normalMapColor = normalMap.Sample(textureSampler, input.texCoord);
+        float3 unpackedNormalMap = normalize(float3((normalMapColor.xy * 2.0f) - 1.0f, normalMapColor.z));
+        n = normalize(mul(unpackedNormalMap, tbnw));
+    }
     
     //ambient color
     float4 ambient = lightAmbient * materialAmbient;
@@ -92,7 +101,7 @@ float4 PS(VS_OUTPUT input) : SV_Target
     float4 specular = s * lightSpecular * materialSpecular;
     
     //Get color from textures
-    float4 diffuseMapColor = diffuseMap.Sample(textureSampler, input.texCoord);
+    float4 diffuseMapColor = (useDiffuseMap) ? diffuseMap.Sample(textureSampler, input.texCoord) : 1.0f;
     
     //Combine color for final result
     float4 finalColor = (ambient + diffuse + materialEmissive) * diffuseMapColor + specular;

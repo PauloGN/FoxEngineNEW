@@ -17,6 +17,7 @@ void FoxEngine::Graphics::StandardEffect::Initialize(const std::filesystem::path
     mTransformBuffer.Initialize();
     mLightingtBuffer.Initialize();
     mMaterialBuffer.Initialize();
+    mSettingsBuffer.Initialize();
 
     mVertexShader.Initialize<Vertex>(filePath);
     mPixelShader.Initialize(filePath);
@@ -29,6 +30,7 @@ void FoxEngine::Graphics::StandardEffect::Terminate()
     mPixelShader.Terminate();
     mVertexShader.Terminate();
 
+    mSettingsBuffer.Terminate();
     mMaterialBuffer.Terminate();
     mLightingtBuffer.Terminate();
     mTransformBuffer.Terminate();
@@ -47,6 +49,8 @@ void FoxEngine::Graphics::StandardEffect::Begin()
     mLightingtBuffer.BindPS(1);
 
     mMaterialBuffer.BindPS(2);
+
+    mSettingsBuffer.BindPS(3);
 
     mSampler.BindVS(0);
     mSampler.BindPS(0);
@@ -73,9 +77,15 @@ void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObjec
     mLightingtBuffer.Update(*mDirectionalLight);
     mMaterialBuffer.Update(renderObject.material);
 
+    SettingsData settingsData;
+    settingsData.useDiffuseMap = mSettingsData.useDiffuseMap > 0 && renderObject.diffuseMapId != 0;
+    settingsData.useNormalMap = mSettingsData.useNormalMap > 0 && renderObject.normalMapId != 0;
+
+    mSettingsBuffer.Update(settingsData);
+
     auto tm = TextureManager::Get();
     tm->BindPS(renderObject.diffuseMapId, 0);
-    tm->BindPS(renderObject.normalMap, 1);
+    tm->BindPS(renderObject.normalMapId, 1);
 
     renderObject.meshBuffer.Render();
 }
@@ -92,8 +102,17 @@ void FoxEngine::Graphics::StandardEffect::SetDirectionalLight(const DirectionalL
 
 void FoxEngine::Graphics::StandardEffect::DebugUI()
 {
-    if (ImGui::CollapsingHeader("Standard##Effect"), ImGuiTreeNodeFlags_DefaultOpen)
+    if (ImGui::CollapsingHeader("StandardEffect##"), ImGuiTreeNodeFlags_DefaultOpen)
     {
-
+        bool useDiffuseMap = mSettingsData.useDiffuseMap > 0;
+        bool useNormalMap = mSettingsData.useNormalMap > 0;
+        if (ImGui::Checkbox("Use Diffuse Map##", &useDiffuseMap))
+        {
+            mSettingsData.useDiffuseMap = (useDiffuseMap)? 1 : 0;
+        }
+        if (ImGui::Checkbox("Use Normal Map##", &useNormalMap))
+        {
+            mSettingsData.useNormalMap = (useNormalMap) ? 1 : 0;
+        }
     }
 }

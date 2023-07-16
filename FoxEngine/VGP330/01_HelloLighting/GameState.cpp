@@ -26,7 +26,7 @@ void GameState::Initialize()
 	Mesh earth = MeshBuilder::CreateSphere(30, 30, 1.0f);
 	mRenderObject.meshBuffer.Initialize(earth);
 	mRenderObject.diffuseMapId = TextureManager::Get()->LoadTexture("earth.jpg");
-	mRenderObject.normalMap = TextureManager::Get()->LoadTexture("earth_normal.jpg");
+	mRenderObject.normalMapId = TextureManager::Get()->LoadTexture("earth_normal.jpg");
 }
 
 void GameState::Terminate()
