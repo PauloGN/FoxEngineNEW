@@ -22,24 +22,16 @@ void GameState::Initialize()
 	mStandardEffect.SetCamera(mCamera);
 	mStandardEffect.SetDirectionalLight(mDirectionalLight);
 
-	//Sky
-	mSimpleEffectSky.Initialize();
-	mSimpleEffectSky.SetCamera(mCamera);
-
 	//Initialize render object
 	Mesh earth = MeshBuilder::CreateSphere(30, 30, 1.0f);
-	MeshPX sky = MeshBuilder::CreateSkySpherePX(100, 100, 350);
 	mRenderObject.meshBuffer.Initialize(earth);
 	mRenderObject.diffuseMapId = TextureManager::Get()->LoadTexture("earth.jpg");
-	mRenderSky.meshBuffer.Initialize(sky);
-	mRenderSky.diffuseMapId = TextureManager::Get()->LoadTexture("space.jpg");
+	mRenderObject.normalMap = TextureManager::Get()->LoadTexture("earth_normal.jpg");
 }
 
 void GameState::Terminate()
 {
-	mRenderSky.Terminate();
 	mRenderObject.Terminate();
-	mSimpleEffectSky.Terminate();
 	mStandardEffect.Terminate();
 }
 
@@ -48,12 +40,6 @@ void GameState::Render()
 	mStandardEffect.Begin();
 		mStandardEffect.Render(mRenderObject);
 	mStandardEffect.End();
-
-	mSimpleEffectSky.Begin();
-		mSimpleEffectSky.Render(mRenderSky);
-	mSimpleEffectSky.End();
-
-	//SimpleDraw::Render(mCamera);
 }
 
 void GameState::DebugUI()
@@ -65,10 +51,33 @@ void GameState::DebugUI()
 			ImGui::Text("fps: %.2f", mFPS);
 		}
 		ImGui::PopID();
+		//Light
+		ImGui::PushID("Light");
+		if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			if (ImGui::DragFloat3("Directional##Light", &mDirectionalLight.direction.x, 0.01f, -1.0f, 1.0f))
+			{
+				mDirectionalLight.direction = FoxMath::Normalize(mDirectionalLight.direction);
+			}
+
+			ImGui::ColorEdit4("Ambient##Light", &mDirectionalLight.ambient.r);
+			ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
+			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
+		}
+		ImGui::PopID();
+		ImGui::PushID("Material");
+		if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			ImGui::ColorEdit4("Ambient##Material", &mRenderObject.material.ambient.r);
+			ImGui::ColorEdit4("Diffuse##Material", &mRenderObject.material.diffuse.r);
+			ImGui::ColorEdit4("Specular##Material", &mRenderObject.material.specular.r);
+			ImGui::ColorEdit4("Emissive##Material", &mRenderObject.material.emissive.r);
+			ImGui::DragFloat("Power##Material", &mRenderObject.material.power);
+		}
+		ImGui::PopID();
 
 		mStandardEffect.DebugUI();
 
-		//ImGui::ShowDemoWindow();
 	ImGui::End();
 }
 

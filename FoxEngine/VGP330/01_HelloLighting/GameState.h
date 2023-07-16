@@ -26,11 +26,9 @@ protected:
 
 	//Holds-> ConstantBuffer, VertexShader, PixelShader, Sampler
 	FoxEngine::Graphics::StandardEffect mStandardEffect;
-	FoxEngine::Graphics::SimpleEffect mSimpleEffectSky;
 
 	//Holds-> Transform, MeshBuffer, Texture
 	RenderObject mRenderObject;//this is the obj
-	RenderObject mRenderSky;//this is the obj
 
 	float mTimePassed = 0.0f;
 	float mFPS = 0.0f;

@@ -1,10 +1,11 @@
 #pragma once
 
 #include "ConstantBuffer.h"
+#include "LightType.h"
+#include "Material.h"
 #include "PixelShader.h"
 #include "Sampler.h"
 #include "VertexShader.h"
-#include "LightType.h"
 
 namespace  FoxEngine::Graphics
 {
@@ -45,15 +46,17 @@ namespace  FoxEngine::Graphics
 
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
 		using LightingBuffer = TypedConstantBuffer<DirectionalLight>;
+		using MaterialBuffer = TypedConstantBuffer<Material>;
 
 		TransformBuffer mTransformBuffer;
 		LightingBuffer mLightingtBuffer;
+		MaterialBuffer mMaterialBuffer;
 
 		VertexShader mVertexShader;
 		PixelShader mPixelShader;
 		Sampler mSampler;
 
 		const Camera* mCamera = nullptr;
-		const DirectionalLight* mDirectionalLight;
+		const DirectionalLight* mDirectionalLight = nullptr;
 	};
 }

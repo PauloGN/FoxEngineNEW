@@ -131,9 +131,6 @@
     <ClCompile Include="Src\RenderTarget.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\RenderObject.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="Src\SimpleEffect.cpp">
       <Filter>Src</Filter>
     </ClCompile>

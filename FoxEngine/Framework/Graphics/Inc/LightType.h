@@ -6,10 +6,10 @@ namespace FoxEngine::Graphics
 {
 	struct DirectionalLight
 	{
-		FoxMath::Vector3 direction = FoxMath::Vector3::ZAxis;
+		FoxEngine::Color ambient = FoxEngine::Colors::White;
+		FoxEngine::Color diffuse = FoxEngine::Colors::White;
+		FoxEngine::Color specular = FoxEngine::Colors::White;
+		FoxEngine::FoxMath::Vector3 direction = FoxMath::Vector3::ZAxis;
 		float padding = 0.0f;
-		Color ambient = Colors::White;
-		Color diffuse = Colors::White;
-		Color specular = Colors::White;
 	};
 }

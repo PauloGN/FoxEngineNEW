@@ -13,8 +13,10 @@ using namespace  FoxEngine::FoxMath;
 
 void FoxEngine::Graphics::StandardEffect::Initialize(const std::filesystem::path& filePath)
 {
-    mTransformBuffer.Initialize();//HLSL size of data
+    //HLSL size of data init
+    mTransformBuffer.Initialize();
     mLightingtBuffer.Initialize();
+    mMaterialBuffer.Initialize();
 
     mVertexShader.Initialize<Vertex>(filePath);
     mPixelShader.Initialize(filePath);
@@ -26,6 +28,8 @@ void FoxEngine::Graphics::StandardEffect::Terminate()
     mSampler.Terminate();
     mPixelShader.Terminate();
     mVertexShader.Terminate();
+
+    mMaterialBuffer.Terminate();
     mLightingtBuffer.Terminate();
     mTransformBuffer.Terminate();
 }
@@ -39,8 +43,10 @@ void FoxEngine::Graphics::StandardEffect::Begin()
 
     mTransformBuffer.BindVS(0);
 
-    mLightingtBuffer.BindPS(1);
     mLightingtBuffer.BindVS(1);
+    mLightingtBuffer.BindPS(1);
+
+    mMaterialBuffer.BindPS(2);
 
     mSampler.BindVS(0);
     mSampler.BindPS(0);
@@ -49,7 +55,7 @@ void FoxEngine::Graphics::StandardEffect::Begin()
 void FoxEngine::Graphics::StandardEffect::End()
 {
     //Future implementation
-    Texture::UnbindPS(0);
+   // Texture::UnbindPS(0);
 }
 
 void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObject)
@@ -58,18 +64,18 @@ void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObjec
     const Matrix4& matView = mCamera->GetViewMatrix();
     const Matrix4& matProj = mCamera->GetProjectionMatrix();
 
-    Matrix4 matFinal = Transpose(matworld * matView * matProj);
-    
     TransformData transformData;
     transformData.world = Transpose(matworld);
-    transformData.wvp = matFinal;
+    transformData.wvp = Transpose(matworld * matView * matProj);
     transformData.viewPosition = mCamera->GetPosition();
 
     mTransformBuffer.Update(transformData);
     mLightingtBuffer.Update(*mDirectionalLight);
+    mMaterialBuffer.Update(renderObject.material);
 
     auto tm = TextureManager::Get();
     tm->BindPS(renderObject.diffuseMapId, 0);
+    tm->BindPS(renderObject.normalMap, 1);
 
     renderObject.meshBuffer.Render();
 }
