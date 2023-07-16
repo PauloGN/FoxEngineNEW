@@ -32,7 +32,7 @@ void FoxEngine::Graphics::ConstantBuffer::Terminate()
 	SafeRelease(mConstantBuffer);
 }
 
-void FoxEngine::Graphics::ConstantBuffer::Update(const void* data)
+void FoxEngine::Graphics::ConstantBuffer::Update(const void* data) const
 {
 	auto context = GraphicsSystem::Get()->GetContext();
 	context->UpdateSubresource(mConstantBuffer, 0, nullptr, data, 0,0);
@@ -44,7 +44,7 @@ void FoxEngine::Graphics::ConstantBuffer::BindVS(uint32_t slot) const
 	context->VSSetConstantBuffers(slot, 1, &mConstantBuffer);
 }
 
-void FoxEngine::Graphics::ConstantBuffer::BindPS(uint32_t slot)
+void FoxEngine::Graphics::ConstantBuffer::BindPS(uint32_t slot) const
 {
 	auto context = GraphicsSystem::Get()->GetContext();
 	context->PSSetConstantBuffers(slot, 1, &mConstantBuffer);

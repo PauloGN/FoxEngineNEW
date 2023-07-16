@@ -132,6 +132,8 @@ void FoxEngine::Graphics::GraphicsSystem::BeginRender()
 
 void FoxEngine::Graphics::GraphicsSystem::EndRender()
 {
+	//Tell D3D to draw and wait...vertical sync
+	//If vsync is false it is not going to sync with monitor it will keep loopint and drawing
 	mSwapChain->Present(mVSync, 0);
 }
 

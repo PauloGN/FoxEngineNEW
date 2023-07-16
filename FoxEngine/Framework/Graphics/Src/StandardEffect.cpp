@@ -13,7 +13,12 @@ using namespace  FoxEngine::FoxMath;
 
 void FoxEngine::Graphics::StandardEffect::Initialize(const std::filesystem::path& filePath)
 {
-    mTransformBuffer.Initialize(sizeof(Matrix4));
+    //HLSL size of data init
+    mTransformBuffer.Initialize();
+    mLightingtBuffer.Initialize();
+    mMaterialBuffer.Initialize();
+    mSettingsBuffer.Initialize();
+
     mVertexShader.Initialize<Vertex>(filePath);
     mPixelShader.Initialize(filePath);
     mSampler.Initialize(Sampler::Filter::Linear, Sampler::AddressMode::Wrap);
@@ -24,6 +29,10 @@ void FoxEngine::Graphics::StandardEffect::Terminate()
     mSampler.Terminate();
     mPixelShader.Terminate();
     mVertexShader.Terminate();
+
+    mSettingsBuffer.Terminate();
+    mMaterialBuffer.Terminate();
+    mLightingtBuffer.Terminate();
     mTransformBuffer.Terminate();
 }
 
@@ -36,6 +45,13 @@ void FoxEngine::Graphics::StandardEffect::Begin()
 
     mTransformBuffer.BindVS(0);
 
+    mLightingtBuffer.BindVS(1);
+    mLightingtBuffer.BindPS(1);
+
+    mMaterialBuffer.BindPS(2);
+
+    mSettingsBuffer.BindPS(3);
+
     mSampler.BindVS(0);
     mSampler.BindPS(0);
 }
@@ -43,7 +59,7 @@ void FoxEngine::Graphics::StandardEffect::Begin()
 void FoxEngine::Graphics::StandardEffect::End()
 {
     //Future implementation
-    Texture::UnbindPS(0);
+   // Texture::UnbindPS(0);
 }
 
 void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObject)
@@ -52,11 +68,24 @@ void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObjec
     const Matrix4& matView = mCamera->GetViewMatrix();
     const Matrix4& matProj = mCamera->GetProjectionMatrix();
 
-    Matrix4 matFinal = Transpose(matworld * matView * matProj);
-    mTransformBuffer.Update(&matFinal);
+    TransformData transformData;
+    transformData.world = Transpose(matworld);
+    transformData.wvp = Transpose(matworld * matView * matProj);
+    transformData.viewPosition = mCamera->GetPosition();
+
+    mTransformBuffer.Update(transformData);
+    mLightingtBuffer.Update(*mDirectionalLight);
+    mMaterialBuffer.Update(renderObject.material);
+
+    SettingsData settingsData;
+    settingsData.useDiffuseMap = mSettingsData.useDiffuseMap > 0 && renderObject.diffuseMapId != 0;
+    settingsData.useNormalMap = mSettingsData.useNormalMap > 0 && renderObject.normalMapId != 0;
+
+    mSettingsBuffer.Update(settingsData);
 
     auto tm = TextureManager::Get();
     tm->BindPS(renderObject.diffuseMapId, 0);
+    tm->BindPS(renderObject.normalMapId, 1);
 
     renderObject.meshBuffer.Render();
 }
@@ -66,10 +95,24 @@ void FoxEngine::Graphics::StandardEffect::SetCamera(const Camera& camera)
     mCamera = &camera;
 }
 
+void FoxEngine::Graphics::StandardEffect::SetDirectionalLight(const DirectionalLight& dirLight)
+{
+    mDirectionalLight = &dirLight;
+}
+
 void FoxEngine::Graphics::StandardEffect::DebugUI()
 {
-    if (ImGui::CollapsingHeader("Standard##Effect"), ImGuiTreeNodeFlags_DefaultOpen)
+    if (ImGui::CollapsingHeader("StandardEffect##"), ImGuiTreeNodeFlags_DefaultOpen)
     {
-
+        bool useDiffuseMap = mSettingsData.useDiffuseMap > 0;
+        bool useNormalMap = mSettingsData.useNormalMap > 0;
+        if (ImGui::Checkbox("Use Diffuse Map##", &useDiffuseMap))
+        {
+            mSettingsData.useDiffuseMap = (useDiffuseMap)? 1 : 0;
+        }
+        if (ImGui::Checkbox("Use Normal Map##", &useNormalMap))
+        {
+            mSettingsData.useNormalMap = (useNormalMap) ? 1 : 0;
+        }
     }
 }

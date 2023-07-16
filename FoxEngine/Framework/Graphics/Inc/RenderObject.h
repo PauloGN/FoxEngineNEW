@@ -1,4 +1,5 @@
 #pragma once
+#include "Material.h"
 #include "MeshBuffer.h"
 #include "Transform.h"
 #include "TextureManager.h"
@@ -9,10 +10,15 @@ namespace FoxEngine::Graphics
 	{
 	public:
 
-		void Terminate();
+		void Terminate()
+		{
+			meshBuffer.Terminate();
+		}
 
 		Transform transform;
-		MeshBuffer meshBuffer;
+		Material material;
 		TextureId diffuseMapId;
+		TextureId normalMapId;
+		MeshBuffer meshBuffer;
 	};
 }

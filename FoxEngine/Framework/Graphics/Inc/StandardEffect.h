@@ -1,6 +1,8 @@
 #pragma once
 
 #include "ConstantBuffer.h"
+#include "LightType.h"
+#include "Material.h"
 #include "PixelShader.h"
 #include "Sampler.h"
 #include "VertexShader.h"
@@ -27,16 +29,44 @@ namespace  FoxEngine::Graphics
 		void Render(const RenderObject& renderObject);
 		//Set the camera that is going to see the object
 		void SetCamera(const Camera& camera);
+		void SetDirectionalLight(const DirectionalLight& dirLight);
 
 		void DebugUI();
 
 	private:
 
-		ConstantBuffer mTransformBuffer;
+		//HLSL data
+		struct TransformData
+		{
+			FoxMath::Matrix4 world;
+			FoxMath::Matrix4 wvp;
+			FoxMath::Vector3 viewPosition;
+			float padding = 0.0f;
+		};
+
+		struct SettingsData 
+		{
+			int useDiffuseMap = 1;
+			int useNormalMap = 1;
+			int padding[2] = {0};
+		};
+
+		using TransformBuffer = TypedConstantBuffer<TransformData>;
+		using LightingBuffer = TypedConstantBuffer<DirectionalLight>;
+		using MaterialBuffer = TypedConstantBuffer<Material>;
+		using SettingsBuffer = TypedConstantBuffer<SettingsData>;
+
+		TransformBuffer mTransformBuffer;
+		LightingBuffer mLightingtBuffer;
+		MaterialBuffer mMaterialBuffer;
+		SettingsBuffer mSettingsBuffer;
+
 		VertexShader mVertexShader;
 		PixelShader mPixelShader;
 		Sampler mSampler;
+		SettingsData mSettingsData;
 
 		const Camera* mCamera = nullptr;
+		const DirectionalLight* mDirectionalLight = nullptr;
 	};
 }

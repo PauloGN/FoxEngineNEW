@@ -81,6 +81,12 @@
     <ClInclude Include="Inc\TextureManager.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\Material.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\LightType.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -123,9 +129,6 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\RenderTarget.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\RenderObject.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\SimpleEffect.cpp">
