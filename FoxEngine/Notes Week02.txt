@@ -4,3 +4,8 @@
  The pixel shader is an essential component for achieving various visual effects and
  controlling the appearance of rendered images or scenes.
 
+Week 03
+
+specular map --> RenderObject.h
+initialize on GameState.cpp
+standardEffect.pp tm.Bind()

@@ -10,10 +10,10 @@ void GameState::Initialize()
 	mCamera.SetPosition(FoxMath::Vector3(0.f, 1.f, -3.f));//Offset back in z
 	mCamera.SetLookAt(FoxMath::Vector3(0.f));
 
-	//Lights
+	//Lights default value
 	mDirectionalLight.direction = FoxMath::Normalize({ 1.0f, -1.0f, 1.0f });
-	mDirectionalLight.ambient = { 0.4f, 0.4f, 0.4f, 1.0f };
-	mDirectionalLight.diffuse = { 0.7f, 0.7f, 0.7f, 1.0f };
+	mDirectionalLight.ambient = { 0.2f, 0.2f, 0.2f, 1.0f };
+	mDirectionalLight.diffuse = { 0.4f, 0.4f, 0.4f, 1.0f };
 	mDirectionalLight.specular = {0.9f, 0.9f, 0.9f, 1.0f};
 
 	//Standard - Camera - light
@@ -23,20 +23,45 @@ void GameState::Initialize()
 	mStandardEffect.SetDirectionalLight(mDirectionalLight);
 
 	//Initialize render object
-	Mesh earth = MeshBuilder::CreateSphere(30, 30, 1.0f);
+	auto tm = TextureManager::Get();
+	Mesh earth = MeshBuilder::CreateSphere(90, 90, 1.0f);
 	mRenderObject.meshBuffer.Initialize(earth);
-	mRenderObject.diffuseMapId = TextureManager::Get()->LoadTexture("earth.jpg");
-	mRenderObject.normalMapId = TextureManager::Get()->LoadTexture("earth_normal.jpg");
+	mRenderObject.diffuseMapId = tm->LoadTexture("earth.jpg");
+	mRenderObject.normalMapId = tm->LoadTexture("earth_normal.jpg");
+	mRenderObject.bumpMapId = tm->LoadTexture("earth_bump.jpg");
+	mRenderObject.specMapId = tm->LoadTexture("earth_spec.jpg");
+	//mRenderObject.material.ambient = FoxEngine::Colors::Red;
+	//mRenderObject.material.diffuse = FoxEngine::Colors::Red;
+	//mRenderObject.material.specular = FoxEngine::Colors::Red;
+	//mRenderObject.material.emissive = FoxEngine::Colors::Blue;
+
+	//Week03
+	//auto gs = GraphicsSystem::Get();
+	//const auto screenWidth = gs->GetBackBufferWidth();
+	//const auto screenHeight = gs->GetBackBufferHeight();
+
+	const uint32_t size = 512;
+	mRenderTarget.Initialize(size, size, Texture::Format::RGBA_U8);
 }
 
 void GameState::Terminate()
 {
+	mRenderTarget.Terminate();
 	mRenderObject.Terminate();
 	mStandardEffect.Terminate();
 }
 
 void GameState::Render()
 {
+	//Week 3
+	mCamera.SetAspectRatio(1.0f);
+	mRenderTarget.BeginRender();
+		mStandardEffect.Begin();
+			mStandardEffect.Render(mRenderObject);
+		mStandardEffect.End();
+	mRenderTarget.EndRender();
+	mCamera.SetAspectRatio(0.0f);
+
 	mStandardEffect.Begin();
 		mStandardEffect.Render(mRenderObject);
 	mStandardEffect.End();
@@ -55,7 +80,7 @@ void GameState::DebugUI()
 		ImGui::PushID("Light");
 		if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
 		{
-			if (ImGui::DragFloat3("Directional##Light", &mDirectionalLight.direction.x, 0.01f, -1.0f, 1.0f))
+			if (ImGui::DragFloat3("Directional Light##", &mDirectionalLight.direction.x, 0.01f, -1.0f, 1.0f))
 			{
 				mDirectionalLight.direction = FoxMath::Normalize(mDirectionalLight.direction);
 			}
@@ -76,8 +101,17 @@ void GameState::DebugUI()
 		}
 		ImGui::PopID();
 
-		mStandardEffect.DebugUI();
+		ImGui::Text("Render Target");
+		ImGui::Image(
+			mRenderTarget.GetRawData(),
+			{ 128, 128 },
+			{ 0, 0 },
+			{ 1, 1 },
+			{ 1, 1, 1, 1 },
+			{ 1, 1, 1, 1 }
+		);
 
+		mStandardEffect.DebugUI();
 	ImGui::End();
 }
 

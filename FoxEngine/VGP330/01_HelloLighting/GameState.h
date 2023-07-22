@@ -15,6 +15,7 @@ public:
 	void Update(float deltaTime)override;
 	void DebugUI() override;
 
+	//consider to move these to AppState
 	void EngineCameraController(float deltaTime);
 	void EngineFPS(float deltaTime);
 
@@ -27,11 +28,12 @@ protected:
 	//Holds-> ConstantBuffer, VertexShader, PixelShader, Sampler
 	FoxEngine::Graphics::StandardEffect mStandardEffect;
 
-	//Holds-> Transform, MeshBuffer, Texture
-	RenderObject mRenderObject;//this is the obj
+	//Holds-> Transform, MeshBuffer, Texture, Material properties
+	RenderObject mRenderObject;//this is the obj representation
+	RenderTarget mRenderTarget;
 
 	float mTimePassed = 0.0f;
 	float mFPS = 0.0f;
-	int mFrameCount = 0.0f;
+	int mFrameCount = 0;
 };
 

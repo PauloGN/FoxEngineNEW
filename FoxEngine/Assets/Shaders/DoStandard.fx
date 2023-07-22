@@ -1,6 +1,5 @@
 // Description: Simple shader that does transform.
-//Vertex shader
-//PixelShader
+
 cbuffer TransformBuffer : register(b0)
 {
     matrix world;
@@ -23,17 +22,18 @@ cbuffer MaterialBuffer : register(b2)
     float4 materialSpecular;
     float4 materialEmissive;
     float materialPower;
-    float materialNormalIntensity;
 }
 
-cbuffer SettingBuffer : register(b3)
+cbuffer MaterialBuffer : register(b3)
 {
     bool useDiffuseMap;
     bool useNormalMap;
 }
 
+
 Texture2D diffuseMap : register(t0);
 Texture2D normalMap : register(t1);
+Texture2D specularMap : register(t2);
 SamplerState textureSampler : register(s0);
 
 struct VS_INPUT
@@ -57,11 +57,11 @@ struct VS_OUTPUT
 VS_OUTPUT VS(VS_INPUT input)
 {
     VS_OUTPUT output;
-	
+    
     matrix toWorld = world;
     matrix toNDC = wvp;
     float3 localPosition = input.position;
-	
+    
     output.position = mul(float4(localPosition, 1.0f), toNDC);
     output.worldNormal = mul(input.normal, (float3x3) toWorld);
     output.worldTangent = mul(input.tangent, (float3x3) toWorld);
@@ -76,35 +76,36 @@ float4 PS(VS_OUTPUT input) : SV_Target
     float3 n = normalize(input.worldNormal);
     float3 light = normalize(input.dirToLight);
     float3 view = normalize(input.dirToView);
-	
-	// set up normal from map
+    
+    // set up normal from map
     if (useNormalMap)
     {
         float3 t = normalize(input.worldTangent);
         float3 b = normalize(cross(n, t));
-        float3x3 tbnw = float3x3(t, b, n); // coords from map to world space
+        float3x3 tbnw = float3x3(t, b, n);
         float4 normalMapColor = normalMap.Sample(textureSampler, input.texCoord);
         float3 unpackedNormalMap = normalize(float3((normalMapColor.xy * 2.0f) - 1.0f, normalMapColor.z));
-        n = normalize(lerp(n, normalize(mul(unpackedNormalMap, tbnw)), materialNormalIntensity));
+        n = normalize(mul(unpackedNormalMap, tbnw));
     }
-	
-	// ambient color
+    
+    //ambient color
     float4 ambient = lightAmbient * materialAmbient;
-	
-	//diffuse color
+    
+    //diffuse color
     float d = saturate(dot(light, n));
     float4 diffuse = d * lightDiffuse * materialDiffuse;
-	
-	//specular color
+    
+    //Specular color
     float3 r = reflect(-light, n);
     float base = saturate(dot(r, view));
-    float s = pow(base, materialPower); // specular intensity
+    float s = pow(base, materialPower);
     float4 specular = s * lightSpecular * materialSpecular;
-	
-	//Colors from texture
+    
+    //Get color from textures
     float4 diffuseMapColor = (useDiffuseMap) ? diffuseMap.Sample(textureSampler, input.texCoord) : 1.0f;
-	
-	//Combine Colors
-    float4 finalColor = (ambient + diffuse + materialEmissive) * diffuseMapColor + specular;
+    float specularMapColor = specularMap.Sample(textureSampler, input.texCoord).r;
+    
+    //Combine color for final result
+    float4 finalColor = (ambient + diffuse + materialEmissive) * diffuseMapColor + (specular * specularMapColor);
     return finalColor;
 }
