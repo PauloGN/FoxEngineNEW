@@ -12,8 +12,8 @@ void GameState::Initialize()
 
 	//Lights default value
 	mDirectionalLight.direction = FoxMath::Normalize({ 1.0f, -1.0f, 1.0f });
-	mDirectionalLight.ambient = { 0.4f, 0.4f, 0.4f, 1.0f };
-	mDirectionalLight.diffuse = { 0.7f, 0.7f, 0.7f, 1.0f };
+	mDirectionalLight.ambient = { 0.2f, 0.2f, 0.2f, 1.0f };
+	mDirectionalLight.diffuse = { 0.4f, 0.4f, 0.4f, 1.0f };
 	mDirectionalLight.specular = {0.9f, 0.9f, 0.9f, 1.0f};
 
 	//Standard - Camera - light
@@ -30,6 +30,10 @@ void GameState::Initialize()
 	mRenderObject.normalMapId = tm->LoadTexture("earth_normal.jpg");
 	mRenderObject.bumpMapId = tm->LoadTexture("earth_bump.jpg");
 	mRenderObject.specMapId = tm->LoadTexture("earth_spec.jpg");
+	//mRenderObject.material.ambient = FoxEngine::Colors::Red;
+	//mRenderObject.material.diffuse = FoxEngine::Colors::Red;
+	//mRenderObject.material.specular = FoxEngine::Colors::Red;
+	//mRenderObject.material.emissive = FoxEngine::Colors::Blue;
 
 	//Week03
 	//auto gs = GraphicsSystem::Get();

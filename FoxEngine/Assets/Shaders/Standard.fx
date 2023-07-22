@@ -30,6 +30,7 @@ cbuffer SettingslBuffer : register(b3)
     bool useNormalMap;
     bool useBumpMap;
     bool useSpecMap;
+    bool useCelShading;
     float bumpWeight;
 }
 
@@ -102,19 +103,33 @@ float4 PS(VS_OUTPUT input) : SV_Target
     
     //diffuse color
     float d = saturate(dot(light, n));
-    float4 diffuse = d * lightDiffuse * materialDiffuse;
+    float dIntensity = (useCelShading) ? smoothstep(0.005f, 0.01f, d): d;
+    float4 diffuse = dIntensity * lightDiffuse * materialDiffuse;
     
     //Specular color
     float3 r = reflect(-light, n);
     float base = saturate(dot(r, view));
     float s = pow(base, materialPower);
-    float4 specular = s * lightSpecular * materialSpecular;
+    float sIntensity = (useCelShading) ? smoothstep(0.005f, 0.01f, s) : s;
+    float4 specular = sIntensity * lightSpecular * materialSpecular;
+    
+    //emissive color
+    float4 emissive = materialEmissive;
+    if (useCelShading)
+    {
+        float edgeThickness = 0.85f;
+        float edgeThreshold = 0.01f;
+        float e = 1.0f - saturate(dot(view, n));
+        float eIntensity = e * pow(d, edgeThreshold);
+        eIntensity = smoothstep(edgeThickness - 0.01f, edgeThickness + 0.01f, eIntensity);
+        emissive = eIntensity * materialEmissive;
+    }
     
     //Get color from textures
     float4 diffuseMapColor = (useDiffuseMap) ? diffuseMap.Sample(textureSampler, input.texCoord) : 1.0f;
     float4 specMapColor = (useSpecMap) ? specMap.Sample(textureSampler, input.texCoord).r : 1.0f;
     
     //Combine color for final result
-    float4 finalColor = (ambient + diffuse + materialEmissive) * diffuseMapColor + (specular * specMapColor);
+    float4 finalColor = (ambient + diffuse + emissive) * diffuseMapColor + (specular * specMapColor);
     return finalColor;
 }

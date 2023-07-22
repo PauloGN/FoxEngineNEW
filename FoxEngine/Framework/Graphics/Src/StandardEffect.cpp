@@ -83,6 +83,7 @@ void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObjec
     settingsData.useNormalMap = mSettingsData.useNormalMap > 0 && renderObject.normalMapId != 0;
     settingsData.useBumpMap = mSettingsData.useBumpMap > 0 && renderObject.bumpMapId != 0;
     settingsData.useSpecMap = mSettingsData.useSpecMap > 0 && renderObject.specMapId != 0;
+    settingsData.useCelShading = mSettingsData.useCelShading;
     settingsData.bumpWeigh = mSettingsData.bumpWeigh;
 
     mSettingsBuffer.Update(settingsData);
@@ -108,7 +109,7 @@ void FoxEngine::Graphics::StandardEffect::SetDirectionalLight(const DirectionalL
 
 void FoxEngine::Graphics::StandardEffect::DebugUI()
 {
-    if (ImGui::CollapsingHeader("StandardEffect##"), ImGuiTreeNodeFlags_DefaultOpen)
+    if (ImGui::CollapsingHeader("Standard Effect##"), ImGuiTreeNodeFlags_DefaultOpen)
     {
         bool useDiffuseMap = mSettingsData.useDiffuseMap > 0;
         if (ImGui::Checkbox("Use Diffuse Map##", &useDiffuseMap))
@@ -133,6 +134,11 @@ void FoxEngine::Graphics::StandardEffect::DebugUI()
         if (ImGui::Checkbox("Use Specular Map##", &useSpecMap))
         {
             mSettingsData.useSpecMap = (useSpecMap) ? 1 : 0;
+        }
+        bool useCelShading = mSettingsData.useCelShading > 0;
+        if (ImGui::Checkbox("Use Cel Shading##", &useCelShading))
+        {
+            mSettingsData.useCelShading = (useCelShading) ? 1 : 0;
         }
     }
 }
