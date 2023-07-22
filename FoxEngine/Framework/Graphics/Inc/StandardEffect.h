@@ -47,9 +47,9 @@ namespace  FoxEngine::Graphics
 		struct SettingsData 
 		{
 			int useDiffuseMap = 1;
-			int useNormalMap = 1;
-			int useBumpMap = 1;
-			int useSpecMap = 1;
+			int useNormalMap = 0;
+			int useBumpMap = 0;
+			int useSpecMap = 0;
 			float bumpWeigh = 0.1f;
 			float padding[3] = {0.0f};
 		};

@@ -125,12 +125,14 @@ void FoxEngine::Graphics::StandardEffect::DebugUI()
         {
             mSettingsData.useBumpMap = (useBumpMap) ? 1 : 0;
         }  
+        if (useBumpMap)
+        {
+            ImGui::DragFloat("BumpWeight##",&mSettingsData.bumpWeigh, 0.1f, 0.0f, 2.0f );
+        }
         bool useSpecMap = mSettingsData.useSpecMap > 0;
         if (ImGui::Checkbox("Use Specular Map##", &useSpecMap))
         {
             mSettingsData.useSpecMap = (useSpecMap) ? 1 : 0;
         }
-
-        ImGui::DragFloat("BumpWeight##",&mSettingsData.bumpWeigh, 0.1f, 0.0f, 2.0f );
     }
 }

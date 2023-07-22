@@ -21,7 +21,7 @@ namespace FoxEngine::Graphics
 		TextureId diffuseMapId;
 		TextureId normalMapId;
 		TextureId bumpMapId;
-		TextureId specMapId;//********
+		TextureId specMapId;
 
 		MeshBuffer meshBuffer;
 	};
