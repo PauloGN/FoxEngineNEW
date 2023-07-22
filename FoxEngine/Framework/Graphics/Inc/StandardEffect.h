@@ -48,7 +48,10 @@ namespace  FoxEngine::Graphics
 		{
 			int useDiffuseMap = 1;
 			int useNormalMap = 1;
-			int padding[2] = {0};
+			int useBumpMap = 1;
+			int useSpecMap = 1;
+			float bumpWeigh = 0.1f;
+			float padding[3] = {0.0f};
 		};
 
 		using TransformBuffer = TypedConstantBuffer<TransformData>;

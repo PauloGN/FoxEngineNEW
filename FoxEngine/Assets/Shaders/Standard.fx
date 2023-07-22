@@ -24,15 +24,20 @@ cbuffer MaterialBuffer : register(b2)
     float materialPower;
 }
 
-cbuffer MaterialBuffer : register(b3)
+cbuffer SettingslBuffer : register(b3)
 {
     bool useDiffuseMap;
     bool useNormalMap;
+    bool useBumpMap;
+    bool useSpecMap;
+    float bumpWeight;
 }
-
 
 Texture2D diffuseMap : register(t0);
 Texture2D normalMap : register(t1);
+Texture2D bumpMap : register(t2);
+Texture2D specMap : register(t3);
+
 SamplerState textureSampler : register(s0);
 
 struct VS_INPUT
@@ -60,6 +65,11 @@ VS_OUTPUT VS(VS_INPUT input)
     matrix toWorld = world;
     matrix toNDC = wvp;    
     float3 localPosition = input.position;
+    if (useBumpMap)
+    {
+        float bumpColor = (2.0f * bumpMap.SampleLevel(textureSampler, input.texCoord, 0.0f).r) - 1.0f;
+        localPosition += (input.normal *  bumpColor * bumpWeight);    
+    }
     
     output.position = mul(float4(localPosition, 1.0f), toNDC);
     output.worldNormal = mul(input.normal, (float3x3) toWorld);
@@ -102,8 +112,9 @@ float4 PS(VS_OUTPUT input) : SV_Target
     
     //Get color from textures
     float4 diffuseMapColor = (useDiffuseMap) ? diffuseMap.Sample(textureSampler, input.texCoord) : 1.0f;
+    float4 specMapColor = (useSpecMap) ? specMap.Sample(textureSampler, input.texCoord).r : 1.0f;
     
     //Combine color for final result
-    float4 finalColor = (ambient + diffuse + materialEmissive) * diffuseMapColor + specular;
+    float4 finalColor = (ambient + diffuse + materialEmissive) * diffuseMapColor + (specular * specMapColor);
     return finalColor;
 }
