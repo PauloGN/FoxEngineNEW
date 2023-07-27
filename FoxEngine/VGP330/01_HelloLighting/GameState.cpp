@@ -101,6 +101,14 @@ void GameState::DebugUI()
 		}
 		ImGui::PopID();
 
+		ImGui::PushID("Transform");
+		if (ImGui::CollapsingHeader("Earth Transform", ImGuiTreeNodeFlags_DefaultOpen))
+		{
+			ImGui::DragFloat3("Position", &mRenderObject.transform.position.x, 0.02f, -10.0f, 10.0f);
+			ImGui::DragFloat3("Rotation", &mRenderObject.transform.vrotation.x, 0.02f, -10.0f, 10.0f);
+		}
+		ImGui::PopID();
+
 		ImGui::Text("Render Target");
 		ImGui::Image(
 			mRenderTarget.GetRawData(),
