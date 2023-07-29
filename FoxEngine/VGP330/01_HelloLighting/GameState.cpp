@@ -24,7 +24,7 @@ void GameState::Initialize()
 
 	//Initialize render object
 	auto tm = TextureManager::Get();
-	Mesh earth = MeshBuilder::CreateSphere(90, 90, 1.0f);
+	Mesh earth = MeshBuilder::CreateSphere(180, 180, 1.0f);
 	mRenderObject.meshBuffer.Initialize(earth);
 	mRenderObject.diffuseMapId = tm->LoadTexture("earth.jpg");
 	mRenderObject.normalMapId = tm->LoadTexture("earth_normal.jpg");
@@ -53,8 +53,8 @@ void GameState::Terminate()
 
 void GameState::Render()
 {
-	//Week 3
-	mCamera.SetAspectRatio(1.0f);
+	//Render target
+	mCamera.SetAspectRatio(1.0f);//Ignore screen and take a squared apect ratio
 	mRenderTarget.BeginRender();
 		mStandardEffect.Begin();
 			mStandardEffect.Render(mRenderObject);
@@ -62,9 +62,11 @@ void GameState::Render()
 	mRenderTarget.EndRender();
 	mCamera.SetAspectRatio(0.0f);
 
+	//Render object
 	mStandardEffect.Begin();
 		mStandardEffect.Render(mRenderObject);
 	mStandardEffect.End();
+
 }
 
 void GameState::DebugUI()

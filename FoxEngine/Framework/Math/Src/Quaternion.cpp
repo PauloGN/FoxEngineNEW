@@ -107,4 +107,5 @@ namespace FoxEngine::FoxMath
             (q1.w * scale0) + (q2.w * scale1)
         );
     }
+
 }

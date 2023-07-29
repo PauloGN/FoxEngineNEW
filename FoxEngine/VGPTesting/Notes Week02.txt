@@ -9,3 +9,5 @@ Week 03
 specular map --> RenderObject.h
 initialize on GameState.cpp
 standardEffect.pp tm.Bind()
+
+Renderobject --> Transform --> has (Quaternion rotation and vector rotation);

@@ -1,6 +1,5 @@
 #pragma once
 
-
 namespace FoxEngine::Graphics
 {
 	class BlendState final
@@ -31,6 +30,5 @@ namespace FoxEngine::Graphics
 	private:
 
 		ID3D11BlendState* mBlendState = nullptr;
-
 	};
 }

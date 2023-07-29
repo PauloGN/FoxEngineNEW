@@ -132,6 +132,16 @@ namespace FoxEngine::FoxMath
 		return { x, y, z };
 	}
 
+	inline Vector3 quaternionToVector3(const Quaternion& q)
+	{
+		Vector3 v;
+
+		v.x = 2 * (q.x * q.z - q.w * q.y);
+		v.y = 2 * (q.y * q.z + q.w * q.x);
+		v.z = 1 - 2 * (q.x * q.x + q.y * q.y);
+
+		return v;
+	}
 
 	//Vector 4
 
