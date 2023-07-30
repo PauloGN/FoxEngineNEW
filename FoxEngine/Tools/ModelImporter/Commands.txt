@@ -1,0 +1,7 @@
+-scale 0.01 ../../Assets/Models/Character/Character01.fbx ../../Assets/Models/Character/Character01.model
+
+-scale 0.01 ../../Assets/Models/Character/AlienMan.fbx ../../Assets/Models/Character/AlienMan.model
+
+
+
+
