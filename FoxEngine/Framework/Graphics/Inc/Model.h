@@ -25,6 +25,6 @@ namespace FoxEngine::Graphics
 		};
 
 		std::vector<MeshData> meshData;
-		std::vector<MaterialData> mateiralData;
+		std::vector<MaterialData> materialData;
 	};
 }

@@ -6,7 +6,6 @@
 
 #include <cstdio>
 
-
 using namespace FoxEngine;
 using namespace FoxEngine::Graphics;
 using namespace FoxEngine::FoxMath;
@@ -179,7 +178,6 @@ std::string FindTexture(const aiScene* scene, const aiMaterial* aiMaterial, aiTe
 
 int main(int argc, char* argv[])
 {
-
 	const auto argOpt = ParseArgs(argc, argv);
 
 	if (argOpt.has_value() == false)
@@ -262,7 +260,7 @@ int main(int argc, char* argv[])
 		printf("Reading material data...\n");
 
 		const uint32_t numMaterial = scene->mNumMaterials;
-		model.mateiralData.reserve(numMaterial);
+		model.materialData.reserve(numMaterial);
 
 		for (uint32_t materialIndex = 0; materialIndex < numMaterial; ++materialIndex)
 		{
@@ -276,7 +274,7 @@ int main(int argc, char* argv[])
 			aiMaterial->Get(AI_MATKEY_COLOR_SPECULAR, specular);
 			aiMaterial->Get(AI_MATKEY_SHININESS, specularPower);
 
-			auto& materialData = model.mateiralData.emplace_back();
+			auto& materialData = model.materialData.emplace_back();
 			materialData.material.ambient = ToColor(ambient);
 			materialData.material.diffuse = ToColor(diffuse);
 			materialData.material.emissive = ToColor(emissive);
