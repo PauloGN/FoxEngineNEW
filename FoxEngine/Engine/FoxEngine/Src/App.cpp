@@ -40,7 +40,7 @@ void App::Run(const FoxEngine::AppConfig& config)
 	DebugUI::StaticInitialize(handle, false, true);
 	SimpleDraw::StaticInitialize(config.debugDrawLimit);
 	TextureManager::StaticInitialize("../../Assets/Textures/");
-
+	ModelManager::StaticInitialize();
 
 	//States ***** Week 3
 	ASSERT(mCurrentState != nullptr, "App need an app state");
@@ -87,6 +87,7 @@ void App::Run(const FoxEngine::AppConfig& config)
 	}
 
 	// terminate static classes
+	ModelManager::StaticTerminate();
 	TextureManager::StaticTerminate();
 	mCurrentState->Terminate();
 

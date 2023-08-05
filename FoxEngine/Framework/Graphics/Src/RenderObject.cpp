@@ -11,7 +11,21 @@ void FoxEngine::Graphics::RenderObject::Terminate()
 	normalMapId = 0;
 	bumpMapId = 0;
 	specMapId = 0;
+	modelId = 0;
 	meshBuffer.Terminate();
+}
+
+RenderGroup FoxEngine::Graphics::CreateRenderGroup(ModelId modelId)
+{
+	auto model = ModelManager::Get()->GetModel(modelId);
+	ASSERT(model != nullptr, "RenderGroup: ModelId %d is not loaded", modelId);
+	RenderGroup renderGroup = CreateRenderGroup(*model);
+
+	for (auto& renderObject : renderGroup)
+	{
+		renderObject.modelId = modelId;
+	}
+	return renderGroup;
 }
 
 RenderGroup FoxEngine::Graphics::CreateRenderGroup(const Model& model)

@@ -28,10 +28,8 @@ void GameState::Initialize()
 	mStandardEffect.SetDirectionalLight(mDirectionalLight);
 
 	//Find char model and load
-	Model model;
-	ModelIO::loadModel("../../Assets/Models/Character/AlienMan.model", model);
-	ModelIO::loadMaterial("../../Assets/Models/Character/AlienMan.material", model);
-	mAlien = CreateRenderGroup(model);
+	ModelId modelId = ModelManager::Get()->LoadModel("../../Assets/Models/Character/AlienMan.model");
+	mAlien = CreateRenderGroup(modelId);
 }
 
 void GameState::Terminate()

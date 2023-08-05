@@ -3,6 +3,7 @@
 #include "MeshBuffer.h"
 #include "Transform.h"
 #include "TextureManager.h"
+#include "ModelManager.h"
 
 namespace FoxEngine::Graphics
 {
@@ -22,11 +23,14 @@ namespace FoxEngine::Graphics
 		TextureId bumpMapId;
 		TextureId specMapId;
 
+		ModelId modelId = 0;
+
 		MeshBuffer meshBuffer;
 	};
 
 	using RenderGroup = std::vector<RenderObject>;
-	[[nodiscard]]RenderGroup CreateRenderGroup(const Model& model);
+	[[nodiscard]]RenderGroup CreateRenderGroup(ModelId modelId);
+	[[nodiscard]] RenderGroup CreateRenderGroup(const Model& model);
 	void CleanupRenderGroup(RenderGroup& renderGroup);
 
 	template<class Effect>
