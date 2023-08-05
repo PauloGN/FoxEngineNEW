@@ -4,10 +4,15 @@ using namespace FoxEngine;
 using namespace FoxEngine::Input;
 using namespace FoxEngine::Graphics;
 
+namespace
+{
+	bool bRotateChar = false;
+}
+
 void GameState::Initialize()
 {
 	//Initialize camera
-	mCamera.SetPosition(FoxMath::Vector3(0.f, 1.f, -3.f));//Offset back in z
+	mCamera.SetPosition(FoxMath::Vector3(0.f, 3.f, -3.f));//Offset back in z
 	mCamera.SetLookAt(FoxMath::Vector3(0.f));
 
 	//Lights default value
@@ -41,6 +46,9 @@ void GameState::Render()
 	mStandardEffect.Begin();
 		DrawrenderGroup(mStandardEffect, mAlien);
 	mStandardEffect.End();
+
+	SimpleDraw::AddGroundPlane(20.0f, Colors::LightBlue);
+	SimpleDraw::Render(mCamera);
 }
 
 void GameState::DebugUI()
@@ -77,6 +85,18 @@ void GameState::Update(float deltaTime)
 	EngineCameraController(deltaTime);
 	//FPS
 	EngineFPS(deltaTime);
+
+	if (Input::InputSystem::Get()->IsKeyPressed(KeyCode::SPACE))
+	{
+		bRotateChar = !bRotateChar;
+	}
+	if (bRotateChar)
+	{
+		for (auto& a : mAlien)
+		{
+			a.transform.vrotation.y += 1 * deltaTime;
+		}
+	}
 }
 
 void GameState::EngineCameraController(float deltaTime)
