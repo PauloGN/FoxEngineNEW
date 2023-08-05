@@ -34,7 +34,7 @@ void FoxEngine::Graphics::ModelIO::SaveModel(std::filesystem::path filePath, con
 
 		for (auto& v : mesh.vertices)
 		{
-			fprintf_s(file, "%f %f %f %f %f %f %f %f %f %f %f \n",
+			fprintf_s(file, "%f %f %f %f %f %f %f %f %f %f %f\n",
 				v.position.x, v.position.y, v.position.z,
 				v.normal.x, v.normal.y, v.normal.z,
 				v.tangent.x, v.tangent.y, v.tangent.z,
