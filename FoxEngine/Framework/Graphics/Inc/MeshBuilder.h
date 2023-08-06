@@ -17,6 +17,7 @@ namespace FoxEngine::Graphics
 		static MeshPC CreateRectPC(float width, float height, float depth, const Color& color);	
 		static MeshPX CreateRectPX(float width, float height, float depth);
 		//Plane
+		static Mesh CreateGroundPlane(float numRows, int numColums, float spacing);
 		static MeshPC CreatePlanePC(float numRows, int numColums, float spacing);
 		static MeshPX CreatePlanePX(uint32_t numRows, uint32_t numColums, float spacing);//**********
 		//CylinderPC
