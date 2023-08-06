@@ -30,11 +30,21 @@ void GameState::Initialize()
 	//Find char model and load
 	ModelId modelId = ModelManager::Get()->LoadModel("../../Assets/Models/Character/AlienMan.model");
 	mAlien = CreateRenderGroup(modelId);
+
+	Mesh groundMesh = MeshBuilder::CreateGroundPlane(20,20,1.0f);
+	mGround.meshBuffer.Initialize(groundMesh);
+	mGround.diffuseMapId = TextureManager::Get()->LoadTexture(L"misc/concrete.jpg");
+	mGround.material.ambient = { 0.3f, 0.3f, 0.3f, 1.0f };
+	mGround.material.diffuse = { 0.3f, 0.3f, 0.3f, 1.0f };
+	mGround.material.specular = { 0.3f, 0.3f, 0.3f, 1.0f };
+	mGround.material.power = 20.0f;
+
 }
 
 void GameState::Terminate()
 {
 	CleanupRenderGroup(mAlien);
+	mGround.Terminate();
 	mStandardEffect.Terminate();
 }
 
@@ -43,10 +53,11 @@ void GameState::Render()
 	//Render object
 	mStandardEffect.Begin();
 		DrawrenderGroup(mStandardEffect, mAlien);
+		mStandardEffect.Render(mGround);
 	mStandardEffect.End();
 
-	SimpleDraw::AddGroundPlane(20.0f, Colors::LightBlue);
-	SimpleDraw::Render(mCamera);
+	//SimpleDraw::AddGroundPlane(20.0f, Colors::LightBlue);
+	//SimpleDraw::Render(mCamera);
 }
 
 void GameState::DebugUI()

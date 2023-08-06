@@ -25,6 +25,7 @@ protected:
 	DirectionalLight mDirectionalLight;
 	StandardEffect mStandardEffect;
 	RenderGroup mAlien;
+	RenderObject mGround;
 
 	float mTimePassed = 0.0f;
 	float mFPS = 0.0f;
