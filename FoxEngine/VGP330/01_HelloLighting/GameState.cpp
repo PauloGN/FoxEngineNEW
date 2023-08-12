@@ -35,37 +35,53 @@ void GameState::Initialize()
 	//mRenderObject.material.specular = FoxEngine::Colors::Red;
 	//mRenderObject.material.emissive = FoxEngine::Colors::Blue;
 
-	//Week03
-	//auto gs = GraphicsSystem::Get();
-	//const auto screenWidth = gs->GetBackBufferWidth();
-	//const auto screenHeight = gs->GetBackBufferHeight();
-
 	const uint32_t size = 512;
 	mRenderTarget.Initialize(size, size, Texture::Format::RGBA_U8);
+
+	//Standard cloud - Camera - light
+	std::filesystem::path shaderFileCl = L"../../Assets/Shaders/DoTexturing.fx";
+	mCloudEffect.Initialize(shaderFileCl);
+	mCloudEffect.SetCamera(mCamera);
+	mCloudEffect.SetDirectionalLight(DirectionalLight());
+	//Clouding 
+	//Initialize Cloud
+	Mesh clouds2 = MeshBuilder::CreateSphere(190, 190, 1.04f);
+	mCloudObject2.meshBuffer.Initialize(clouds2);
+	mCloudObject2.diffuseMapId = tm->LoadTexture("earth_clouds.jpg");
+
+	mBlendState.Initialize(FoxEngine::Graphics::BlendState::Mode::Additive);
 }
 
 void GameState::Terminate()
 {
+	mBlendState.Terminate();
 	mRenderTarget.Terminate();
 	mRenderObject.Terminate();
+	mCloudObject2.Terminate();
+	mCloudEffect.Terminate();
 	mStandardEffect.Terminate();
 }
 
 void GameState::Render()
 {
+	mBlendState.Set();
+
 	//Render target
 	mCamera.SetAspectRatio(1.0f);//Ignore screen and take a squared apect ratio
 	mRenderTarget.BeginRender();
 		mStandardEffect.Begin();
 			mStandardEffect.Render(mRenderObject);
+			mCloudEffect.Render(mCloudObject2);
 		mStandardEffect.End();
 	mRenderTarget.EndRender();
 	mCamera.SetAspectRatio(0.0f);
 
-	//Render object
+	////Render object
 	mStandardEffect.Begin();
 		mStandardEffect.Render(mRenderObject);
+		mCloudEffect.Render(mCloudObject2);
 	mStandardEffect.End();
+
 
 }
 
@@ -131,6 +147,11 @@ void GameState::Update(float deltaTime)
 	EngineCameraController(deltaTime);
 	//FPS
 	EngineFPS(deltaTime);
+
+	//Earth rotation
+	mRenderObject.transform.vrotation.y += deltaTime * 0.012;
+	mCloudObject2.transform.position = mRenderObject.transform.position;
+	mCloudObject2.transform.vrotation.y += deltaTime * 0.025;
 }
 
 void GameState::EngineCameraController(float deltaTime)

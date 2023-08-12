@@ -60,7 +60,7 @@ void FoxEngine::Graphics::StandardEffect::Begin()
 void FoxEngine::Graphics::StandardEffect::End()
 {
     //Future implementation
-   // Texture::UnbindPS(0);
+    Texture::UnbindPS(0);
 }
 
 void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObject)
