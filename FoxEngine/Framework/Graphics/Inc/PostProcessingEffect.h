@@ -19,7 +19,7 @@ namespace FoxEngine::Graphics
 		enum class Mode
 		{
 			None,
-			MonoChrome,
+			Monochrome,
 			Invert,
 			Mirror,
 			Blur,
@@ -36,7 +36,7 @@ namespace FoxEngine::Graphics
 		void Render(const RenderObject& renderObject);
 
 		void SetTexture(const Texture* texture, uint32_t slot = 0);
-		void SetMode() {}
+		void SetMode(Mode mode);
 
 		void DebugUI();
 
@@ -44,7 +44,7 @@ namespace FoxEngine::Graphics
 
 		struct PostProcessData
 		{
-			Mode mMode = Mode::None;
+			Mode mode = Mode::None;
 			float params[3] = { 0.0f };
 		};
 
@@ -56,5 +56,7 @@ namespace FoxEngine::Graphics
 		Sampler mSampler;
 		//const Texture* mTextures[4];
 		std::array<const Texture*, 4> mTextures;
+
+		Mode mMode = Mode::None;
 	};
 }

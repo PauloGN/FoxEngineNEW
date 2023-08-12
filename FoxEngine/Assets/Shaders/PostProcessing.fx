@@ -1,3 +1,8 @@
+cbuffer PostProcessBuffer : register(b0)
+{
+    int mode;
+    float params[3];
+}
 
 Texture2D textureMap0 : register(t0);
 Texture2D textureMap1 : register(t1);
@@ -29,10 +34,36 @@ VS_OUTPUT VS(VS_INPUT input)
 
 float4 PS(VS_OUTPUT input) : SV_Target
 {
-    float4 finalColor = textureMap0.Sample(textureSampler, input.texcoord);
+    float4 finalColor = 0.0f;
     
-    //finalColor = textureMap0.Sample(textureSampler, input.texcoord);
-
-   
+    if (mode == 0)//None
+    {
+         finalColor = textureMap0.Sample(textureSampler, input.texcoord);
+    }
+    else if (mode == 1)//Monochrome
+    {
+        
+    }
+    else if (mode == 2)//Invert
+    {
+        
+    }
+    else if (mode == 3)//Mirror
+    {
+        
+    }
+    else if (mode == 4)//Blur
+    {
+        
+    }
+    else if (mode == 5)//Combine2
+    {
+        
+    }
+    else if (mode == 6)//MotionBlur
+    {
+        
+    }
+    
     return finalColor;
 }
