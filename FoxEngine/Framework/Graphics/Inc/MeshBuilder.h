@@ -29,6 +29,8 @@ namespace FoxEngine::Graphics
 		//Sky
 		static MeshPX CreateSkyboxPX(float size);
 		static MeshPX CreateSkySpherePX(int slices, int rings, float radius);
+		//Screen
+		static MeshPX CreateScreenQuad();
 
 	};
 }
