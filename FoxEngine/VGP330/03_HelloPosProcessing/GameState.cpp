@@ -30,7 +30,10 @@ void GameState::Initialize()
 	//POST PRO
 	mPostProcessingEffect.Initialize(L"../../Assets/Shaders/PostProcessing.fx");
 	mPostProcessingEffect.SetTexture(&mRenderTarget);
+	mPostProcessingEffect.SetTexture(&mCombineTexture, 1);
 
+	mCombineTexture.Initialize(L"../../Assets/Images/samples/happy.jpg");
+	
 	auto gs = GraphicsSystem::Get();
 	const auto screenWidth = gs->GetBackBufferWidth();
 	const auto screenHeiht = gs->GetBackBufferHeight();
@@ -43,7 +46,7 @@ void GameState::Initialize()
 
 	Mesh groundMesh = MeshBuilder::CreateGroundPlane(20,20,1.0f);
 	mGround.meshBuffer.Initialize(groundMesh);
-	mGround.diffuseMapId = TextureManager::Get()->LoadTexture(L"misc/concrete.jpg");
+	mGround.diffuseMapId = TextureManager::Get()->LoadTexture(L"misc/Ground.jpg");
 	mGround.material.ambient = { 0.3f, 0.3f, 0.3f, 1.0f };
 	mGround.material.diffuse = { 0.3f, 0.3f, 0.3f, 1.0f };
 	mGround.material.specular = { 0.3f, 0.3f, 0.3f, 1.0f };
@@ -55,6 +58,7 @@ void GameState::Initialize()
 
 void GameState::Terminate()
 {
+	mCombineTexture.Terminate();
 	CleanupRenderGroup(mAlien);
 	mGround.Terminate();
 	mRenderTarget.Terminate();

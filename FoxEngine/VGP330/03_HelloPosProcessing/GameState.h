@@ -31,6 +31,7 @@ protected:
 	RenderGroup mAlien;
 	RenderObject mGround;
 	RenderObject mScreenQuad;
+	Texture mCombineTexture;
 
 	float mTimePassed = 0.0f;
 	float mFPS = 0.0f;

@@ -1,7 +1,9 @@
 cbuffer PostProcessBuffer : register(b0)
 {
     int mode;
-    float params[3];
+    float param0;
+    float param1;
+    float param2;
 }
 
 Texture2D textureMap0 : register(t0);
@@ -42,23 +44,44 @@ float4 PS(VS_OUTPUT input) : SV_Target
     }
     else if (mode == 1)//Monochrome
     {
-        
+        float4 color = textureMap0.Sample(textureSampler, input.texcoord);
+        finalColor = (color.r + color.g + color.b) / 3.0f;
     }
     else if (mode == 2)//Invert
     {
-        
+        float4 color = textureMap0.Sample(textureSampler, input.texcoord);
+        finalColor = 1.0f - color;
     }
     else if (mode == 3)//Mirror
     {
-        
+        float2 texCoord = input.texcoord;
+        texCoord.x *= param0;
+        texCoord.y *= param1;
+        finalColor = textureMap0.Sample(textureSampler, texCoord);
     }
     else if (mode == 4)//Blur
     {
+        float u = input.texcoord.x;
+        float v = input.texcoord.y;
+        finalColor =
+        textureMap0.Sample(textureSampler,   float2(u, v))
+        + textureMap0.Sample(textureSampler, float2(u + param0, v))
+        + textureMap0.Sample(textureSampler, float2(u - param0, v))
+        + textureMap0.Sample(textureSampler, float2(u, v + param1))
+        + textureMap0.Sample(textureSampler, float2(u, v - param1))
+        + textureMap0.Sample(textureSampler, float2(u + param0, v + param1));
+        + textureMap0.Sample(textureSampler, float2(u + param0, v - param1));
+        + textureMap0.Sample(textureSampler, float2(u - param0, v + param1));
+        + textureMap0.Sample(textureSampler, float2(u - param0, v - param1));
         
+        finalColor *= 0.15f;
     }
     else if (mode == 5)//Combine2
     {
+        float4 color0 = textureMap0.Sample(textureSampler, input.texcoord);
+        float4 color1 = textureMap1.Sample(textureSampler, input.texcoord);
         
+        finalColor = color0 + color1;
     }
     else if (mode == 6)//MotionBlur
     {

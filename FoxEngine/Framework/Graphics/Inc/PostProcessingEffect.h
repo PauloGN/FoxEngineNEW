@@ -45,7 +45,9 @@ namespace FoxEngine::Graphics
 		struct PostProcessData
 		{
 			Mode mode = Mode::None;
-			float params[3] = { 0.0f };
+			float param0 = { 0.0f };
+			float param1 = { 0.0f };
+			float param2 = { 0.0f };
 		};
 
 		using PostProcessBuffer = TypedConstantBuffer<PostProcessData>;
@@ -58,5 +60,8 @@ namespace FoxEngine::Graphics
 		std::array<const Texture*, 4> mTextures;
 
 		Mode mMode = Mode::None;
+		float mMirrorScaleX = -1.0f;
+		float mMirrorScaleY = -1.0f;
+		float mBlurStrength = 5.0f;
 	};
 }
