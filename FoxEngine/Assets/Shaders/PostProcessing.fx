@@ -81,10 +81,28 @@ float4 PS(VS_OUTPUT input) : SV_Target
         float4 color0 = textureMap0.Sample(textureSampler, input.texcoord);
         float4 color1 = textureMap1.Sample(textureSampler, input.texcoord);
         
-        finalColor = color0 + color1;
+        finalColor = (color0 + color1) * 0.5f;
     }
     else if (mode == 6)//MotionBlur
     {
+        float u = input.texcoord.x;
+        float v = input.texcoord.y;
+        
+        float dist = distance(input.texcoord, float2(0.5f, 0.5f));
+        float weight = saturate(lerp(0.0f, 1.0f, (dist - 0.25f) / 0.25f));
+        
+        finalColor =
+        textureMap0.Sample(textureSampler, float2(u, v))
+        + textureMap0.Sample(textureSampler, float2(u + param0 * weight, v))
+        + textureMap0.Sample(textureSampler, float2(u - param0 * weight, v))
+        + textureMap0.Sample(textureSampler, float2(u, v + param1 * weight))
+        + textureMap0.Sample(textureSampler, float2(u, v - param1 * weight))
+        + textureMap0.Sample(textureSampler, float2(u + param0 * weight, v + param1 * weight));
+        +textureMap0.Sample(textureSampler, float2(u +  param0 * weight, v - param1 * weight));
+        +textureMap0.Sample(textureSampler, float2(u -  param0 * weight, v + param1 * weight));
+        +textureMap0.Sample(textureSampler, float2(u - param0 * weight, v -  param1 *  weight));
+        
+        finalColor *= 0.15f;
         
     }
     

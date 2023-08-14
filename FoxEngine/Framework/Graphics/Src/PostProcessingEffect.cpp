@@ -83,11 +83,17 @@ void FoxEngine::Graphics::PostProcessingEffect::Beging()
 	}
 		break;
 	case Mode::Combine2:
-	{
-
-	}
+	{}
 		break;
 	case Mode::MotionBlur:
+	{
+		auto gs = GraphicsSystem::Get();
+		const auto screenWidth = gs->GetBackBufferWidth();
+		const auto screenHeiht = gs->GetBackBufferHeight();
+
+		data.param0 = mBlurStrength / screenWidth;
+		data.param1 = mBlurStrength / screenHeiht;
+	}
 		break;
 	default:
 		break;
@@ -150,6 +156,7 @@ void FoxEngine::Graphics::PostProcessingEffect::DebugUI()
 		case Mode::Combine2:
 			break;
 		case Mode::MotionBlur:
+			ImGui::DragFloat("Blur Strength##", &mBlurStrength, 1.f, -10.0f, 100.0f);
 			break;
 		default:
 			break;
