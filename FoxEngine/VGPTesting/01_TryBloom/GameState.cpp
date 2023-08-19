@@ -4,10 +4,19 @@ using namespace FoxEngine;
 using namespace FoxEngine::Input;
 using namespace FoxEngine::Graphics;
 
+
+namespace
+{
+
+	float distanceFromSun = 35.0f;
+	float totalTime = 0;
+
+}
+
 void GameState::Initialize()
 {
 	//Initialize camera
-	mCamera.SetPosition(FoxMath::Vector3(0.f, 1.f, -3.f));//Offset back in z
+	mCamera.SetPosition(FoxMath::Vector3(35.f, 1.f, -25.f));//Offset back in z
 	mCamera.SetLookAt(FoxMath::Vector3(0.f));
 
 	//Lights default value
@@ -30,19 +39,19 @@ void GameState::Initialize()
 	mRenderObject.normalMapId = tm->LoadTexture("earth_normal.jpg");
 	mRenderObject.bumpMapId = tm->LoadTexture("earth_bump.jpg");
 	mRenderObject.specMapId = tm->LoadTexture("earth_spec.jpg");
+	mRenderObject.transform.position = { 29.0f,0.0f ,0.0f };
 	//mRenderObject.material.ambient = FoxEngine::Colors::Red;
 	//mRenderObject.material.diffuse = FoxEngine::Colors::Red;
 	//mRenderObject.material.specular = FoxEngine::Colors::Red;
 	//mRenderObject.material.emissive = FoxEngine::Colors::Blue;
 
+	mSunObject.meshBuffer.Initialize(earth);
+	mSunObject.diffuseMapId = tm->LoadTexture("sun.jpg");
+	mSunObject.transform.scale = Vector3(10);
+
 	const uint32_t size = 512;
 	mRenderTarget.Initialize(size, size, Texture::Format::RGBA_U8);
 
-	//Standard cloud - Camera - light
-	std::filesystem::path shaderFileCl = L"../../Assets/Shaders/DoTexturing.fx";
-	mCloudEffect.Initialize(shaderFileCl);
-	mCloudEffect.SetCamera(mCamera);
-	mCloudEffect.SetDirectionalLight(DirectionalLight());
 	//Clouding 
 	//Initialize Cloud
 	Mesh clouds2 = MeshBuilder::CreateSphere(190, 190, 1.04f);
@@ -57,8 +66,8 @@ void GameState::Terminate()
 	mBlendState.Terminate();
 	mRenderTarget.Terminate();
 	mRenderObject.Terminate();
+	mSunObject.Terminate();
 	mCloudObject2.Terminate();
-	mCloudEffect.Terminate();
 	mStandardEffect.Terminate();
 }
 
@@ -71,18 +80,17 @@ void GameState::Render()
 	mRenderTarget.BeginRender();
 		mStandardEffect.Begin();
 			mStandardEffect.Render(mRenderObject);
-			mCloudEffect.Render(mCloudObject2);
+			mStandardEffect.Render(mCloudObject2);
 		mStandardEffect.End();
 	mRenderTarget.EndRender();
 	mCamera.SetAspectRatio(0.0f);
 
 	////Render object
 	mStandardEffect.Begin();
+		mStandardEffect.Render(mSunObject);
 		mStandardEffect.Render(mRenderObject);
-		mCloudEffect.Render(mCloudObject2);
+		mStandardEffect.Render(mCloudObject2);
 	mStandardEffect.End();
-
-
 }
 
 void GameState::DebugUI()
@@ -149,9 +157,26 @@ void GameState::Update(float deltaTime)
 	EngineFPS(deltaTime);
 
 	//Earth rotation
+
 	mRenderObject.transform.vrotation.y += deltaTime * 0.012;
 	mCloudObject2.transform.position = mRenderObject.transform.position;
-	mCloudObject2.transform.vrotation.y += deltaTime * 0.025;
+	mCloudObject2.transform.vrotation.y += deltaTime * 0.035;
+
+	totalTime += deltaTime;
+
+	float x = distanceFromSun * std::sin(totalTime * .5f);
+	float z = distanceFromSun * std::cos(totalTime * .5f);
+	mRenderObject.transform.position.x = x;
+	mRenderObject.transform.position.z = z;
+/*
+	// Sin function gets the time and returns a value between -1 and 1.
+	// The base y location is the base of the height, then to make the obj float up and down
+	// we multiply by a float number which is the amplitude.
+	float y = amplitude * Mathf.Sin(runningTime * period - phaseShift) + verticalShift;
+	transform.position = new Vector2(newLocation.x + xOffset, inkWellBaseTransform.position.y + y + 2);
+	runningTime += Time.deltaTime;
+*/
+
 }
 
 void GameState::EngineCameraController(float deltaTime)

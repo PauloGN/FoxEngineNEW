@@ -28,8 +28,13 @@ protected:
 	//Holds-> ConstantBuffer, VertexShader, PixelShader, Sampler
 	FoxEngine::Graphics::StandardEffect mStandardEffect;
 
+	//Clouding
+	BlendState mBlendState;
+	FoxEngine::Graphics::StandardEffect mCloudEffect;
+
 	//Holds-> Transform, MeshBuffer, Texture, Material properties
 	RenderObject mRenderObject;//this is the obj representation
+	RenderObject mCloudObject2;//this is the obj representation
 	RenderTarget mRenderTarget;
 
 	float mTimePassed = 0.0f;

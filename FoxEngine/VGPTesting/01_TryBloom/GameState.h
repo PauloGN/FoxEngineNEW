@@ -21,19 +21,21 @@ public:
 
 protected:
 	
+	//View port Camera/Main Camera
 	Camera mCamera;
 	DirectionalLight mDirectionalLight;
-	StandardEffect mStandardEffect;
 
-	PostProcessingEffect mPostProcessingEffect;
+	//Holds-> ConstantBuffer, VertexShader, PixelShader, Sampler
+	FoxEngine::Graphics::StandardEffect mStandardEffect;
+
+	//Clouding
+	BlendState mBlendState;
+
+	//Holds-> Transform, MeshBuffer, Texture, Material properties
+	RenderObject mRenderObject;//this is the obj representation
+	RenderObject mCloudObject2;//this is the obj representation
+	RenderObject mSunObject;//this is the obj representation
 	RenderTarget mRenderTarget;
-
-	//FBX
-	RenderGroup mAlien;
-
-	RenderObject mGround;
-	RenderObject mScreenQuad;
-	Texture mCombineTexture;
 
 	float mTimePassed = 0.0f;
 	float mFPS = 0.0f;
