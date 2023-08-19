@@ -50,10 +50,11 @@ namespace FoxEngine::Graphics
 			float param0 = { 0.0f };
 			float param1 = { 0.0f };
 			float param2 = { 0.0f };
+
 			float param3 = { 0.0f };
 			float param4 = { 0.0f };
 			float param5 = { 0.0f };
-			float param6 = { 0.0f };//currentlly gap
+			float param6 = { 0.0f };//padding
 		};
 
 		using PostProcessBuffer = TypedConstantBuffer<PostProcessData>;
