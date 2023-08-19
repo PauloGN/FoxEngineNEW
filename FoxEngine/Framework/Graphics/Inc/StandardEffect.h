@@ -29,7 +29,9 @@ namespace  FoxEngine::Graphics
 		void Render(const RenderObject& renderObject);
 		//Set the camera that is going to see the object
 		void SetCamera(const Camera& camera);
+		void SetLightCamera(const Camera& camera);
 		void SetDirectionalLight(const DirectionalLight& dirLight);
+		void SetShadowMap(const Texture& ShadowMap);
 
 		void DebugUI();
 
@@ -40,6 +42,7 @@ namespace  FoxEngine::Graphics
 		{
 			FoxMath::Matrix4 world;
 			FoxMath::Matrix4 wvp;
+			FoxMath::Matrix4 lwvp;
 			FoxMath::Vector3 viewPosition;
 			float padding = 0.0f;
 		};
@@ -51,8 +54,9 @@ namespace  FoxEngine::Graphics
 			int useBumpMap = 0;
 			int useSpecMap = 0;
 			int useCelShading = 0;
+			int useShadowMap = 0;
 			float bumpWeigh = 0.1f;
-			float padding[2] = {0.0f};
+			float padding[1] = {0.0f};
 		};
 
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
@@ -71,6 +75,8 @@ namespace  FoxEngine::Graphics
 		SettingsData mSettingsData;
 
 		const Camera* mCamera = nullptr;
+		const Camera* mLightCamera = nullptr;
 		const DirectionalLight* mDirectionalLight = nullptr;
+		const Texture* mShadowMap = nullptr;
 	};
 }

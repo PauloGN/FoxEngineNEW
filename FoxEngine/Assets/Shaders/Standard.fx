@@ -4,6 +4,7 @@ cbuffer TransformBuffer : register(b0)
 {
     matrix world;
 	matrix wvp;
+    matrix lwvp;
     float3 viewPosition;
 }
 
@@ -31,6 +32,7 @@ cbuffer SettingslBuffer : register(b3)
     bool useBumpMap;
     bool useSpecMap;
     bool useCelShading;
+    bool useShadowMap;
     float bumpWeight;
 }
 
@@ -38,6 +40,7 @@ Texture2D diffuseMap : register(t0);
 Texture2D normalMap : register(t1);
 Texture2D bumpMap : register(t2);
 Texture2D specMap : register(t3);
+Texture2D shadowMap : register(t4);
 
 SamplerState textureSampler : register(s0);
 

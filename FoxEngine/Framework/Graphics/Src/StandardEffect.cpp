@@ -59,7 +59,10 @@ void FoxEngine::Graphics::StandardEffect::Begin()
 
 void FoxEngine::Graphics::StandardEffect::End()
 {
-    //Future implementation
+    if (mShadowMap != nullptr)
+    {
+        Texture::UnbindPS(4);
+    }
     Texture::UnbindPS(0);
 }
 
@@ -69,24 +72,32 @@ void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObjec
     const Matrix4& matView = mCamera->GetViewMatrix();
     const Matrix4& matProj = mCamera->GetProjectionMatrix();
 
-    TransformData transformData;
-    transformData.world = Transpose(matworld);
-    transformData.wvp = Transpose(matworld * matView * matProj);
-    transformData.viewPosition = mCamera->GetPosition();
-
-    mTransformBuffer.Update(transformData);
-    mLightingtBuffer.Update(*mDirectionalLight);
-    mMaterialBuffer.Update(renderObject.material);
-
     SettingsData settingsData;
     settingsData.useDiffuseMap = mSettingsData.useDiffuseMap > 0 && renderObject.diffuseMapId != 0;
     settingsData.useNormalMap = mSettingsData.useNormalMap > 0 && renderObject.normalMapId != 0;
     settingsData.useBumpMap = mSettingsData.useBumpMap > 0 && renderObject.bumpMapId != 0;
     settingsData.useSpecMap = mSettingsData.useSpecMap > 0 && renderObject.specMapId != 0;
+    settingsData.useShadowMap = mSettingsData.useShadowMap > 0 && mShadowMap != nullptr;
     settingsData.useCelShading = mSettingsData.useCelShading;
     settingsData.bumpWeigh = mSettingsData.bumpWeigh;
-
     mSettingsBuffer.Update(settingsData);
+
+    TransformData transformData;
+    transformData.world = Transpose(matworld);
+    transformData.wvp = Transpose(matworld * matView * matProj);
+    transformData.viewPosition = mCamera->GetPosition();
+    if (settingsData.useShadowMap)
+    {
+        const auto& matLightView = mLightCamera->GetViewMatrix();
+        const auto& matLightproj = mLightCamera->GetProjectionMatrix();
+        transformData.lwvp = Transpose(matworld * matLightView * matLightproj);
+
+        mShadowMap->BindPS(4);
+    }
+
+    mTransformBuffer.Update(transformData);
+    mLightingtBuffer.Update(*mDirectionalLight);
+    mMaterialBuffer.Update(renderObject.material);
 
     auto tm = TextureManager::Get();
     tm->BindPS(renderObject.diffuseMapId, 0);
@@ -102,9 +113,19 @@ void FoxEngine::Graphics::StandardEffect::SetCamera(const Camera& camera)
     mCamera = &camera;
 }
 
+void FoxEngine::Graphics::StandardEffect::SetLightCamera(const Camera& camera)
+{
+    mLightCamera = &camera;
+}
+
 void FoxEngine::Graphics::StandardEffect::SetDirectionalLight(const DirectionalLight& dirLight)
 {
     mDirectionalLight = &dirLight;
+}
+
+void FoxEngine::Graphics::StandardEffect::SetShadowMap(const Texture& ShadowMap)
+{
+    mShadowMap = &ShadowMap;
 }
 
 void FoxEngine::Graphics::StandardEffect::DebugUI()
@@ -126,10 +147,6 @@ void FoxEngine::Graphics::StandardEffect::DebugUI()
         {
             mSettingsData.useBumpMap = (useBumpMap) ? 1 : 0;
         }  
-        if (useBumpMap)
-        {
-            ImGui::DragFloat("BumpWeight##",&mSettingsData.bumpWeigh, 0.1f, 0.0f, 2.0f );
-        }
         bool useSpecMap = mSettingsData.useSpecMap > 0;
         if (ImGui::Checkbox("Use Specular Map##", &useSpecMap))
         {
@@ -139,6 +156,15 @@ void FoxEngine::Graphics::StandardEffect::DebugUI()
         if (ImGui::Checkbox("Use Cel Shading##", &useCelShading))
         {
             mSettingsData.useCelShading = (useCelShading) ? 1 : 0;
+        }
+        bool useShadowMap = mSettingsData.useShadowMap > 0;
+        if (ImGui::Checkbox("Use Shadow Map##", &useShadowMap))
+        {
+            mSettingsData.useShadowMap = (useShadowMap) ? 1 : 0;
+        }
+        if (useBumpMap)
+        {
+            ImGui::DragFloat("BumpWeight##", &mSettingsData.bumpWeigh, 0.1f, 0.0f, 2.0f);
         }
     }
 }
