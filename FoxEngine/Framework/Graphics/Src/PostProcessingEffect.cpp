@@ -18,7 +18,9 @@ namespace
 	"Mirror",
 	"Blur",
 	"Combine2",
-	"MotionBlur"
+	"MotionBlur",
+	"GlowEffect",
+	"Temperature"
 	};
 }
 
@@ -59,12 +61,9 @@ void FoxEngine::Graphics::PostProcessingEffect::Beging()
 
 	switch (mMode)
 	{
-	case Mode::None:
-		break;
-	case Mode::Monochrome:
-		break;
-	case Mode::Invert:
-		break;
+	case Mode::None: {} break;
+	case Mode::Monochrome: {} break;
+	case Mode::Invert: {} break;
 	case Mode::Mirror:
 	{
 		data.param0 = mMirrorScaleX;
@@ -82,9 +81,7 @@ void FoxEngine::Graphics::PostProcessingEffect::Beging()
 
 	}
 		break;
-	case Mode::Combine2:
-	{}
-		break;
+	case Mode::Combine2:{}break;
 	case Mode::MotionBlur:
 	{
 		auto gs = GraphicsSystem::Get();
@@ -95,6 +92,22 @@ void FoxEngine::Graphics::PostProcessingEffect::Beging()
 		data.param1 = mBlurStrength / screenHeiht;
 	}
 		break;
+	case Mode::GlowEffect:
+	{
+		data.param0 = mBlurStrength;
+		data.param1 = mIntensity;
+		data.param2 = mGlowIntensity;
+		data.param3 = mBloom;
+		data.param4 = mSpreadBlur;
+		data.param5 = mSpreadGlow;
+	}
+		break;
+	case Mode::Temperature:
+	{
+		data.param0 = mIntensity;
+		data.param1 = mGlowIntensity;
+	}
+	break;
 	default:
 		break;
 	}
@@ -135,28 +148,49 @@ void FoxEngine::Graphics::PostProcessingEffect::DebugUI()
 
 		if (ImGui::Combo("Model##", &currentMode, gModeNames, static_cast<int>(std::size(gModeNames))))
 		{
+			mIntensity = 0.5f;
+			mBlurStrength = 5.0f;
+			mGlowIntensity = 0.0f;
 			mMode = static_cast<Mode>(currentMode);
 		}
 
 		switch (mMode)
 		{
-		case Mode::None:
-			break;
-		case Mode::Monochrome:
-			break;
-		case Mode::Invert:
-			break;
+		case Mode::None: {}break;
+		case Mode::Monochrome: {}break;
+		case Mode::Invert: {}break;
 		case Mode::Mirror:
+		{
 			ImGui::DragFloat("Mirror ScaleX##", &mMirrorScaleX, 0.1f, -1.0f, 1.0f);
 			ImGui::DragFloat("Mirror ScaleY##", &mMirrorScaleY, 0.1f, -1.0f, 1.0f);
+		}
 			break;
 		case Mode::Blur:
+		{
 			ImGui::DragFloat("Blur Strength##", &mBlurStrength, 1.f, -10.0f, 100.0f);
+		}
 			break;
-		case Mode::Combine2:
-			break;
+		case Mode::Combine2: {}break;
 		case Mode::MotionBlur:
+		{
 			ImGui::DragFloat("Blur Strength##", &mBlurStrength, 1.f, -10.0f, 100.0f);
+		}
+			break;
+		case Mode::GlowEffect:
+		{
+			ImGui::DragFloat("Blur in Bright Areas##", &mBlurStrength, .01f, -100.f, 100.f);
+			ImGui::DragFloat("Blur Intensity##", &mIntensity, .01f, -100.f, 100.f);
+			ImGui::DragFloat("Glow Intensity##", &mGlowIntensity, .01f, -100.f, 100.f);
+			ImGui::DragFloat("Bloom##", &mBloom, .1f, -100.f, 100.f);
+			ImGui::DragFloat("Spread Blur##", &mSpreadBlur, .1f, -100.f, 100.f);
+			ImGui::DragFloat("Spread Glow##", &mSpreadGlow, .1f, -100.f, 100.f);
+		}
+			break;
+		case Mode::Temperature:
+		{
+			ImGui::DragFloat("Temperature shift##", &mIntensity, .001f, -10.f, 10.f);
+			ImGui::DragFloat("Smoothness##", &mGlowIntensity, .001f, -10.f, 10.f);
+		}
 			break;
 		default:
 			break;

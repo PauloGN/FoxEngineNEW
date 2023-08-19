@@ -28,7 +28,9 @@ protected:
 	PostProcessingEffect mPostProcessingEffect;
 	RenderTarget mRenderTarget;
 
+	//FBX
 	RenderGroup mAlien;
+
 	RenderObject mGround;
 	RenderObject mScreenQuad;
 	Texture mCombineTexture;

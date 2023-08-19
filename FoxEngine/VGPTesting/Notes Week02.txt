@@ -11,3 +11,8 @@ initialize on GameState.cpp
 standardEffect.pp tm.Bind()
 
 Renderobject --> Transform --> has (Quaternion rotation and vector rotation);
+
+
+week 04
+
+shaders oldschool

@@ -24,7 +24,9 @@ namespace FoxEngine::Graphics
 			Mirror,
 			Blur,
 			Combine2,
-			MotionBlur
+			MotionBlur,
+			GlowEffect,
+			Temperature
 		};
 
 		void Initialize(const std::filesystem::path& filePath);
@@ -48,6 +50,10 @@ namespace FoxEngine::Graphics
 			float param0 = { 0.0f };
 			float param1 = { 0.0f };
 			float param2 = { 0.0f };
+			float param3 = { 0.0f };
+			float param4 = { 0.0f };
+			float param5 = { 0.0f };
+			float param6 = { 0.0f };//currentlly gap
 		};
 
 		using PostProcessBuffer = TypedConstantBuffer<PostProcessData>;
@@ -59,9 +65,16 @@ namespace FoxEngine::Graphics
 		//const Texture* mTextures[4];
 		std::array<const Texture*, 4> mTextures;
 
+		//
 		Mode mMode = Mode::None;
 		float mMirrorScaleX = -1.0f;
 		float mMirrorScaleY = -1.0f;
 		float mBlurStrength = 5.0f;
+		//
+		float mIntensity = 1.0f;
+		float mGlowIntensity = 1.0f;
+		float mBloom = 0.0f;
+		float mSpreadBlur = 0.0f;
+		float mSpreadGlow = 0.0f;
 	};
 }
