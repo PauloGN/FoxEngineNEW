@@ -26,8 +26,9 @@ void GameState::Initialize()
 	mStandardEffect.Initialize(shaderFile);
 	mStandardEffect.SetCamera(mCamera);
 	mStandardEffect.SetDirectionalLight(mDirectionalLight);
-	
-	//shadows
+	mStandardEffect.SetShadowMap(mShadowEffect.GetDepthMap());
+	mStandardEffect.SetLightCamera(mShadowEffect.GetLightCamera());
+	//Shadow initialization - Order does not matter here
 	mShadowEffect.Initialize();
 	mShadowEffect.SetdirectionalLight(mDirectionalLight);
 
@@ -38,6 +39,10 @@ void GameState::Initialize()
 	Mesh groundMesh = MeshBuilder::CreateGroundPlane(20,20,1.0f);
 	mGround.meshBuffer.Initialize(groundMesh);
 	mGround.diffuseMapId = TextureManager::Get()->LoadTexture(L"misc/Ground.jpg");
+	mGround.normalMapId = TextureManager::Get()->LoadTexture(L"misc/NormalMap.jpg");
+	mGround.bumpMapId = TextureManager::Get()->LoadTexture(L"misc/DisplacementMap.jpg");
+	mGround.specMapId = TextureManager::Get()->LoadTexture(L"misc/SpecularMap.jpg");
+
 	mGround.material.ambient = { 0.3f, 0.3f, 0.3f, 1.0f };
 	mGround.material.diffuse = { 0.3f, 0.3f, 0.3f, 1.0f };
 	mGround.material.specular = { 0.3f, 0.3f, 0.3f, 1.0f };
@@ -115,7 +120,7 @@ void GameState::Update(float deltaTime)
 	}
 
 	//Shadow Update
-	//mShadowEffect.SetFocus({mCamera.GetPosition().x, 0.0f, mCamera.GetPosition().x});
+	mShadowEffect.SetFocus({mCamera.GetPosition().x, 0.0f, mCamera.GetPosition().z});
 }
 
 void GameState::EngineCameraController(float deltaTime)

@@ -56,7 +56,7 @@ namespace  FoxEngine::Graphics
 			int useCelShading = 0;
 			int useShadowMap = 0;
 			float bumpWeigh = 0.1f;
-			float padding[1] = {0.0f};
+			float depthBias = 0.0f;
 		};
 
 		using TransformBuffer = TypedConstantBuffer<TransformData>;

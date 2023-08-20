@@ -80,6 +80,7 @@ void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObjec
     settingsData.useShadowMap = mSettingsData.useShadowMap > 0 && mShadowMap != nullptr;
     settingsData.useCelShading = mSettingsData.useCelShading;
     settingsData.bumpWeigh = mSettingsData.bumpWeigh;
+    settingsData.depthBias = mSettingsData.depthBias;
     mSettingsBuffer.Update(settingsData);
 
     TransformData transformData;
@@ -162,6 +163,12 @@ void FoxEngine::Graphics::StandardEffect::DebugUI()
         {
             mSettingsData.useShadowMap = (useShadowMap) ? 1 : 0;
         }
+        //Shadow
+        if (useShadowMap)
+        {
+            ImGui::DragFloat("DepthBias##", &mSettingsData.depthBias, 0.000001f, 0.0f, 1.0f, "%.6f");
+        }
+        //use BumpMap
         if (useBumpMap)
         {
             ImGui::DragFloat("BumpWeight##", &mSettingsData.bumpWeigh, 0.1f, 0.0f, 2.0f);
