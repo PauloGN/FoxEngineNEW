@@ -5,7 +5,7 @@
 using namespace FoxEngine;
 using namespace FoxEngine::Graphics;
 
-void FoxEngine::Graphics::PixelShader::Initialize(const std::filesystem::path& filePath)
+void FoxEngine::Graphics::PixelShader::Initialize(const std::filesystem::path& filePath, const char* entryPoint)
 {
 	ID3D11Device* device = GraphicsSystem::Get()->GetDevice();
 
@@ -20,7 +20,7 @@ void FoxEngine::Graphics::PixelShader::Initialize(const std::filesystem::path& f
 		filePath.c_str(),
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
-		"PS", "ps_5_0",
+		entryPoint, "ps_5_0",
 		shaderFlags, 0,
 		&shaderBlob,
 		&errorBlob);

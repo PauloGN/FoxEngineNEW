@@ -238,12 +238,11 @@ MeshPX FoxEngine::Graphics::MeshBuilder::CreateRectPX(float width, float height,
 Mesh FoxEngine::Graphics::MeshBuilder::CreateGroundPlane(float numRows, int numColums, float spacing)
 {
 	Mesh mesh;
-	int index = rand() % 100;
 
 	const float hpw = static_cast<float>(numColums) * spacing * 0.5f;
 	const float hph = static_cast<float>(numRows) * spacing * 0.5f;
-	const float uInc = 1.0f / (hpw * 2.0f);
-	const float vInc = 1.0f / (hph * 2.0f);
+	const float uInc = 1.0f / ((float)numColums);
+	const float vInc = 1.0f / ((float)numRows);
 
 	float x = -hpw;
 	float z = -hph;
