@@ -4,7 +4,6 @@ using namespace FoxEngine;
 using namespace FoxEngine::Input;
 using namespace FoxEngine::Graphics;
 
-
 namespace
 {
 
