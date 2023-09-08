@@ -205,14 +205,8 @@ void GameState::EngineCameraController(float deltaTime)
 
 void GameState::EngineFPS(float deltaTime)
 {
-	//FPS
-	//mFPS = 1.0f / deltaTime;
-	mFrameCount++;
-	mTimePassed += deltaTime;
-	if (mTimePassed >= 1.0f)
-	{
-		mFPS = mFrameCount;
-		mTimePassed -= 1.0f;
-		mFrameCount = 0.0f;
-	}
+
+	mFPS = 1.0f / deltaTime;
+	const float currentTime = FoxEngine::Core::TimeUtil::GetTime();
+
 }

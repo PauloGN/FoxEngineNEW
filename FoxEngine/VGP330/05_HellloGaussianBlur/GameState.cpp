@@ -51,7 +51,7 @@ void GameState::Initialize()
 	auto tm = TextureManager::Get();
 	mSunRenderObj.diffuseMapId = tm->LoadTexture("sun.jpg");
 	mSunRenderObj.meshBuffer.Initialize(MeshBuilder::CreateSphere(1024, 512, 5.0f));
-	mSunRenderObj.material.emissive = Colors::White;
+	mSunRenderObj.material.emissive = Colors::Yellow;
 	mSunRenderObj.material.power = 1.0f;
 
 	mEarthRenderObj.diffuseMapId = tm->LoadTexture("earth.jpg");

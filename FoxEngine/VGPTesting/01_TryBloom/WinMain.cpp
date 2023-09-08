@@ -6,13 +6,17 @@ using namespace FoxEngine::Core;
 
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int)
 {
-	AppConfig config;
-	config.appName = L"Try light";
 
-	App& myApp = MainApp();
-	//States
-	myApp.AddState<GameState>("GameState");
-	myApp.Run(config);
+	FoxEngine::AppConfig appConfig;
+	appConfig.appName = L"Hello Final VGP330";
+	appConfig.winWidth = 1280;
+	appConfig.winHeight = 720;
+	appConfig.debugDrawLimit = 1000000;
+	appConfig.textureRoot = "../../Assets/Images";
+
+	auto& app = MainApp();
+	app.AddState<GameState>("GameState");
+	app.Run(appConfig);
 
 	return 0;
 }
