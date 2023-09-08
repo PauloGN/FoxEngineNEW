@@ -6,18 +6,17 @@ namespace FoxEngine
 
 	struct AppConfig
 	{
-		std::wstring appName = L"AppName";
+		std::wstring appName = L"Fox";
 		uint32_t winWidth = 1280;
 		uint32_t winHeight = 720;
-
 		uint32_t debugDrawLimit = 10000;
+		std::filesystem::path textureRoot = "../../Assets/Images";
+		std::filesystem::path audioRoot = "../../Assets/Audio";
 	};
-
 
 	class App final
 	{
 	public:
-
 		template<class StateType>
 		void AddState(const std::string& stateName) 
 		{
@@ -35,7 +34,6 @@ namespace FoxEngine
 					mCurrentState = ptr.get();
 				}
 			}
-
 		}
 
 		void ChangeState(const std::string& stateName);
@@ -52,6 +50,5 @@ namespace FoxEngine
 		AppState* mNextState = nullptr;
 
 		bool mRunning = false;
-
 	};
 }
