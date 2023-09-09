@@ -28,6 +28,11 @@ void GameState::Initialize()
 	mStandardEffect.Initialize(shaderFile);
 	mStandardEffect.SetCamera(mCamera);
 	mStandardEffect.SetDirectionalLight(mDirectionalLight);
+	mStandardEffect.SetShadowMap(mShadowEffect.GetDepthMap());
+	mStandardEffect.SetLightCamera(mShadowEffect.GetLightCamera());
+	//Shadow initialization - Order does not matter here
+	mShadowEffect.Initialize();
+	mShadowEffect.SetdirectionalLight(mDirectionalLight);
 
 	//POST PRO
 	mPostProcessingEffect.Initialize(L"../../Assets/Shaders/PostProcessing.fx");
@@ -58,16 +63,33 @@ void GameState::Initialize()
 
 	for (auto& a : mSpaceShip)
 	{
-		a.transform.position.y = 2.f;
+		a.transform.position = Vector3(90.0f, 14.0f, 70.0f);
 	}
 
-	Mesh groundMesh = MeshBuilder::CreateGroundPlane(40, 40, 1.0f);
-	mGround.meshBuffer.Initialize(groundMesh);
-	mGround.diffuseMapId = TextureManager::Get()->LoadTexture(L"misc/Ground.jpg");
-	mGround.material.ambient = { 0.3f, 0.3f, 0.3f, 1.0f };
-	mGround.material.diffuse = { 0.3f, 0.3f, 0.3f, 1.0f };
-	mGround.material.specular = { 0.3f, 0.3f, 0.3f, 1.0f };
-	mGround.material.power = 20.0f;
+	//Mesh groundMesh = MeshBuilder::CreateGroundPlane(40, 40, 1.0f);
+	//mGround.meshBuffer.Initialize(groundMesh);
+	//mGround.diffuseMapId = TextureManager::Get()->LoadTexture(L"misc/Ground.jpg");
+	//mGround.material.ambient = { 0.3f, 0.3f, 0.3f, 1.0f };
+	//mGround.material.diffuse = { 0.3f, 0.3f, 0.3f, 1.0f };
+	//mGround.material.specular = { 0.3f, 0.3f, 0.3f, 1.0f };
+	//mGround.material.power = 20.0f;
+
+	mTerrain.Initialize("../../Assets/Textures/terrain/heightmap_512x512.raw", 15.0f);
+	mAlienGround.meshBuffer.Initialize(mTerrain.mesh);
+	mAlienGround.diffuseMapId = TextureManager::Get()->LoadTexture(L"terrain/AlienTerrain/Alien_Rock_01_basecolor.png");
+	mAlienGround.specMapId = TextureManager::Get()->LoadTexture(L"terrain/AlienTerrain/Alien_Rock_01_height.png");
+	mAlienGround.normalMapId = TextureManager::Get()->LoadTexture(L"terrain/AlienTerrain/Alien_Rock_01_height.png");
+	mAlienGround.material.ambient = { 0.3f, 0.3f, 0.3f, 1.0f };
+	mAlienGround.material.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
+	mAlienGround.material.specular = { 0.8f, 0.8f, 0.8f, 1.0f };
+	mAlienGround.material.power = 20.0f;
+
+
+	mTerrainEffect.Initialize();
+	mTerrainEffect.SetCamera(mCamera);
+	mTerrainEffect.SetLightCamera(mShadowEffect.GetLightCamera());
+	mTerrainEffect.SetDirectionalLight(mDirectionalLight);
+	mTerrainEffect.SetShadowMap(mShadowEffect.GetDepthMap());
 
 	MeshPX screenMesh = MeshBuilder::CreateScreenQuad();
 	mScreenQuad.meshBuffer.Initialize(screenMesh);
@@ -75,21 +97,32 @@ void GameState::Initialize()
 
 void GameState::Terminate()
 {
+	mTerrainEffect.Terminate();
+	mAlienGround.Terminate();
 	mCombineTexture.Terminate();
 	CleanupRenderGroup(mSpaceShip);
-	mGround.Terminate();
+	//mGround.Terminate();
 	mRenderTarget.Terminate();
 	mPostProcessingEffect.Terminate();
+	mShadowEffect.Terminate();
 	mStandardEffect.Terminate();
 }
 
 void GameState::Render()
 {
+	mShadowEffect.Begin();
+		DrawrenderGroup(mShadowEffect, mSpaceShip);
+	mShadowEffect.End();
+
+	mTerrainEffect.Begin();
+		mTerrainEffect.Render(mAlienGround);
+	mTerrainEffect.End();
+
 	//Render object
 	mRenderTarget.BeginRender();
 	mStandardEffect.Begin();
 	DrawrenderGroup(mStandardEffect, mSpaceShip);
-	mStandardEffect.Render(mGround);
+	mStandardEffect.Render(mAlienGround);
 	mStandardEffect.End();
 	mRenderTarget.EndRender();
 
@@ -154,6 +187,8 @@ void GameState::DebugUI()
 
 	mStandardEffect.DebugUI();
 	mPostProcessingEffect.DebugUI();
+	mShadowEffect.DebugUI();
+	mTerrainEffect.DebugUI();
 	ImGui::End();
 }
 
@@ -170,6 +205,8 @@ void GameState::Update(float deltaTime)
 	}
 
 	ModelTransform(deltaTime);
+	//Shadow Update
+	mShadowEffect.SetFocus({ mCamera.GetPosition().x, 0.0f, mCamera.GetPosition().z });
 }
 
 void GameState::EngineCameraController(float deltaTime)

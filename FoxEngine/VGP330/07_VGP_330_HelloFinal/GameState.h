@@ -29,14 +29,19 @@ protected:
 	StandardEffect mStandardEffect;
 
 	PostProcessingEffect mPostProcessingEffect;
+	FoxEngine::Graphics::TerrainEffect mTerrainEffect;
 	RenderTarget mRenderTarget;
-
+	ShadowEffect mShadowEffect;
 	//FBX
 	RenderGroup mSpaceShip;
 
-	RenderObject mGround;
+	//RenderObject mGround;
 	RenderObject mScreenQuad;
 	Texture mCombineTexture;
+
+	//Terrain
+	FoxEngine::Graphics::RenderObject mAlienGround;
+	FoxEngine::Graphics::Terrain mTerrain;
 
 	float mTimePassed = 0.0f;
 	float mFPS = 0.0f;
