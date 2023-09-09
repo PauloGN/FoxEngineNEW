@@ -13,8 +13,8 @@ namespace
 void GameState::Initialize()
 {
 	//Initialize camera
-	mCamera.SetPosition(FoxMath::Vector3(0.f, 3.f, -3.f));//Offset back in z
-	mCamera.SetLookAt(FoxMath::Vector3(0.f));
+	mCamera.SetPosition(FoxMath::Vector3(29.f, 15.f, -3.f));//Offset back in z
+	mCamera.SetLookAt(FoxMath::Vector3(28,12,0));
 
 	//Lights default value
 	mDirectionalLight.direction = FoxMath::Normalize({ 1.0f, -1.0f, 1.0f });
@@ -37,6 +37,7 @@ void GameState::Initialize()
 	mTerrainEffect.SetCamera(mCamera);
 	mTerrainEffect.SetLightCamera(mShadowEffect.GetLightCamera());
 	mTerrainEffect.SetDirectionalLight(mDirectionalLight);
+	mTerrainEffect.SetShadowMap(mShadowEffect.GetDepthMap());
 
 	//Find char model and load
 	ModelId modelId = ModelManager::Get()->LoadModel("../../Assets/Models/Character/AlienMan.model");
@@ -48,10 +49,15 @@ void GameState::Initialize()
 	mGround.specMapId = TextureManager::Get()->LoadTexture(L"terrain/dirt_seamless.jpg");
 
 	mGround.material.ambient = { 0.3f, 0.3f, 0.3f, 1.0f };
-	mGround.material.diffuse = { 0.3f, 0.3f, 0.3f, 1.0f };
-	mGround.material.specular = { 0.3f, 0.3f, 0.3f, 1.0f };
+	mGround.material.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
+	mGround.material.specular = { 0.8f, 0.8f, 0.8f, 1.0f };
 	mGround.material.power = 20.0f;
 
+	modelPos = Vector3(19.0f, 5.3f, 14.0f);
+	for (auto& a : mAlien)
+	{
+		a.transform.position = modelPos;
+	}
 }
 
 void GameState::Terminate()
@@ -90,7 +96,14 @@ void GameState::DebugUI()
 		ImGui::PushID("Model");
 		if (ImGui::CollapsingHeader("Model"))
 		{
-			ImGui::DragFloat3("ModelPos",&modelPos.x, 1.0f);
+			if (ImGui::DragFloat3("ModelPos", &modelPos.x, 0.5f))
+			{
+				for (auto& a : mAlien)
+				{
+					a.transform.position = modelPos;
+				}
+			};
+			ImGui::Checkbox("Rotate",&bRotateChar);
 		}
 		ImGui::PopID();
 		//Light
@@ -121,11 +134,6 @@ void GameState::Update(float deltaTime)
 	//FPS
 	EngineFPS(deltaTime);
 
-	//model move
-	if (Input::InputSystem::Get()->IsKeyPressed(KeyCode::SPACE))
-	{
-		bRotateChar = !bRotateChar;
-	}
 	if (bRotateChar)
 	{
 		for (auto& a : mAlien)
@@ -135,10 +143,6 @@ void GameState::Update(float deltaTime)
 
 	}
 
-	for (auto& a : mAlien)
-	{
-		a.transform.position = modelPos;
-	}
 	//Shadow Update
 	mShadowEffect.SetFocus({mCamera.GetPosition().x, 0.0f, mCamera.GetPosition().z});
 }
