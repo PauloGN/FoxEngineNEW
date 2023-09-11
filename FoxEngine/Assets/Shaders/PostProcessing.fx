@@ -113,16 +113,16 @@ float4 PS(VS_OUTPUT input) : SV_Target
                 finalColor *= 0.15f;
             }
             break;
-        case 7: // Advanced Bloom Effect (Simulated HDR Bloom)
-        {
+        case 7: // Smooth HDR Bloom Effect
+{
                 float4 color = textureMap0.Sample(textureSampler, input.texcoord);
                 float4 blurredColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
-                 // Apply a blur to the bright areas of the image
+    // Apply a smoother blur to the bright areas of the image
                 if (color.r + color.g + color.b > param0)
                 {
                     float blurAmount = param1; // Adjust this value for intensity and blur size
-                    int numSamples = 21; // Adjust the number of samples (odd value for symmetry)
+                    int numSamples = 31; // Increase the number of samples for smoother results
                     float sampleWeight = 1.0 / float(numSamples * numSamples); // Weight of each sample
 
                     for (int i = -numSamples / 2; i <= numSamples / 2; i++)
@@ -135,16 +135,16 @@ float4 PS(VS_OUTPUT input) : SV_Target
                     }
                 }
 
-                 // Apply threshold to prevent over-brightening in the bloom
+    // Apply threshold to prevent over-brightening in the bloom
                 blurredColor = max(blurredColor - param3, 0.0);
 
-                 // Combine the original color and the bloomed color
+    // Combine the original color and the bloomed color
                 float4 finalBloomedColor = color + blurredColor * param2;
 
-                 // Apply another blur to simulate spreading of the glow
+    // Apply a smoother spread blur to simulate spreading of the glow
                 float4 spreadBlur = float4(0.0f, 0.0f, 0.0f, 0.0f);
-                float spreadBlurAmount = param4; // Adjust this for spread intensity
-                int spreadSamples = 9; // Adjust the number of samples (odd value for symmetry)
+                float spreadBlurAmount = param4 * 0.5; // Reduce spread intensity for smoother effect
+                int spreadSamples = 15; // Increase the number of samples for smoother results
                 float spreadSampleWeight = 1.0 / float(spreadSamples * spreadSamples); // Weight of each sample
 
                 for (int i = -spreadSamples / 2; i <= spreadSamples / 2; i++)
@@ -156,9 +156,9 @@ float4 PS(VS_OUTPUT input) : SV_Target
                     }
                 }
 
-                 // Apply the final result
+    // Apply the final result
                 finalColor = color + spreadBlur * param5; // Adjust intensity of spread glow
-        }
+            }
             break;
         case 8: //Temperature Simulator
         {

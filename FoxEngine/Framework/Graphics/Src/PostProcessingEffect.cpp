@@ -178,12 +178,12 @@ void FoxEngine::Graphics::PostProcessingEffect::DebugUI()
 			break;
 		case Mode::GlowEffect:
 		{
-			ImGui::DragFloat("Blur in Bright Areas##", &mBlurStrength, .01f, -100.f, 100.f);
+			ImGui::DragFloat("Blur in Bright Areas##", &mBlurStrength, .01f, -10.f, 10.f);
 			ImGui::DragFloat("Blur Intensity##", &mIntensity, .01f, -100.f, 100.f);
 			ImGui::DragFloat("Glow Intensity##", &mGlowIntensity, .01f, -100.f, 100.f);
-			ImGui::DragFloat("Bloom##", &mBloom, .1f, -100.f, 100.f);
+			ImGui::DragFloat("Bloom##", &mBloom, .01f, -10.f, 10.f);
 			ImGui::DragFloat("Spread Blur##", &mSpreadBlur, .1f, -100.f, 100.f);
-			ImGui::DragFloat("Spread Glow##", &mSpreadGlow, .1f, -100.f, 100.f);
+			ImGui::DragFloat("Spread Glow##", &mSpreadGlow, .001f, -100.f, 100.f);
 		}
 			break;
 		case Mode::Temperature:

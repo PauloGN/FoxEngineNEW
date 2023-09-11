@@ -21,12 +21,12 @@ public:
 
 	void ModelTransform(float deltatime);
 
-
 protected:
 
 	Camera mCamera;
 	DirectionalLight mDirectionalLight;
 	StandardEffect mStandardEffect;
+	SimpleEffect mSimpleEffect;
 
 	PostProcessingEffect mPostProcessingEffect;
 	FoxEngine::Graphics::TerrainEffect mTerrainEffect;
@@ -38,6 +38,7 @@ protected:
 	//RenderObject mGround;
 	RenderObject mScreenQuad;
 	Texture mCombineTexture;
+	RenderObject mSkySphere;
 
 	//Terrain
 	FoxEngine::Graphics::RenderObject mAlienGround;

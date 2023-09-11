@@ -11,7 +11,7 @@ namespace
 	float gRotationX = 0.0f;
 	float totalTime = 0.0f;
 	Vector3 position(0.0f);
-	static bool bToggleTranslationOnAndOff = true;
+	bool bToggleTranslationOnAndOff = true;
 }
 
 void GameState::Initialize() 

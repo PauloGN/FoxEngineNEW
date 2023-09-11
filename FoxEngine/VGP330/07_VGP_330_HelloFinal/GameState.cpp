@@ -9,6 +9,10 @@ namespace
 	bool bRotateChar = false;
 	Vector3 spaceshipRotation;
 	Material mMaterial;
+
+	float totalTime = 0.0f;
+	Vector3 spaceShipPos(0.0f);
+	bool bToggleTranslationOnAndOff = false;
 }
 
 void GameState::Initialize()
@@ -18,7 +22,7 @@ void GameState::Initialize()
 	mCamera.SetLookAt(FoxMath::Vector3(0.f));
 
 	//Lights default value
-	mDirectionalLight.direction = FoxMath::Normalize({ 1.0f, -1.0f, 1.0f });
+	mDirectionalLight.direction = FoxMath::Normalize({ .5f, -1.f, .1f });
 	mDirectionalLight.ambient = { 0.2f, 0.2f, 0.2f, 1.0f };
 	mDirectionalLight.diffuse = { 0.4f, 0.4f, 0.4f, 1.0f };
 	mDirectionalLight.specular = { 0.9f, 0.9f, 0.9f, 1.0f };
@@ -33,6 +37,9 @@ void GameState::Initialize()
 	//Shadow initialization - Order does not matter here
 	mShadowEffect.Initialize();
 	mShadowEffect.SetdirectionalLight(mDirectionalLight);
+
+	mSimpleEffect.Initialize();
+	mSimpleEffect.SetCamera(mCamera);
 
 	//POST PRO
 	mPostProcessingEffect.Initialize(L"../../Assets/Shaders/PostProcessing.fx");
@@ -60,25 +67,21 @@ void GameState::Initialize()
 	{
 		a.transform.vrotation.x = 1.7f;
 	}
-
+	//Spaceship pos
 	for (auto& a : mSpaceShip)
 	{
 		a.transform.position = Vector3(90.0f, 14.0f, 70.0f);
 	}
+	spaceShipPos.x = 90.0f;
+	spaceShipPos.z = 70.0f;
 
-	//Mesh groundMesh = MeshBuilder::CreateGroundPlane(40, 40, 1.0f);
-	//mGround.meshBuffer.Initialize(groundMesh);
-	//mGround.diffuseMapId = TextureManager::Get()->LoadTexture(L"misc/Ground.jpg");
-	//mGround.material.ambient = { 0.3f, 0.3f, 0.3f, 1.0f };
-	//mGround.material.diffuse = { 0.3f, 0.3f, 0.3f, 1.0f };
-	//mGround.material.specular = { 0.3f, 0.3f, 0.3f, 1.0f };
-	//mGround.material.power = 20.0f;
+	mCamera.SetPosition(FoxMath::Vector3(90.0f, 24.0f, 55.0f));
 
 	mTerrain.Initialize("../../Assets/Textures/terrain/heightmap_512x512.raw", 15.0f);
 	mAlienGround.meshBuffer.Initialize(mTerrain.mesh);
 	mAlienGround.diffuseMapId = TextureManager::Get()->LoadTexture(L"terrain/AlienTerrain/Alien_Rock_01_basecolor.png");
 	mAlienGround.specMapId = TextureManager::Get()->LoadTexture(L"terrain/AlienTerrain/Alien_Rock_01_height.png");
-	mAlienGround.normalMapId = TextureManager::Get()->LoadTexture(L"terrain/AlienTerrain/Alien_Rock_01_height.png");
+	mAlienGround.normalMapId = TextureManager::Get()->LoadTexture(L"terrain/AlienTerrain/Alien_Rock_01_normal.png");
 	mAlienGround.material.ambient = { 0.3f, 0.3f, 0.3f, 1.0f };
 	mAlienGround.material.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
 	mAlienGround.material.specular = { 0.8f, 0.8f, 0.8f, 1.0f };
@@ -93,18 +96,23 @@ void GameState::Initialize()
 
 	MeshPX screenMesh = MeshBuilder::CreateScreenQuad();
 	mScreenQuad.meshBuffer.Initialize(screenMesh);
+
+	MeshPX sphere = MeshBuilder::CreateSkySpherePX(128, 128, 450.0f);
+	mSkySphere.meshBuffer.Initialize(sphere);
+	mSkySphere.diffuseMapId = TextureManager::Get()->LoadTexture(L"Space02.jpg");
 }
 
 void GameState::Terminate()
 {
+	mSkySphere.Terminate();
 	mTerrainEffect.Terminate();
 	mAlienGround.Terminate();
 	mCombineTexture.Terminate();
 	CleanupRenderGroup(mSpaceShip);
-	//mGround.Terminate();
 	mRenderTarget.Terminate();
 	mPostProcessingEffect.Terminate();
 	mShadowEffect.Terminate();
+	mSimpleEffect.Terminate();
 	mStandardEffect.Terminate();
 }
 
@@ -120,18 +128,19 @@ void GameState::Render()
 
 	//Render object
 	mRenderTarget.BeginRender();
-	mStandardEffect.Begin();
-	DrawrenderGroup(mStandardEffect, mSpaceShip);
-	mStandardEffect.Render(mAlienGround);
-	mStandardEffect.End();
+		mStandardEffect.Begin();
+			DrawrenderGroup(mStandardEffect, mSpaceShip);
+			mStandardEffect.Render(mAlienGround);
+		mStandardEffect.End();
+		mSimpleEffect.Begin();
+			mSimpleEffect.Render(mSkySphere);
+		mSimpleEffect.End();
 	mRenderTarget.EndRender();
 
 	mPostProcessingEffect.Beging();
 	mPostProcessingEffect.Render(mScreenQuad);
 	mPostProcessingEffect.End();
 
-	//SimpleDraw::AddGroundPlane(20.0f, Colors::LightBlue);
-	//SimpleDraw::Render(mCamera);
 }
 
 void GameState::DebugUI()
@@ -155,6 +164,9 @@ void GameState::DebugUI()
 				s.transform.vrotation = spaceshipRotation;
 			}
 		}
+
+		ImGui::Checkbox("Translate", &bToggleTranslationOnAndOff);
+
 		if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			ImGui::ColorEdit4("Ambient##Material", &mMaterial.ambient.r);
@@ -168,6 +180,17 @@ void GameState::DebugUI()
 				s.material = mMaterial;
 			}
 		}
+	}
+	ImGui::PopID();
+	//Ground mat
+	ImGui::PushID("Ground");
+	if (ImGui::CollapsingHeader("Ground"))
+	{
+		ImGui::ColorEdit4("Ambient##Material", &mAlienGround.material.ambient.r);
+		ImGui::ColorEdit4("Diffuse##Material", &mAlienGround.material.diffuse.r);
+		ImGui::ColorEdit4("Specular##Material", &mAlienGround.material.specular.r);
+		ImGui::ColorEdit4("Emissive##Material", &mAlienGround.material.emissive.r);
+		ImGui::DragFloat("Power##Material", &mAlienGround.material.power);
 	}
 	ImGui::PopID();
 	//Light
@@ -207,6 +230,8 @@ void GameState::Update(float deltaTime)
 	ModelTransform(deltaTime);
 	//Shadow Update
 	mShadowEffect.SetFocus({ mCamera.GetPosition().x, 0.0f, mCamera.GetPosition().z });
+
+	mSkySphere.transform.vrotation.y += Constants::HalfPi * deltaTime * .002f;
 }
 
 void GameState::EngineCameraController(float deltaTime)
@@ -274,8 +299,6 @@ void GameState::EngineFPS(float deltaTime)
 
 void GameState::ModelTransform(float deltaTime)
 {
-
-
 	if (bRotateChar)
 	{
 		for (auto& a : mSpaceShip)
@@ -284,5 +307,14 @@ void GameState::ModelTransform(float deltaTime)
 		}
 	}
 
-}
+	if (bToggleTranslationOnAndOff)
+	{
+		totalTime += deltaTime;
+		spaceShipPos.y = std::sin(totalTime) + 14.0f;
 
+		for (auto& a : mSpaceShip)
+		{
+			a.transform.position.y = spaceShipPos.y;
+		}
+	}
+}
