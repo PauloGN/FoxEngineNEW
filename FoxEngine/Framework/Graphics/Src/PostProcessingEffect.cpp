@@ -19,7 +19,7 @@ namespace
 	"Blur",
 	"Combine2",
 	"MotionBlur",
-	"GlowEffect",
+	"RadiantGlowEffect",
 	"Temperature"
 	};
 }
