@@ -7,6 +7,7 @@ cbuffer PostProcessBuffer : register(b0)
     float param3;
     float param4;
     float param5;
+    float param6;
 }
 
 Texture2D textureMap0 : register(t0);
@@ -116,9 +117,10 @@ float4 PS(VS_OUTPUT input) : SV_Target
         case 7: // Smooth HDR Bloom Effect
 {
                 float4 color = textureMap0.Sample(textureSampler, input.texcoord);
+                float4 coppyOfColor = textureMap2.Sample(textureSampler, input.texcoord);
                 float4 blurredColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
-                // Apply a smoother blur to the bright areas of the image
+    // Apply a smoother blur to the bright areas of the image
                 if (color.r + color.g + color.b > param0)
                 {
                     float blurAmount = param1; // Adjust this value for intensity and blur size
@@ -135,13 +137,13 @@ float4 PS(VS_OUTPUT input) : SV_Target
                     }
                 }
 
-                // Apply threshold to prevent over-brightening in the bloom
+    // Apply threshold to prevent over-brightening in the bloom
                 blurredColor = max(blurredColor - param3, 0.0);
 
-                 // Combine the original color and the bloomed color
+    // Combine the original color and the bloomed color
                 float4 finalBloomedColor = color + blurredColor * param2;
 
-                // Apply a smoother spread blur to simulate spreading of the glow
+    // Apply a smoother spread blur to simulate spreading of the glow
                 float4 spreadBlur = float4(0.0f, 0.0f, 0.0f, 0.0f);
                 float spreadBlurAmount = param4 * 0.5; // Reduce spread intensity for smoother effect
                 int spreadSamples = 15; // Increase the number of samples for smoother results
@@ -156,10 +158,63 @@ float4 PS(VS_OUTPUT input) : SV_Target
                     }
                 }
 
-                 // Apply the final result
-                finalColor = color + spreadBlur * param5; // Adjust intensity of spread glow
+    // Use coppyOfColor information to enhance glow
+                float4 enhancedGlow = spreadBlur + coppyOfColor * param6; // Adjust param6 for intensity
+
+    // Apply the final result
+                finalColor = color + enhancedGlow * param5; // Adjust intensity of spread glow
             }
             break;
+
+        
+        
+//        case 7: // Smooth HDR Bloom Effect
+//{
+//                float4 color = textureMap0.Sample(textureSampler, input.texcoord);
+//                float4 blurredColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
+
+//                // Apply a smoother blur to the bright areas of the image
+//                if (color.r + color.g + color.b > param0)
+//                {
+//                    float blurAmount = param1; // Adjust this value for intensity and blur size
+//                    int numSamples = 31; // Increase the number of samples for smoother results
+//                    float sampleWeight = 1.0 / float(numSamples * numSamples); // Weight of each sample
+
+//                    for (int i = -numSamples / 2; i <= numSamples / 2; i++)
+//                    {
+//                        for (int j = -numSamples / 2; j <= numSamples / 2; j++)
+//                        {
+//                            float2 offset = float2(i, j) * blurAmount;
+//                            blurredColor += textureMap0.Sample(textureSampler, input.texcoord + offset) * sampleWeight;
+//                        }
+//                    }
+//                }
+
+//                // Apply threshold to prevent over-brightening in the bloom
+//                blurredColor = max(blurredColor - param3, 0.0);
+
+//                 // Combine the original color and the bloomed color
+//                float4 finalBloomedColor = color + blurredColor * param2;
+
+//                // Apply a smoother spread blur to simulate spreading of the glow
+//                float4 spreadBlur = float4(0.0f, 0.0f, 0.0f, 0.0f);
+//                float spreadBlurAmount = param4 * 0.5; // Reduce spread intensity for smoother effect
+//                int spreadSamples = 15; // Increase the number of samples for smoother results
+//                float spreadSampleWeight = 1.0 / float(spreadSamples * spreadSamples); // Weight of each sample
+
+//                for (int i = -spreadSamples / 2; i <= spreadSamples / 2; i++)
+//                {
+//                    for (int j = -spreadSamples / 2; j <= spreadSamples / 2; j++)
+//                    {
+//                        float2 offset = float2(i, j) * spreadBlurAmount;
+//                        spreadBlur += finalBloomedColor * spreadSampleWeight;
+//                    }
+//                }
+
+//                 // Apply the final result
+//                finalColor = color + spreadBlur * param5; // Adjust intensity of spread glow
+//            }
+//            break;
         case 8: //Temperature Simulator
         {
              float4 color = textureMap0.Sample(textureSampler, input.texcoord);

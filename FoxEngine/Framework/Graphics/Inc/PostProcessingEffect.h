@@ -25,7 +25,7 @@ namespace FoxEngine::Graphics
 			Blur,
 			Combine2,
 			MotionBlur,
-			GlowEffect,
+			RadiantGlowEffect,
 			Temperature
 		};
 
@@ -77,5 +77,6 @@ namespace FoxEngine::Graphics
 		float mBloom = 0.0f;
 		float mSpreadBlur = 0.0f;
 		float mSpreadGlow = 0.0f;
+		float mBrightness = .0f;
 	};
 }

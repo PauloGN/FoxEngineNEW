@@ -92,7 +92,7 @@ void FoxEngine::Graphics::PostProcessingEffect::Beging()
 		data.param1 = mBlurStrength / screenHeiht;
 	}
 		break;
-	case Mode::GlowEffect:
+	case Mode::RadiantGlowEffect:
 	{
 		data.param0 = mBlurStrength;
 		data.param1 = mIntensity;
@@ -100,6 +100,7 @@ void FoxEngine::Graphics::PostProcessingEffect::Beging()
 		data.param3 = mBloom;
 		data.param4 = mSpreadBlur;
 		data.param5 = mSpreadGlow;
+		data.param6 = mBrightness;
 	}
 		break;
 	case Mode::Temperature:
@@ -176,14 +177,15 @@ void FoxEngine::Graphics::PostProcessingEffect::DebugUI()
 			ImGui::DragFloat("Blur Strength##", &mBlurStrength, 1.f, -10.0f, 100.0f);
 		}
 			break;
-		case Mode::GlowEffect:
+		case Mode::RadiantGlowEffect:
 		{
 			ImGui::DragFloat("Blur in Bright Areas##", &mBlurStrength, .01f, -10.f, 10.f);
 			ImGui::DragFloat("Blur Intensity##", &mIntensity, .01f, -100.f, 100.f);
 			ImGui::DragFloat("Glow Intensity##", &mGlowIntensity, .01f, -100.f, 100.f);
 			ImGui::DragFloat("Bloom##", &mBloom, .01f, -10.f, 10.f);
-			ImGui::DragFloat("Spread Blur##", &mSpreadBlur, .1f, -100.f, 100.f);
+		//	ImGui::DragFloat("Spread Blur##", &mSpreadBlur, .1f, -100.f, 100.f);
 			ImGui::DragFloat("Spread Glow##", &mSpreadGlow, .001f, -100.f, 100.f);
+			ImGui::DragFloat("Brightness ##", &mBrightness, .1f, -100.f, 100.f);
 		}
 			break;
 		case Mode::Temperature:

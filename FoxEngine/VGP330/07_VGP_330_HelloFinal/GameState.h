@@ -28,7 +28,7 @@ protected:
 	StandardEffect mStandardEffect;
 	SimpleEffect mSimpleEffect;
 
-	PostProcessingEffect mPostProcessingEffect;
+	PostProcessingEffect mPostProcessingEffect;;
 	FoxEngine::Graphics::TerrainEffect mTerrainEffect;
 	RenderTarget mRenderTarget;
 	ShadowEffect mShadowEffect;

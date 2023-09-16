@@ -45,6 +45,7 @@ void GameState::Initialize()
 	mPostProcessingEffect.Initialize(L"../../Assets/Shaders/PostProcessing.fx");
 	mPostProcessingEffect.SetTexture(&mRenderTarget);
 	mPostProcessingEffect.SetTexture(&mCombineTexture, 1);
+	mPostProcessingEffect.SetTexture(&mRenderTarget, 2);
 
 	mCombineTexture.Initialize(L"../../Assets/Images/samples/happy.jpg");
 
@@ -97,9 +98,9 @@ void GameState::Initialize()
 	MeshPX screenMesh = MeshBuilder::CreateScreenQuad();
 	mScreenQuad.meshBuffer.Initialize(screenMesh);
 
-	MeshPX sphere = MeshBuilder::CreateSkySpherePX(128, 128, 450.0f);
+	MeshPX sphere = MeshBuilder::CreateSkySpherePX(128, 128, 550.0f);
 	mSkySphere.meshBuffer.Initialize(sphere);
-	mSkySphere.diffuseMapId = TextureManager::Get()->LoadTexture(L"Space02.jpg");
+	mSkySphere.diffuseMapId = TextureManager::Get()->LoadTexture(L"Space03.jpg");
 }
 
 void GameState::Terminate()
