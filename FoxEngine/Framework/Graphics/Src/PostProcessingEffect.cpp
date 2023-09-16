@@ -153,6 +153,18 @@ void FoxEngine::Graphics::PostProcessingEffect::DebugUI()
 			mBlurStrength = 5.0f;
 			mGlowIntensity = 0.0f;
 			mMode = static_cast<Mode>(currentMode);
+
+			if (mMode == Mode::RadiantGlowEffect) 
+			{
+				mBlurStrength = 10.0f;
+				mIntensity = 4.88f;
+				mGlowIntensity = 3.2f;
+				mBloom = -0.56f;
+				//	ImGui::DragFloat("Spread Blur##", &mSpreadBlur, .1f, -100.f, 100.f);
+				mSpreadGlow = -0.432f;
+				mBrightness = -13.5f;
+			}
+
 		}
 
 		switch (mMode)

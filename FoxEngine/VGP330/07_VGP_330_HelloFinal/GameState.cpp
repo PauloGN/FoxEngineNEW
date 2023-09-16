@@ -232,7 +232,7 @@ void GameState::Update(float deltaTime)
 	//Shadow Update
 	mShadowEffect.SetFocus({ mCamera.GetPosition().x, 0.0f, mCamera.GetPosition().z });
 
-	mSkySphere.transform.vrotation.y += Constants::HalfPi * deltaTime * .002f;
+	mSkySphere.transform.vrotation.y += Constants::HalfPi * deltaTime * .005f;
 }
 
 void GameState::EngineCameraController(float deltaTime)
