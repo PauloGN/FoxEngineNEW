@@ -12,7 +12,7 @@ namespace
 
 	float totalTime = 0.0f;
 	Vector3 spaceShipPos(0.0f);
-	bool bToggleTranslationOnAndOff = false;
+	bool bToggleTranslationOnAndOff = true;
 }
 
 void GameState::Initialize()
@@ -100,7 +100,7 @@ void GameState::Initialize()
 
 	MeshPX sphere = MeshBuilder::CreateSkySpherePX(128, 128, 550.0f);
 	mSkySphere.meshBuffer.Initialize(sphere);
-	mSkySphere.diffuseMapId = TextureManager::Get()->LoadTexture(L"Space03.jpg");
+	mSkySphere.diffuseMapId = TextureManager::Get()->LoadTexture(L"Space01.jpg");
 }
 
 void GameState::Terminate()
@@ -168,7 +168,7 @@ void GameState::DebugUI()
 
 		ImGui::Checkbox("Translate", &bToggleTranslationOnAndOff);
 
-		if (ImGui::CollapsingHeader("Material", ImGuiTreeNodeFlags_DefaultOpen))
+		if (ImGui::CollapsingHeader("Model Material", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			ImGui::ColorEdit4("Ambient##Material", &mMaterial.ambient.r);
 			ImGui::ColorEdit4("Diffuse##Material", &mMaterial.diffuse.r);

@@ -202,8 +202,8 @@ void FoxEngine::Graphics::PostProcessingEffect::DebugUI()
 			break;
 		case Mode::Temperature:
 		{
-			ImGui::DragFloat("Temperature shift##", &mIntensity, .001f, -10.f, 10.f);
-			ImGui::DragFloat("Smoothness##", &mGlowIntensity, .001f, -10.f, 10.f);
+			ImGui::DragFloat("Temperature shift##", &mIntensity, .01f, -10.f, 10.f);
+			ImGui::DragFloat("Smoothness##", &mGlowIntensity, .01f, -10.f, 10.f);
 		}
 			break;
 		default:
