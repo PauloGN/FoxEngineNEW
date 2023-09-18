@@ -7,7 +7,7 @@ using namespace FoxEngine::Core;
 int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int)
 {
 	AppConfig config;
-	config.appName = L"Hello Post Processing";
+	config.appName = L"Hello Shadow";
 
 	App& myApp = MainApp();
 	//States

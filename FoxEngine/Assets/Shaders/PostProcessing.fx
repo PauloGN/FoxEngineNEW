@@ -7,6 +7,7 @@ cbuffer PostProcessBuffer : register(b0)
     float param3;
     float param4;
     float param5;
+    float param6;
 }
 
 Texture2D textureMap0 : register(t0);
@@ -113,16 +114,17 @@ float4 PS(VS_OUTPUT input) : SV_Target
                 finalColor *= 0.15f;
             }
             break;
-        case 7: // Advanced Bloom Effect (Simulated HDR Bloom)
+        case 7: // Smooth Bloom Effect
         {
                 float4 color = textureMap0.Sample(textureSampler, input.texcoord);
+                float4 coppyOfColor = textureMap2.Sample(textureSampler, input.texcoord);
                 float4 blurredColor = float4(0.0f, 0.0f, 0.0f, 0.0f);
 
-                 // Apply a blur to the bright areas of the image
+                 // Apply a smoother blur to the bright areas of the image
                 if (color.r + color.g + color.b > param0)
                 {
                     float blurAmount = param1; // Adjust this value for intensity and blur size
-                    int numSamples = 21; // Adjust the number of samples (odd value for symmetry)
+                    int numSamples = 31; // Increase the number of samples for smoother results
                     float sampleWeight = 1.0 / float(numSamples * numSamples); // Weight of each sample
 
                     for (int i = -numSamples / 2; i <= numSamples / 2; i++)
@@ -135,16 +137,16 @@ float4 PS(VS_OUTPUT input) : SV_Target
                     }
                 }
 
-                 // Apply threshold to prevent over-brightening in the bloom
+                // Apply threshold to prevent over-brightening in the bloom
                 blurredColor = max(blurredColor - param3, 0.0);
 
-                 // Combine the original color and the bloomed color
+                // Combine the original color and the bloomed color
                 float4 finalBloomedColor = color + blurredColor * param2;
 
-                 // Apply another blur to simulate spreading of the glow
+                // Apply a smoother spread blur to simulate spreading of the glow
                 float4 spreadBlur = float4(0.0f, 0.0f, 0.0f, 0.0f);
-                float spreadBlurAmount = param4; // Adjust this for spread intensity
-                int spreadSamples = 9; // Adjust the number of samples (odd value for symmetry)
+                float spreadBlurAmount = param4 * 0.5; // Reduce spread intensity for smoother effect
+                int spreadSamples = 15; // Increase the number of samples for smoother results
                 float spreadSampleWeight = 1.0 / float(spreadSamples * spreadSamples); // Weight of each sample
 
                 for (int i = -spreadSamples / 2; i <= spreadSamples / 2; i++)
@@ -156,14 +158,17 @@ float4 PS(VS_OUTPUT input) : SV_Target
                     }
                 }
 
-                 // Apply the final result
-                finalColor = color + spreadBlur * param5; // Adjust intensity of spread glow
+                // Use coppyOfColor information to enhance glow
+                float4 enhancedGlow = spreadBlur + coppyOfColor * param6; // Adjust param6 for intensity
+
+                // Apply the final result
+                    finalColor = color + enhancedGlow * param5; // Adjust intensity of spread glow
         }
             break;
         case 8: //Temperature Simulator
-        {
+        {  
+               
              float4 color = textureMap0.Sample(textureSampler, input.texcoord);
-    
              float temperatureOffset = param0; // Adjust this to control temperature shift
     
              // Convert RGB to XYZ color space
@@ -174,12 +179,13 @@ float4 PS(VS_OUTPUT input) : SV_Target
              );
     
              // Calculate the current color temperature
-             float currentTemperature = XYZ.y;
+             float currentTemperature = XYZ.x;
     
              // Calculate the target color temperature
              float targetTemperature = currentTemperature + temperatureOffset;
     
              // Calculate von Kries chromatic adaptation matrix
+             //https://santhalakshminarayana.github.io/blog/chromatic-adaptation
              float3 vonKriesMatrix = float3(
                  targetTemperature / currentTemperature,
                  1.0,
@@ -201,9 +207,8 @@ float4 PS(VS_OUTPUT input) : SV_Target
              // Apply smooth transition to the new color
              float3 blendedColor = lerp(color.rgb, correctedColor, param1); // Adjust param1 for smoothness
                          finalColor = float4(blendedColor, 1.0f);
-       }
+        }
             break;
-
         default:
         // Handle any other cases here
             finalColor = textureMap0.Sample(textureSampler, input.texcoord);

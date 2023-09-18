@@ -19,7 +19,7 @@ namespace
 	"Blur",
 	"Combine2",
 	"MotionBlur",
-	"GlowEffect",
+	"RadiantGlowEffect",
 	"Temperature"
 	};
 }
@@ -92,7 +92,7 @@ void FoxEngine::Graphics::PostProcessingEffect::Beging()
 		data.param1 = mBlurStrength / screenHeiht;
 	}
 		break;
-	case Mode::GlowEffect:
+	case Mode::RadiantGlowEffect:
 	{
 		data.param0 = mBlurStrength;
 		data.param1 = mIntensity;
@@ -100,6 +100,7 @@ void FoxEngine::Graphics::PostProcessingEffect::Beging()
 		data.param3 = mBloom;
 		data.param4 = mSpreadBlur;
 		data.param5 = mSpreadGlow;
+		data.param6 = mBrightness;
 	}
 		break;
 	case Mode::Temperature:
@@ -152,6 +153,18 @@ void FoxEngine::Graphics::PostProcessingEffect::DebugUI()
 			mBlurStrength = 5.0f;
 			mGlowIntensity = 0.0f;
 			mMode = static_cast<Mode>(currentMode);
+
+			if (mMode == Mode::RadiantGlowEffect) 
+			{
+				mBlurStrength = 10.0f;
+				mIntensity = 4.88f;
+				mGlowIntensity = 3.2f;
+				mBloom = -0.56f;
+				//	ImGui::DragFloat("Spread Blur##", &mSpreadBlur, .1f, -100.f, 100.f);
+				mSpreadGlow = -0.432f;
+				mBrightness = -13.5f;
+			}
+
 		}
 
 		switch (mMode)
@@ -176,20 +189,21 @@ void FoxEngine::Graphics::PostProcessingEffect::DebugUI()
 			ImGui::DragFloat("Blur Strength##", &mBlurStrength, 1.f, -10.0f, 100.0f);
 		}
 			break;
-		case Mode::GlowEffect:
+		case Mode::RadiantGlowEffect:
 		{
-			ImGui::DragFloat("Blur in Bright Areas##", &mBlurStrength, .01f, -100.f, 100.f);
+			ImGui::DragFloat("Blur in Bright Areas##", &mBlurStrength, .01f, -10.f, 10.f);
 			ImGui::DragFloat("Blur Intensity##", &mIntensity, .01f, -100.f, 100.f);
 			ImGui::DragFloat("Glow Intensity##", &mGlowIntensity, .01f, -100.f, 100.f);
-			ImGui::DragFloat("Bloom##", &mBloom, .1f, -100.f, 100.f);
-			ImGui::DragFloat("Spread Blur##", &mSpreadBlur, .1f, -100.f, 100.f);
-			ImGui::DragFloat("Spread Glow##", &mSpreadGlow, .1f, -100.f, 100.f);
+			ImGui::DragFloat("Bloom##", &mBloom, .01f, -10.f, 10.f);
+		//	ImGui::DragFloat("Spread Blur##", &mSpreadBlur, .1f, -100.f, 100.f);
+			ImGui::DragFloat("Spread Glow##", &mSpreadGlow, .001f, -100.f, 100.f);
+			ImGui::DragFloat("Brightness ##", &mBrightness, .1f, -100.f, 100.f);
 		}
 			break;
 		case Mode::Temperature:
 		{
-			ImGui::DragFloat("Temperature shift##", &mIntensity, .001f, -10.f, 10.f);
-			ImGui::DragFloat("Smoothness##", &mGlowIntensity, .001f, -10.f, 10.f);
+			ImGui::DragFloat("Temperature shift##", &mIntensity, .01f, -10.f, 10.f);
+			ImGui::DragFloat("Smoothness##", &mGlowIntensity, .01f, -10.f, 10.f);
 		}
 			break;
 		default:

@@ -131,7 +131,7 @@ void FoxEngine::Graphics::StandardEffect::SetShadowMap(const Texture& ShadowMap)
 
 void FoxEngine::Graphics::StandardEffect::DebugUI()
 {
-    if (ImGui::CollapsingHeader("Standard Effect##"), ImGuiTreeNodeFlags_DefaultOpen)
+    if (ImGui::CollapsingHeader("StandatEffect##", ImGuiTreeNodeFlags_DefaultOpen))
     {
         bool useDiffuseMap = mSettingsData.useDiffuseMap > 0;
         if (ImGui::Checkbox("Use Diffuse Map##", &useDiffuseMap))
