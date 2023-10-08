@@ -27,28 +27,30 @@ namespace FoxEngine::FoxMath
         Quaternion operator*(float s) const { return Quaternion(x * s, y * s, z * s, w * s); }
         Quaternion operator/(float s) const { return Quaternion(x / s, y / s, z / s, w / s); }
 
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///                                            week 01 animation                                           ////
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         void Conjugate() noexcept;
-        void Conjugate(Quaternion& result) const noexcept;
+        void Inverse() noexcept;
+        float Magnitude() const noexcept;
+        float MagnitudeSquared() const noexcept;
+        void Normalize() noexcept;
+        float Dot(const Quaternion& q) const noexcept;
 
-        void Inverse(Quaternion& result) const noexcept;
-        float Dot(const Quaternion& Q) const noexcept;
-
+        // Static functions
+        static Quaternion Conjugate(const Quaternion& q);
         static float Magnitude(const Quaternion& q);
         static Quaternion Normalize(const Quaternion& q);
 
-        // Static functions
         static Quaternion CreateFromAxisAngle(const Vector3& axis, float angle) noexcept;
         static Quaternion CreateFromYawPitchRoll(float yaw, float pitch, float roll) noexcept;
-        static Quaternion CreateFromRotationMatrix(const Matrix4& M) noexcept;
+        static Quaternion CreateFromRotationMatrix(const Matrix4& m) noexcept;
 
-        static Quaternion Lerp(Quaternion q0, Quaternion q1, float t);
-        static Quaternion Slerp(Quaternion q1, Quaternion q2, float t);
-
+        static Quaternion Lerp(const Quaternion& q0, const Quaternion& q1, float t);
+        static Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t);
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         // Constants
         static const Quaternion Identity;
         static const Quaternion Zero;
     };
 }
-
-
-//Week 03 check 1H:28min 
