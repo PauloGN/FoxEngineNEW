@@ -9,7 +9,8 @@ namespace FoxEngine::FoxMath
     struct Quaternion
     {
         float x, y, z, w;
-        Quaternion() = default;
+        //Quaternion() = default;
+        constexpr Quaternion() noexcept : w(1.0f), x(0.0f), y(0.0f), z(0.0f) {};
         constexpr Quaternion(float ix, float iy, float iz, float iw) noexcept : x(ix), y(iy), z(iz), w(iw) {}
 
         Quaternion(const Quaternion&) = default;

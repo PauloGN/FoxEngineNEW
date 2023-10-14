@@ -143,6 +143,26 @@ namespace FoxEngine::FoxMath
 		return v;
 	}
 
+	constexpr Vector3 GetRight(const Matrix4& m)
+	{
+		return { m._11, m._12, m._13 };
+	}
+
+	constexpr Vector3 GetUp(const Matrix4& m)
+	{
+		return { m._21, m._22, m._23 };
+	}
+
+	constexpr Vector3 GetLook(const Matrix4& m)
+	{
+		return { m._31, m._32, m._33 };
+	}
+
+	constexpr Vector3 GetTranslation(const Matrix4& m)
+	{
+		return { m._41, m._42, m._43 };
+	}
+
 	//Vector 4
 
 	constexpr float Dot(Vector4 a, Vector4 b)
