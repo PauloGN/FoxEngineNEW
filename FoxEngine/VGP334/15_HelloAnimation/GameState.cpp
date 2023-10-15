@@ -46,9 +46,19 @@ void GameState::Initialize()
 	mAnimationTime = 0.0f;
 	mBallAnimation = AnimationBuilder()
 		.AddPositionKey(Vector3(0.0f, 5.0f, 0.0f), 0.0f)
-		.AddPositionKey(Vector3(0.0f, 1.0f, 0.0f), 3.0f)
-		.AddPositionKey(Vector3(0.0f, 3.0f, 0.0f), 5.0f)
-		.AddPositionKey(Vector3(0.0f, 5.0f, 0.0f), 6.0f)
+		.AddPositionKey(Vector3(0.0f, 1.0f, 0.0f), 1.0f, EaseType::EaseInQuad)
+		.AddPositionKey(Vector3(0.0f, 5.0f, 0.0f), 2.0f, EaseType::EaseOutQuad)
+		.AddScaleKey(Vector3(1.0f), 0.0f)
+		.AddScaleKey(Vector3(1.0f), 0.9f)
+		.AddScaleKey(Vector3(1.2, 0.5f, 1.2f), 1.0f, EaseType::EaseInQuad)
+		.AddScaleKey(Vector3(0.8f, 1.3f, 0.8f), 1.1f, EaseType::EaseOutQuad)
+		.AddScaleKey(Vector3(0.8f, 1.3f, 0.8f), 1.2f)
+		.AddScaleKey(Vector3(1.0f), 2.0f, EaseType::EaseOutQuad)
+		.AddRotationKey(mBall.transform.rotation, 0.0f)
+		.AddRotationKey(Quaternion(0.0f, FoxMath::Constants::HalfPi, 0.0f, 1.0f), 0.5f)
+		.AddRotationKey(Quaternion(0.0f, FoxMath::Constants::Pi, 0.0f, 1.0f), 1.0f)
+		.AddRotationKey(Quaternion(0.0f, FoxMath::Constants::HalfPi * 3.0f, 0.0f, 1.0f), 1.5f)
+		.AddRotationKey(Quaternion(0.0f, FoxMath::Constants::TwoPi, 0.0f, 1.0f), 2.0f)
 		.Build();
 
 }
