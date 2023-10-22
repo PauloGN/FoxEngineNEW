@@ -11,5 +11,8 @@ namespace FoxEngine::Graphics
 
 		void SaveMaterial(std::filesystem::path filePath, const Model& model);
 		void loadMaterial(std::filesystem::path filePath, Model& model);
+
+		void SaveSkeleton(std::filesystem::path filePath, const Model& model);
+		void loadSkeleton(std::filesystem::path filePath, Model& model);
 	}
 }

@@ -1,3 +1,5 @@
--scale 0.01 ../../Assets/Models/Character/Dragon.fbx ../../Assets/Models/Character/Dragon.model
+//Space Ship
+-scale 0.01 ../../Assets/Models/Character/source.FBX ../../Assets/Models/Character/source.model
 
--scale 0.01 ../../Assets/Models/Character/Dragon.fbx ../../Assets/Models/Character/Dragon.model
+//Character
+-scale 0.01 ../../Assets/Models/Character/AlienMan.fbx ../../Assets/Models/Character/AlienMan.model
