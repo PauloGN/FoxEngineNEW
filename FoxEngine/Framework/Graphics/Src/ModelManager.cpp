@@ -42,6 +42,7 @@ ModelId FoxEngine::Graphics::ModelManager::LoadModel(const std::filesystem::path
 		modelPtr = std::make_unique<Model>();
 		ModelIO::loadModel(filePath, *modelPtr);
 		ModelIO::loadMaterial(filePath, *modelPtr);
+		ModelIO::loadSkeleton(filePath, *modelPtr);
 	}
 
 	return modelId;
