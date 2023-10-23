@@ -24,6 +24,7 @@ protected:
 	Camera mCamera;
 	DirectionalLight mDirectionalLight;
 	StandardEffect mStandardEffect;
+	ModelId mCharacterId;
 	RenderGroup mAlien;
 	RenderObject mGround;
 
