@@ -9,7 +9,7 @@ namespace FoxEngine
 		std::wstring appName = L"Fox";
 		uint32_t winWidth = 1280;
 		uint32_t winHeight = 720;
-		uint32_t debugDrawLimit = 10000;
+		uint32_t debugDrawLimit = 1000000;
 		std::filesystem::path textureRoot = "../../Assets/Images";
 		std::filesystem::path audioRoot = "../../Assets/Audio";
 	};

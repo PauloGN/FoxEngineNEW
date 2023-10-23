@@ -28,8 +28,8 @@ void GameState::Initialize()
 	mStandardEffect.SetDirectionalLight(mDirectionalLight);
 
 	//Find char model and load
-	ModelId modelId = ModelManager::Get()->LoadModel("../../Assets/Models/Character/AlienMan.model");
-	mAlien = CreateRenderGroup(modelId);
+	mCharacterId = ModelManager::Get()->LoadModel("../../Assets/Models/Character/AlienMan.model");
+	mAlien = CreateRenderGroup(mCharacterId);
 
 	Mesh groundMesh = MeshBuilder::CreateGroundPlane(20,20,1.0f);
 	mGround.meshBuffer.Initialize(groundMesh);
@@ -54,7 +54,9 @@ void GameState::Render()
 	mStandardEffect.Begin();
 		if (mDrawSkeleton)
 		{
-
+			AnimationUtil::BoneTransforms boneTransforms;
+			AnimationUtil::ComputeBoneTransform(mCharacterId, boneTransforms);
+			AnimationUtil::DrawSkeleton(mCharacterId, boneTransforms);
 		}
 		else
 		{
@@ -64,7 +66,7 @@ void GameState::Render()
 	mStandardEffect.End();
 
 	//SimpleDraw::AddGroundPlane(20.0f, Colors::LightBlue);
-	//SimpleDraw::Render(mCamera);
+	SimpleDraw::Render(mCamera);
 }
 
 void GameState::DebugUI()

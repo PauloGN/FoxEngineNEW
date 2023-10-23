@@ -132,7 +132,7 @@ namespace FoxEngine::FoxMath
 		return { x, y, z };
 	}
 
-	inline Vector3 quaternionToVector3(const Quaternion& q)
+	inline constexpr Vector3 quaternionToVector3(const Quaternion& q)
 	{
 		Vector3 v;
 
@@ -143,24 +143,29 @@ namespace FoxEngine::FoxMath
 		return v;
 	}
 
-	constexpr Vector3 GetRight(const Matrix4& m)
+	inline constexpr Vector3 GetTranslation(const Matrix4& m)
+	{
+		return { m._41, m._42, m._43 };
+	}
+
+	inline constexpr Vector3 GetRight(const Matrix4& m)
 	{
 		return { m._11, m._12, m._13 };
 	}
 
-	constexpr Vector3 GetUp(const Matrix4& m)
+	inline constexpr Vector3 GetUp(const Matrix4& m)
 	{
 		return { m._21, m._22, m._23 };
 	}
 
-	constexpr Vector3 GetLook(const Matrix4& m)
+	inline constexpr Vector3 GetLook(const Matrix4& m)
 	{
 		return { m._31, m._32, m._33 };
 	}
 
-	constexpr Vector3 GetTranslation(const Matrix4& m)
+	inline constexpr Vector3 GetScale(const Matrix4& m)
 	{
-		return { m._41, m._42, m._43 };
+		return { m._11, m._22, m._33 };
 	}
 
 	//Vector 4
@@ -196,35 +201,7 @@ namespace FoxEngine::FoxMath
 		return a / magA;
 	}
 
-	//constexpr Vector4 Cross(Vector4 a, Vector4 b)
-	//{
-	//	float x = a.y * b.z - a.z * b.y;
-	//	float y = a.z * b.x - a.x * b.z;
-	//	float z = a.x * b.y - a.y * b.x;
-	//	float w = a.w * b.y - a.y * b.x;
-
-	//	return { x, y, z, w };
-	//}
-
-	//inline Vector3 TransformCoord(const Vector3& v, const Matrix4& m)
-	//{
-	//	float x = v.x * m._11 + v.y * m._21 + v.z * m._31 + m._41;
-	//	float y = v.x * m._12 + v.y * m._22 + v.z * m._32 + m._42;
-	//	float z = v.x * m._13 + v.y * m._23 + v.z * m._33 + m._43;
-
-	//	return { x, y, z };
-	//}
-
-	//inline Vector3 TransformNormal(const Vector3& v, const Matrix4& m)
-	//{
-	//	float x = v.x * m._11 + v.y * m._21 + v.z * m._31;
-	//	float y = v.x * m._12 + v.y * m._22 + v.z * m._32;
-	//	float z = v.x * m._13 + v.y * m._23 + v.z * m._33;
-
-	//	return { x, y, z };
-	//}
-
-	//Matrix
+	//Matrix4
 
 	inline Matrix4 Transpose(const Matrix4& m)
 	{
