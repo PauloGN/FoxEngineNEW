@@ -3,6 +3,15 @@
 namespace FoxEngine::Graphics
 {
 	struct Model;
+	class Animation;
+
+	class AnimationIO
+	{
+	public:
+
+		static void Write(FILE* file, const Animation& animation);
+		static void Read(FILE* file, Animation& animation);
+	};
 
 	namespace ModelIO
 	{
@@ -14,5 +23,8 @@ namespace FoxEngine::Graphics
 
 		void SaveSkeleton(std::filesystem::path filePath, const Model& model);
 		void loadSkeleton(std::filesystem::path filePath, Model& model);
+
+		void SaveAnimations(std::filesystem::path filePath, const Model& model);
+		void LoadAnimations(std::filesystem::path filePath, Model& model);
 	}
 }
