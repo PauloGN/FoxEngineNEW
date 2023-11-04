@@ -29,13 +29,13 @@ void FoxEngine::Graphics::Animator::Update(float deltaTime)
 	auto model = ModelManager::Get()->GetModel(mModelId);
 	const auto& animClip = model->animationClips[mClipIndex];
 	mAnimationTick += animClip.ticksPerSecond * deltaTime; // note: ticks to frames
-	if (mAnimationTick > animClip.tickDuration)
+	if (mAnimationTick > animClip.tickDuration )
 	{
 		if (mIsLooping)
 		{
 			while (mAnimationTick >= animClip.tickDuration)
 			{
-				mAnimationTick -= animClip.ticksPerSecond;
+				mAnimationTick -= animClip.tickDuration;
 			}
 		}
 		else
