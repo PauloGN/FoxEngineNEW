@@ -3,3 +3,14 @@
 
 //Character
 -scale 0.01 ../../Assets/Models/Character/AlienMan.fbx ../../Assets/Models/Character/AlienMan.model
+
+
+=========================  ANIMATIONS ==================================
+-scale 0.01 -animOnly 1 ../../Assets/Models/Character/Idle.fbx ../../Assets/Models/Character/Idle.model
+-scale 0.01 -animOnly 1 ../../Assets/Models/Character/Walking.fbx ../../Assets/Models/Character/Walking.model
+-scale 0.01 -animOnly 1 ../../Assets/Models/Character/jump.fbx ../../Assets/Models/Character/jump.model
+-scale 0.01 -animOnly 1 ../../Assets/Models/Character/leftstrafewalking.fbx ../../Assets/Models/Character/leftstrafewalking.model
+-scale 0.01 -animOnly 1 ../../Assets/Models/Character/leftturn90.fbx ../../Assets/Models/Character/leftturn90.model
+-scale 0.01 -animOnly 1 ../../Assets/Models/Character/rightstrafewalking.fbx ../../Assets/Models/Character/rightstrafewalking.model
+-scale 0.01 -animOnly 1 ../../Assets/Models/Character/rightturn90.fbx ../../Assets/Models/Character/rightturn90.model
+-scale 0.01 -animOnly 1 ../../Assets/Models/Character/walking.fbx ../../Assets/Models/Character/walking.model
