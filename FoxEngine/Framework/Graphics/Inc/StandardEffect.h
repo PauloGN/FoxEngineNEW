@@ -55,20 +55,23 @@ namespace  FoxEngine::Graphics
 			int useSpecMap = 0;
 			int useCelShading = 0;
 			int useShadowMap = 0;
+			int useSkinning = 1;
 			float bumpWeigh = 0.1f;
 			float depthBias = 0.0f;
+			float padding[3] = {0.0f};
 		};
 
 		using TransformBuffer = TypedConstantBuffer<TransformData>;
 		using LightingBuffer = TypedConstantBuffer<DirectionalLight>;
 		using MaterialBuffer = TypedConstantBuffer<Material>;
 		using SettingsBuffer = TypedConstantBuffer<SettingsData>;
+		using BoneTransformBuffer = ConstantBuffer;
 
 		TransformBuffer mTransformBuffer;
 		LightingBuffer mLightingtBuffer;
 		MaterialBuffer mMaterialBuffer;
 		SettingsBuffer mSettingsBuffer;
-
+		BoneTransformBuffer mBoneTransformBuffer;
 		VertexShader mVertexShader;
 		PixelShader mPixelShader;
 		Sampler mSampler;

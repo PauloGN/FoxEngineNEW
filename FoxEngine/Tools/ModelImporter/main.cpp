@@ -353,6 +353,30 @@ int main(int argc, char* argv[])
 				mesh.indices.push_back(aiFace.mIndices[1]);
 				mesh.indices.push_back(aiFace.mIndices[2]);
 			}
+
+			if (aiMesh->HasBones())//week 05 *********************
+			{
+				printf("Reading bone weights...\n");
+
+				std::vector<int> numWeightsAdded(mesh.vertices.size());
+				for (uint32_t b = 0; b < aiMesh->mNumBones; ++b)
+				{
+					const aiBone* bone = aiMesh->mBones[b];
+					uint32_t boneIndex = GetboneIndex(bone, boneIndexLookup);
+					for (uint32_t w = 0; w < bone->mNumWeights; ++w)
+					{
+						const aiVertexWeight& weight = bone->mWeights[w];
+						Vertex& vertex = mesh.vertices[weight.mVertexId];
+						int& count = numWeightsAdded[weight.mVertexId];
+						if (count < Vertex::MaxBones)
+						{
+							vertex.boneIndices[count] = boneIndex;
+							vertex.boneWeights[count] = weight.mWeight;
+							++count;
+						}
+					}
+				}
+			}
 		}
 	}
 

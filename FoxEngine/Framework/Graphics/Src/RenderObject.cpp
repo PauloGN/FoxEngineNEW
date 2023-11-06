@@ -15,11 +15,11 @@ void FoxEngine::Graphics::RenderObject::Terminate()
 	meshBuffer.Terminate();
 }
 
-RenderGroup FoxEngine::Graphics::CreateRenderGroup(ModelId modelId)
+RenderGroup FoxEngine::Graphics::CreateRenderGroup(ModelId modelId, const Animator* animator)
 {
 	auto model = ModelManager::Get()->GetModel(modelId);
 	ASSERT(model != nullptr, "RenderGroup: ModelId %d is not loaded", modelId);
-	RenderGroup renderGroup = CreateRenderGroup(*model);
+	RenderGroup renderGroup = CreateRenderGroup(*model, animator);
 
 	for (auto& renderObject : renderGroup)
 	{
@@ -28,7 +28,7 @@ RenderGroup FoxEngine::Graphics::CreateRenderGroup(ModelId modelId)
 	return renderGroup;
 }
 
-RenderGroup FoxEngine::Graphics::CreateRenderGroup(const Model& model)
+RenderGroup FoxEngine::Graphics::CreateRenderGroup(const Model& model, const Animator* animator)
 {
 	RenderGroup renderGroup;
 	renderGroup.reserve(model.meshData.size());
@@ -57,6 +57,8 @@ RenderGroup FoxEngine::Graphics::CreateRenderGroup(const Model& model)
 		}
 
 		renderObject.meshBuffer.Initialize(meshData.mesh);
+		renderObject.skeleton = model.skeleton.get();
+		renderObject.animator = animator;
 	}
 	return renderGroup;
 }

@@ -30,6 +30,10 @@ cbuffer MaterialBuffer : register(b3)
     bool useNormalMap;
 }
 
+cbuffer BoneTransformBuffer : register(b4)
+{
+    matrix boneTransforms[256];
+}
 
 Texture2D diffuseMap : register(t0);
 Texture2D normalMap : register(t1);

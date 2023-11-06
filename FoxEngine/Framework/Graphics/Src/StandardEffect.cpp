@@ -6,10 +6,13 @@
 #include "RenderObject.h"
 #include "TextureManager.h"
 #include "VertexTypes.h"
+#include "AnimationUtil.h"
 
 using namespace  FoxEngine;
 using namespace  FoxEngine::Graphics;
 using namespace  FoxEngine::FoxMath;
+
+static constexpr size_t MaxBoneCount = 256;
 
 void FoxEngine::Graphics::StandardEffect::Initialize(const std::filesystem::path& filePath)
 {
@@ -18,6 +21,7 @@ void FoxEngine::Graphics::StandardEffect::Initialize(const std::filesystem::path
     mLightingtBuffer.Initialize();
     mMaterialBuffer.Initialize();
     mSettingsBuffer.Initialize();
+    mBoneTransformBuffer.Initialize(MaxBoneCount * sizeof(FoxMath::Matrix4));
 
     mVertexShader.Initialize<Vertex>(filePath);
     mPixelShader.Initialize(filePath);
@@ -30,6 +34,7 @@ void FoxEngine::Graphics::StandardEffect::Terminate()
     mPixelShader.Terminate();
     mVertexShader.Terminate();
 
+    mBoneTransformBuffer.Terminate();
     mSettingsBuffer.Terminate();
     mMaterialBuffer.Terminate();
     mLightingtBuffer.Terminate();
@@ -52,6 +57,8 @@ void FoxEngine::Graphics::StandardEffect::Begin()
 
     mSettingsBuffer.BindPS(3);
     mSettingsBuffer.BindVS(3);
+
+    mBoneTransformBuffer.BindVS(4);
 
     mSampler.BindVS(0);
     mSampler.BindPS(0);
@@ -81,6 +88,7 @@ void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObjec
     settingsData.useCelShading = mSettingsData.useCelShading;
     settingsData.bumpWeigh = mSettingsData.bumpWeigh;
     settingsData.depthBias = mSettingsData.depthBias;
+    settingsData.useSkinning = mSettingsData.useSkinning > 0 && renderObject.skeleton != nullptr;
     mSettingsBuffer.Update(settingsData);
 
     TransformData transformData;
@@ -97,6 +105,22 @@ void FoxEngine::Graphics::StandardEffect::Render(const RenderObject& renderObjec
     }
 
     mTransformBuffer.Update(transformData);
+
+    if (settingsData.useSkinning)
+    {
+        AnimationUtil::BoneTransforms boneTransforms;
+        AnimationUtil::ComputeBoneTransform(renderObject.modelId, boneTransforms, renderObject.animator);
+        AnimationUtil::ApplyBoneOffsets(renderObject.modelId, boneTransforms);
+
+        for (auto& transform : boneTransforms)
+        {
+            transform = Transpose(transform);
+        }
+
+        boneTransforms.resize(MaxBoneCount);
+        mBoneTransformBuffer.Update(boneTransforms.data());
+    }
+
     mLightingtBuffer.Update(*mDirectionalLight);
     mMaterialBuffer.Update(renderObject.material);
 
@@ -162,6 +186,11 @@ void FoxEngine::Graphics::StandardEffect::DebugUI()
         if (ImGui::Checkbox("Use Shadow Map##", &useShadowMap))
         {
             mSettingsData.useShadowMap = (useShadowMap) ? 1 : 0;
+        }
+        bool useSkinning = mSettingsData.useSkinning > 0;
+        if (ImGui::Checkbox("UseSkinning##", &useSkinning))
+        {
+            mSettingsData.useSkinning = (useSkinning) ? 1 : 0;
         }
         //Shadow
         if (useShadowMap)

@@ -1,5 +1,6 @@
 #include "Precompiled.h"
 #include "ModelIO.h"
+#include "AnimationBuilder.h"
 
 #include "Model.h"
 
@@ -32,8 +33,35 @@ void AnimationIO::Write(FILE* file, const Animation& animation)
 
 void AnimationIO::Read(FILE* file, Animation& animation)
 {
-}
+	AnimationBuilder builder;
+	uint32_t count = 0;
+	float time = 0.0f;
+	fscanf_s(file, "PositionKeyCount: %d\n", &count);
+	for (uint32_t k = 0; k < count; ++k)
+	{
+		FoxMath::Vector3 pos;
+		fscanf_s(file, "%f %f %f %f\n", &time, &pos.x, &pos.y, &pos.z);
+		builder.AddPositionKey(pos, time);
+	}
 
+	fscanf_s(file, "RotationKeyCount: %d\n", &count);
+	for (uint32_t k = 0; k < count; ++k)
+	{
+		FoxMath::Quaternion rot;
+		fscanf_s(file, "%f %f %f %f %f\n", &time, &rot.x, &rot.y, &rot.z, &rot.w);
+		builder.AddRotationKey(rot, time);
+	}
+
+	fscanf_s(file, "ScaleKeyCount: %d\n", &count);
+	for (uint32_t k = 0; k < count; ++k)
+	{
+		FoxMath::Vector3 scale;
+		fscanf_s(file, "%f %f %f %f\n", &time, &scale.x, &scale.y, &scale.z);
+		builder.AddScaleKey(scale, time);
+	}
+
+	animation = builder.Build();
+}
 
 void FoxEngine::Graphics::ModelIO::SaveModel(std::filesystem::path filePath, const Model& model)
 {
@@ -63,11 +91,13 @@ void FoxEngine::Graphics::ModelIO::SaveModel(std::filesystem::path filePath, con
 
 		for (auto& v : mesh.vertices)
 		{
-			fprintf_s(file, "%f %f %f %f %f %f %f %f %f %f %f\n",
+			fprintf_s(file, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %d %d %d %d\n",
 				v.position.x, v.position.y, v.position.z,
 				v.normal.x, v.normal.y, v.normal.z,
 				v.tangent.x, v.tangent.y, v.tangent.z,
-				v.uvCoord.x, v.uvCoord.y
+				v.uvCoord.x, v.uvCoord.y,
+				v.boneWeights[0], v.boneWeights[1], v.boneWeights[2], v.boneWeights[3],
+				v.boneIndices[0], v.boneIndices[1], v.boneIndices[2], v.boneIndices[3]
 				);
 		}
 
@@ -83,7 +113,7 @@ void FoxEngine::Graphics::ModelIO::SaveModel(std::filesystem::path filePath, con
 	fclose(file);
 }
 
-void FoxEngine::Graphics::ModelIO::loadModel(std::filesystem::path filePath, Model& model)
+void FoxEngine::Graphics::ModelIO::LoadModel(std::filesystem::path filePath, Model& model)
 {
 	FILE* file = nullptr;
 	fopen_s(&file, filePath.u8string().c_str(), "r");
@@ -108,11 +138,13 @@ void FoxEngine::Graphics::ModelIO::loadModel(std::filesystem::path filePath, Mod
 
 		for (auto& v : mesh.vertices)
 		{
-			fscanf_s(file, "%f %f %f %f %f %f %f %f %f %f %f\n",
+			fscanf_s(file, "%f %f %f %f %f %f %f %f %f %f %f %f %f %f %f %d %d %d %d\n",
 				&v.position.x, &v.position.y, &v.position.z,
 				&v.normal.x, &v.normal.y, &v.normal.z,
 				&v.tangent.x, &v.tangent.y, &v.tangent.z,
-				&v.uvCoord.x, &v.uvCoord.y
+				&v.uvCoord.x, &v.uvCoord.y,
+				&v.boneWeights[0], &v.boneWeights[1], &v.boneWeights[2], &v.boneWeights[3],
+				&v.boneIndices[0], &v.boneIndices[1], &v.boneIndices[2], &v.boneIndices[3]
 			);
 		}
 
@@ -163,7 +195,7 @@ void FoxEngine::Graphics::ModelIO::SaveMaterial(std::filesystem::path filePath, 
 	fclose(file);
 }
 
-void FoxEngine::Graphics::ModelIO::loadMaterial(std::filesystem::path filePath, Model & model)
+void FoxEngine::Graphics::ModelIO::LoadMaterial(std::filesystem::path filePath, Model & model)
 {
 	filePath.replace_extension("material");
 
@@ -253,7 +285,7 @@ void ModelIO::SaveSkeleton(std::filesystem::path filePath, const Model& model)
 	fclose(file);
 }
 
-void ModelIO::loadSkeleton(std::filesystem::path filePath, Model & model)
+void ModelIO::LoadSkeleton(std::filesystem::path filePath, Model & model)
 {
 	filePath.replace_extension("skeleton");
 	FILE* file = nullptr;
@@ -368,5 +400,43 @@ void FoxEngine::Graphics::ModelIO::SaveAnimations(std::filesystem::path filePath
 
 void FoxEngine::Graphics::ModelIO::LoadAnimations(std::filesystem::path filePath, Model & model)
 {
+	filePath.replace_extension("animset");
 
+	FILE* file = nullptr;
+	fopen_s(&file, filePath.u8string().c_str(), "r");
+
+	if (file == nullptr)
+	{
+		return;
+	}
+
+	uint32_t animClipCount = 0;
+	fscanf_s(file, "AnimClipCount: %d\n", &animClipCount);
+	for (uint32_t i = 0; i < animClipCount; ++i)
+	{
+		auto& animClipData = model.animationClips.emplace_back();
+
+		char animClipName[MAX_PATH]{};
+		fscanf_s(file, "AnimationClipName: %s\n", animClipName, (uint32_t)sizeof(animClipName));
+		animClipData.name = std::move(animClipName);
+
+		fscanf_s(file, "TickDuration: %f\n", &animClipData.tickDuration);
+		fscanf_s(file, "TicksPerSecond: %f\n", &animClipData.ticksPerSecond);
+
+		uint32_t boneAnimCount = 0;
+		fscanf_s(file, "BoneAnimCount: %d\n", &boneAnimCount);
+		animClipData.boneAnimations.resize(boneAnimCount);
+		for (uint32_t b = 0; b < boneAnimCount; ++b)
+		{
+			char label[128]{};
+			fscanf_s(file, "%s\n", label, (uint32_t)sizeof(label));
+
+			if (strcmp(label, "[ANIMATION]") == 0)
+			{
+				animClipData.boneAnimations[b] = std::make_unique<Animation>();
+				AnimationIO::Read(file, *animClipData.boneAnimations[b]);
+			}
+		}
+	}
+	fclose(file);
 }
