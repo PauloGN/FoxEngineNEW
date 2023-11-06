@@ -29,6 +29,8 @@ void GameState::Initialize()
 
 	//Find char model and load
 	mCharacterId = ModelManager::Get()->LoadModel("../../Assets/Models/Character/AlienMan.model");
+	ModelManager::Get()->AddAnimation(mCharacterId, "../../Assets/Models/Character/Idle.animset");
+	ModelManager::Get()->AddAnimation(mCharacterId, "../../Assets/Models/Character/Walking.animset");
 	mCharacterAnimator.Initialize(mCharacterId);
 	mAlien = CreateRenderGroup(mCharacterId, &mCharacterAnimator);
 
