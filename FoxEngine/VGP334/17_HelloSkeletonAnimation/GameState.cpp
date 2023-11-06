@@ -29,8 +29,8 @@ void GameState::Initialize()
 
 	//Find char model and load
 	mCharacterId = ModelManager::Get()->LoadModel("../../Assets/Models/Character/AlienMan.model");
-	mAlien = CreateRenderGroup(mCharacterId);
 	mCharacterAnimator.Initialize(mCharacterId);
+	mAlien = CreateRenderGroup(mCharacterId, &mCharacterAnimator);
 
 	Mesh groundMesh = MeshBuilder::CreateGroundPlane(20,20,1.0f);
 	mGround.meshBuffer.Initialize(groundMesh);
@@ -131,14 +131,11 @@ void GameState::DebugUI()
 		//Skeleton controller
 		ImGui::PushID("Skeleton");
 		ImGui::Checkbox("DrawSkeleton", &mDrawSkeleton);
-		if (mDrawSkeleton)
-		{
 			ImGui::DragFloat("Animation Scale", &mAnimationScale, 0.1f, 0.0f, 1.0f);
 			if (ImGui::DragInt("Play Animation", &mAnimationIndex, 1, -1, mCharacterAnimator.GetAnimationsCount() - 1))
 			{
 				mCharacterAnimator.PlayAnimation(mAnimationIndex, true);
 			}
-		}
 		ImGui::PopID();
 		//Other Debugs
 		mStandardEffect.DebugUI();

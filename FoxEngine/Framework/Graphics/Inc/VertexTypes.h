@@ -40,14 +40,14 @@ namespace FoxEngine::Graphics
 	struct Vertex
 	{
 		VERTEX_FORMAT(VE_Position | VE_Normal | VE_Tangent | VE_TexCoord | VE_BlendIndex | VE_BlendWeight);
-		static constexpr int MaxBoneWeights = 4;
+		static constexpr int MaxBones = 4;
 
 		FoxMath::Vector3 position;
 		FoxMath::Vector3 normal;
 		FoxMath::Vector3 tangent;
 		FoxMath::Vector2 uvCoord;
-		int boneIndices[MaxBoneWeights] = {};
-		float boneWeights[MaxBoneWeights] = {};
+		int boneIndices[MaxBones] = {};
+		float boneWeights[MaxBones] = {};
 	};
 }
 
