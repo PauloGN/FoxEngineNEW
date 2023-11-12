@@ -21,7 +21,7 @@ subject to the following restrictions:
 #include "btAlignedAllocator.h"
 ////////////////////////////////////////////////////////////
 
-#include <../../Framework/Math/Inc/Vector3.h>
+#include "../../Framework/Math/Inc/Vector3.h"
 
 //////////////////////////////////////////////////////////
 

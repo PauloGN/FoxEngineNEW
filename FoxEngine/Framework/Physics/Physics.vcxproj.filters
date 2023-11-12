@@ -21,12 +21,21 @@
     <ClInclude Include="Inc\PhysicsWorld.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\PhysicsDebugDrawer.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\PhysicsObject.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\PhysicsWorld.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\PhysicsDebugDrawer.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

@@ -20,7 +20,7 @@ subject to the following restrictions:
 
 ///////////////////////////////////////////
 
-#include <../../Framework/Math/Inc/Quaternion.h>
+#include "../../Framework/Math/Inc/Quaternion.h"
 
 ///////////////////////////////////////////
 

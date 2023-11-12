@@ -1,5 +1,7 @@
 #pragma once
 
+#include <array>
+
 namespace FoxEngine::FoxMath
 {
 	struct Vector3

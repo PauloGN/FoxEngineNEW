@@ -20,11 +20,3 @@ inline void SafeDelete(T*& ptr)
 		ptr = nullptr;
 	}
 }
-
-void foo()
-{
-
-	btVector3 v3;
-	btQuaternion q;
-
-}
