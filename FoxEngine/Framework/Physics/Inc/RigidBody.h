@@ -17,11 +17,12 @@ namespace FoxEngine::Physics
 		RigidBody() = default;
 		~RigidBody() override;
 
-		void Initialize(FoxEngine::Graphics::Transform& graphicsTransform, const CollisionShape& shape, float mass = 0.0f);
+		void Initialize(FoxEngine::Graphics::Transform& graphicsTransform, const CollisionShape& shape, float mass = 0.0f,const float restitution = 0.0f);
 		void Terminate();
 
 		void SetPosition(const FoxEngine::FoxMath::Vector3& position);
 		void SetVelociity(const FoxEngine::FoxMath::Vector3& velocity);
+		FoxEngine::FoxMath::Vector3 GetVelociity();
 
 		bool IsDynamic() const;
 		void Update() override;
@@ -34,5 +35,6 @@ namespace FoxEngine::Physics
 		float mMass = 0.0f;
 
 		FoxEngine::Graphics::Transform* mGraphicsTransform = nullptr;
+		float mRestitution = 0.0f;
 	};
 }

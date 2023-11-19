@@ -4,11 +4,6 @@ using namespace FoxEngine;
 using namespace FoxEngine::Input;
 using namespace FoxEngine::Graphics;
 
-namespace
-{
-	bool bRotateChar = false;
-}
-
 void GameState::Initialize()
 {
 	//Initialize camera
@@ -47,7 +42,8 @@ void GameState::Initialize()
 	mBall.material.power = 20.0f;
 
 	mBallShape.InitializeSphere(0.5f);
-	mBallRigidBody.Initialize(mBall.transform, mBallShape, 1.0f);
+	mBallRigidBody.Initialize(mBall.transform, mBallShape, 1.0f, 0.99f);
+	mBallRigidBody.SetVelociity({ 0.0f, 5.0f,0.0f });
 }
 
 void GameState::Terminate()
@@ -106,14 +102,20 @@ void GameState::DebugUI()
 
 void GameState::Update(float deltaTime)
 {
-	//Controller
-	EngineCameraController(deltaTime);
 	//FPS
 	EngineFPS(deltaTime);
 
-	if (Input::InputSystem::Get()->IsKeyPressed(KeyCode::SPACE))
+	//Controller
+	EngineCameraController(deltaTime);
+
+	if(InputSystem::Get()->IsKeyPressed(KeyCode::SPACE))
 	{
-		bRotateChar = !bRotateChar;
+		mBallRigidBody.SetVelociity({0.01f, 5.0f, 0.0f});
+	}
+
+	if (mBallRigidBody.GetVelociity().y == 0.00f)
+	{
+		mBallRigidBody.SetVelociity({ 0.00f, 5.0f, 0.0f });
 	}
 
 }
