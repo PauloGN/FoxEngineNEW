@@ -27,6 +27,12 @@
     <ClInclude Include="Inc\PhysicsObject.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\RigidBody.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\CollisionShape.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -36,6 +42,12 @@
       <Filter>Src</Filter>
     </ClCompile>
     <ClCompile Include="Src\PhysicsDebugDrawer.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\RigidBody.cpp">
+      <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\CollisionShape.cpp">
       <Filter>Src</Filter>
     </ClCompile>
   </ItemGroup>

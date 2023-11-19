@@ -89,12 +89,12 @@ void App::Run(const FoxEngine::AppConfig& config)
 			DebugUI::EndRender();
 		graphicsSystem->EndRender();
 	}
+	mCurrentState->Terminate();
 
 	// terminate static classes
 	PhysicsWorld::StaticTerminate();
 	ModelManager::StaticTerminate();
 	TextureManager::StaticTerminate();
-	mCurrentState->Terminate();
 
 	SimpleDraw::StaticTerminate();
 	DebugUI::StaticTerminate();
