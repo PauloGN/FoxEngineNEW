@@ -47,6 +47,12 @@ void CollisionShape::InitializeHull(const FoxEngine::FoxMath::Vector3& halthExte
 	mCollisionShape = hullShape;
 }
 
+void FoxEngine::Physics::CollisionShape::InitializeEmpty()
+{
+	ASSERT(mCollisionShape == nullptr, "CollisionShape: is already initialized");
+	mCollisionShape = new btEmptyShape();
+}
+
 void CollisionShape::Terminate()
 {
 	SafeDelete(mCollisionShape);
