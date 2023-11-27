@@ -6,6 +6,7 @@ using namespace FoxEngine;
 using namespace FoxEngine::Core;
 using namespace FoxEngine::Input;
 using namespace FoxEngine::Graphics;
+using namespace FoxEngine::Physics;
 
 void FoxEngine::App::ChangeState(const std::string& stateName)
 {
@@ -42,7 +43,9 @@ void App::Run(const FoxEngine::AppConfig& config)
 	TextureManager::StaticInitialize("../../Assets/Textures/");
 	ModelManager::StaticInitialize();
 
-	//States ***** Week 3
+	PhysicsWorld::Settings settings;
+	PhysicsWorld::StaticInitialize(settings);
+
 	ASSERT(mCurrentState != nullptr, "App need an app state");
 	mCurrentState->Initialize();
 
@@ -74,6 +77,7 @@ void App::Run(const FoxEngine::AppConfig& config)
 
 		if (deltaTime < .5f)
 		{
+			PhysicsWorld::Get()->Update(deltaTime);
 			mCurrentState->Update(deltaTime);
 		}
 
@@ -85,11 +89,12 @@ void App::Run(const FoxEngine::AppConfig& config)
 			DebugUI::EndRender();
 		graphicsSystem->EndRender();
 	}
+	mCurrentState->Terminate();
 
 	// terminate static classes
+	PhysicsWorld::StaticTerminate();
 	ModelManager::StaticTerminate();
 	TextureManager::StaticTerminate();
-	mCurrentState->Terminate();
 
 	SimpleDraw::StaticTerminate();
 	DebugUI::StaticTerminate();
