@@ -1,6 +1,6 @@
 #pragma once
 #include "FoxEngine/Inc/FoxEngine.h"
-
+#include "ParticleSystem.h"
 using namespace FoxEngine;
 using namespace FoxEngine::FoxMath;
 using namespace FoxEngine::Graphics;
@@ -34,4 +34,7 @@ protected:
 	FoxEngine::Physics::CollisionShape mGroundShape;
 	FoxEngine::Physics::RigidBody mGroundRigidBody;
 
+	//Particle stuff
+	FoxEngine::Graphics::ParticleEffect mParticleEffect;
+	ParticleSystem mParticleSystem;
 };

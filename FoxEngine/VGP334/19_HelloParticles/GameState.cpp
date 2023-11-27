@@ -33,10 +33,44 @@ void GameState::Initialize()
 	mGroundShape.InitializeHull({10.0f, .5f, 10.0f}, { 0.0f, -.5f, 0.0f });
 	mGroundRigidBody.Initialize(mGround.transform, mGroundShape, 0.0f);
 
+	//Particle Stuff
+
+	mParticleEffect.Initialize();
+	mParticleEffect.SetCamera(mCamera);
+
+	//initialize the particle system
+
+	ParticleSystemInfo info;
+	info.lifeTime = FLT_MAX;
+	info.maxParticles = 100;
+	info.spawnPosition = { 0.0f, 2.0f, 0.0f };
+	info.spawnDirection = { 0.0f, 1.0f, 0.0f };
+	info.spawnDelay = 0.0f;
+	info.minParticlesPerEmit = 1.0f;
+	info.maxParticlesPerEmit = 3.0f;
+	info.minTimeBetweenParticles = 0.1f;
+	info.maxTimeBetweenParticles = 0.3f;
+	info.minSpawnAngle = -FoxMath::Constants::HalfPi * 0.25f;
+	info.maxSpawnAngle = FoxMath::Constants::HalfPi * 0.25f;
+	info.minSpeed = 2.0f;
+	info.maxSpeed = 7.0f;
+
+	//info for the particles
+
+	info.particleInfo.lifetime = 2.0f;
+	info.particleInfo.colorStart = Colors::LightBlue;
+	info.particleInfo.colorEnd = Colors::Green;
+	info.particleInfo.colorEnd.a = 0.1f;
+	info.particleInfo.scaleStart = Vector3::One;
+	info.particleInfo.scaleEnd = {0.1f, 0.1f, 0.1f};
+
+	mParticleSystem.Initialize(info);
 }
 
 void GameState::Terminate()
 {
+	mParticleSystem.Terminate();
+	mParticleEffect.Terminate();
 	mGroundRigidBody.Terminate();
 	mGroundShape.Terminate();
 	mGround.Terminate();
@@ -49,6 +83,10 @@ void GameState::Render()
 	mStandardEffect.Begin();
 		mStandardEffect.Render(mGround);
 	mStandardEffect.End();
+
+	mParticleEffect.Begin();
+		mParticleSystem.Render(mParticleEffect);
+	mParticleEffect.End();
 
 	//SimpleDraw::AddGroundPlane(20.0f, Colors::LightBlue);
 	SimpleDraw::Render(mCamera);
@@ -65,7 +103,7 @@ void GameState::DebugUI()
 		ImGui::PopID();
 
 		//Light
-		ImGui::PushID("Light");
+		/*ImGui::PushID("Light");
 		if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
 		{
 			if (ImGui::DragFloat3("Directional Light##", &mDirectionalLight.direction.x, 0.01f, -1.0f, 1.0f))
@@ -77,8 +115,9 @@ void GameState::DebugUI()
 			ImGui::ColorEdit4("Diffuse##Light", &mDirectionalLight.diffuse.r);
 			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
 		}
-		ImGui::PopID();
+		ImGui::PopID();*/
 
+		mParticleSystem.DebugUI();
 		mStandardEffect.DebugUI();
 		Physics::PhysicsWorld::Get()->DebugUI();
 
@@ -92,6 +131,8 @@ void GameState::Update(float deltaTime)
 
 	//Controller
 	EngineCameraController(deltaTime);
+
+	mParticleSystem.Update(deltaTime);
 }
 
 void GameState::EngineCameraController(float deltaTime)
