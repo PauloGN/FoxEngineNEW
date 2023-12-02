@@ -46,6 +46,11 @@ namespace FoxEngine::Physics
 		btDiscreteDynamicsWorld* mDynamicWorld = nullptr;
 		btSequentialImpulseConstraintSolver* mSolver = nullptr;
 
+		//Soft body physics
+		btSoftRigidDynamicsWorld* mSoftBodyWorld = nullptr;
+		friend class SoftBody;
+		btSoftBody* CreateSoftBody(int nodeCount);
+
 		using PhysicsObjects = std::vector<PhysicsObject*>;
 		PhysicsObjects mPhysicsObjects;
 	};

@@ -48,10 +48,16 @@ void PhysicsWorld::Initialize(const Settings & settings)
 	mDynamicWorld->setGravity(settings.gravity);
 
 	mDynamicWorld->setDebugDrawer(&mDebugDrawer);
+
+	//Soft Body
+	mSoftBodyWorld = new btSoftRigidDynamicsWorld(mDispatcher, mInterface, mSolver, mCollisionConfiguration);
+	mSoftBodyWorld->setGravity(settings.gravity);
+	mSoftBodyWorld->setDebugDrawer(&mDebugDrawer);
 }
 
 void PhysicsWorld::Terminate()
 {
+	SafeDelete(mSoftBodyWorld);
 	SafeDelete(mDynamicWorld);
 	SafeDelete(mSolver);
 	SafeDelete(mInterface);
@@ -62,6 +68,7 @@ void PhysicsWorld::Terminate()
 void PhysicsWorld::Update(float deltaTime)
 {
 	mDynamicWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
+	mSoftBodyWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
 
 	for (PhysicsObject* po : mPhysicsObjects)
 	{
@@ -89,6 +96,7 @@ void PhysicsWorld::DebugUI()
 
 		mDebugDrawer.setDebugMode(debugMode);
 		mDynamicWorld->debugDrawWorld();
+		mSoftBodyWorld->debugDrawWorld();
 	}
 }
 
@@ -101,6 +109,11 @@ void FoxEngine::Physics::PhysicsWorld::Register(PhysicsObject* physicsObject)
 		{
 			mDynamicWorld->addRigidBody(physicsObject->GetRigidBody());
 		}
+
+		if (physicsObject->GetSoftBody() != nullptr)
+		{
+			mSoftBodyWorld->addSoftBody(physicsObject->GetSoftBody());
+		}
 	}
 }
 
@@ -109,10 +122,20 @@ void FoxEngine::Physics::PhysicsWorld::Unregister(PhysicsObject * physicsObject)
 	auto iter = std::find(mPhysicsObjects.begin(), mPhysicsObjects.end(), physicsObject);
 	if (iter != mPhysicsObjects.end())
 	{
+		if (physicsObject->GetSoftBody() != nullptr)
+		{
+			mSoftBodyWorld->removeSoftBody(physicsObject->GetSoftBody());
+		}
 		if (physicsObject->GetRigidBody() != nullptr)
 		{
 			mDynamicWorld->removeRigidBody(physicsObject->GetRigidBody());
 		}
 		mPhysicsObjects.erase(iter);
 	}
+}
+
+btSoftBody* FoxEngine::Physics::PhysicsWorld::CreateSoftBody(int nodeCount)
+{
+	btSoftBody* softbody = new btSoftBody(&mSoftBodyWorld->getWorldInfo(), nodeCount, nullptr, nullptr);
+	return softbody;
 }
