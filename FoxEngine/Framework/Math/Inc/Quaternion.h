@@ -46,6 +46,9 @@ namespace FoxEngine::FoxMath
         static Quaternion CreateFromAxisAngle(const Vector3& axis, float angle) noexcept;
         static Quaternion CreateFromYawPitchRoll(float yaw, float pitch, float roll) noexcept;
         static Quaternion CreateFromRotationMatrix(const Matrix4& m) noexcept;
+ 
+        FoxMath::Vector3 Rotate(const FoxMath::Vector3& v) noexcept;
+
 
         static Quaternion Lerp(const Quaternion& q0, const Quaternion& q1, float t);
         static Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t);

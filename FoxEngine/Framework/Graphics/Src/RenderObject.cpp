@@ -71,3 +71,34 @@ void FoxEngine::Graphics::CleanupRenderGroup(RenderGroup& renderGroup)
 		renderObject.Terminate();
 	}
 }
+
+void FoxEngine::Graphics::RotateAlongCamera(RenderGroup& renderGroup, bool updateCharacter, FoxMath::Vector3& cameraForward)
+{
+	if (updateCharacter)
+	{
+		// Set character rotation based on camera forward vector
+		FoxMath::Vector3 lookAt = FoxMath::Normalize(FoxMath::Vector3(cameraForward.x, 0.0f, cameraForward.z));
+		float yaw = atan2(lookAt.x, lookAt.z);
+		FoxMath::Quaternion rotation = FoxMath::Quaternion::CreateFromYawPitchRoll(0.0f, -yaw, 0.0f);
+
+		for (auto& a : renderGroup)
+		{
+			a.transform.rotation = rotation;
+		}
+	}
+}
+
+void FoxEngine::Graphics::MoveAlongCamera(RenderGroup& renderGroup, bool updateCharacter, FoxMath::Vector3& target, float deltaTime, float speed)
+{
+	// Linear interpolation for smooth movement
+	if (updateCharacter)
+	{
+		FoxMath::Vector3 Offset{ 0.0f, 0.0f, 2.0f };
+		FoxMath::Vector3 newTarget = { target.x, 0.0f, target.z };
+
+		for (auto& a : renderGroup)
+		{
+			a.transform.position = FoxMath::Lerp(a.transform.position, (newTarget + Offset), speed * deltaTime);
+		}
+	}
+}

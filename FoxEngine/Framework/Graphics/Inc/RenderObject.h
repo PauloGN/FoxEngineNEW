@@ -31,6 +31,8 @@ namespace FoxEngine::Graphics
 
 		const Skeleton* skeleton = nullptr;
 		const Animator* animator = nullptr;
+
+		FoxEngine::FoxMath::Quaternion d;
 	};
 
 	using RenderGroup = std::vector<RenderObject>;
@@ -46,4 +48,7 @@ namespace FoxEngine::Graphics
 			effect.Render(renderObject);
 		}
 	}
+
+	void RotateAlongCamera(RenderGroup& renderGroup, bool updateCharacter, FoxMath::Vector3& cameraForward);
+	void MoveAlongCamera(RenderGroup& renderGroup, bool updateCharacter, FoxMath::Vector3& target, float deltaTime, float speed);
 }

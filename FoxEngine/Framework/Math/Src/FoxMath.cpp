@@ -148,6 +148,21 @@ Quaternion Quaternion::CreateFromRotationMatrix(const Matrix4& m) noexcept
     return q;
 }
 
+ Vector3 FoxEngine::FoxMath::Quaternion::Rotate(const FoxMath::Vector3& v) noexcept
+{     
+    FoxMath::Vector3 qv = { x, y, z };
+    FoxMath::Vector3 c = FoxMath::Cross(qv, v);
+    FoxMath::Vector3 t(2.0f * c.x, 2.0f * c.y, 2.0f * c.z);
+    
+    // Manually perform element-wise multiplication
+    return {
+        v.x + w * t.x + FoxMath::Cross(qv, t).x,
+        v.y + w * t.y + FoxMath::Cross(qv, t).y,
+        v.z + w * t.z + FoxMath::Cross(qv, t).z
+    };  
+}
+
+
 Quaternion Quaternion::Lerp(const Quaternion& q0, const Quaternion& q1, float t)
 {
     return q0 * (1.0f - t) + (q1 * t);
