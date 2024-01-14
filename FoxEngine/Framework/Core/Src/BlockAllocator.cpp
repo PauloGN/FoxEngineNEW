@@ -17,7 +17,7 @@ FoxEngine::Core::BlockAllocator::BlockAllocator(const char* name, size_t blockSi
 
 	for (size_t i = 0; i < capacity; ++i)
 	{
-		mFreeBlocks[i] = static_cast<uint8_t*>(mData) + (i + mBlockSize);
+		mFreeBlocks[i] = static_cast<uint8_t*>(mData) + (i * mBlockSize);
 	}
 
 	LOG("%s allocated %zu blocks, blocks size: %zu", mName.c_str(), capacity, blockSize);
@@ -43,6 +43,7 @@ void* FoxEngine::Core::BlockAllocator::Allocate()
 
 	void* freeBlock = mFreeBlocks.back();
 	mFreeBlocks.pop_back();
+
 	++mBlockAllocatedTotal;
 	++mBlockAllocatedCurrent;
 	mBlocksHighest = std::max(mBlocksHighest, mBlockAllocatedCurrent);
