@@ -24,6 +24,7 @@
     <ProjectGuid>{908ea407-5adc-4b3d-ab84-f20b9f020c52}</ProjectGuid>
     <RootNamespace>My01TryBloom</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>01 PathFinding</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

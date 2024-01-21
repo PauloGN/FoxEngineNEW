@@ -8,7 +8,7 @@ int WINAPI WinMain(HINSTANCE instance, HINSTANCE, LPSTR, int)
 {
 
 	FoxEngine::AppConfig appConfig;
-	appConfig.appName = L"Hello Final VGP330";
+	appConfig.appName = L"Hello Fox";
 	appConfig.winWidth = 1280;
 	appConfig.winHeight = 720;
 	appConfig.debugDrawLimit = 1000000;
