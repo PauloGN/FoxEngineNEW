@@ -27,6 +27,10 @@ namespace FoxEngine
 		GameObject& GetOwner() { return*mOwner; }
 		const GameObject& GetOwner()  const { return *mOwner; }
 
+		//Serialize and deserialize
+		virtual void Serialize(rapidjson::Document& doc, rapidjson::Value& value) {}
+		virtual void Deserialize(rapidjson::Value& value){}
+
 	private:
 
 		//Gameobject also has access to private members

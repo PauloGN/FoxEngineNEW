@@ -2,7 +2,6 @@
 
 #include"Common.h"
 
-
 namespace FoxEngine
 {
 	enum class ComponentId
