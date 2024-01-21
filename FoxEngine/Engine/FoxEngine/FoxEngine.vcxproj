@@ -154,6 +154,7 @@
     <ClInclude Include="Inc\FoxEngine.h" />
     <ClInclude Include="Inc\GameObject.h" />
     <ClInclude Include="Inc\TransformComponent.h" />
+    <ClInclude Include="Inc\TypeIds.h" />
     <ClInclude Include="Src\Precompiled.h" />
   </ItemGroup>
   <ItemGroup>

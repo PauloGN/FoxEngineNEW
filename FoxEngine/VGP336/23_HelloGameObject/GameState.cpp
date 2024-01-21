@@ -9,9 +9,10 @@ using namespace FoxEngine::Graphics;
 
 void GameState::Initialize() 
 {
-	mCamera.SetPosition({0.0f, 0.0f,-4.0f});
+	mCamera.SetPosition({0.0f, 1.5f,-4.0f});
 	mCamera.SetLookAt({0.0f, 0.0f, 0.0f});
 
+	mGameObject.AddComponent<TransformComponent>();
 	mGameObject.Initialize();
 }
 void GameState::Terminate() 

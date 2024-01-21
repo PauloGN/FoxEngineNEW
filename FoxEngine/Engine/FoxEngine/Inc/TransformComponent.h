@@ -4,12 +4,12 @@
 
 namespace FoxEngine
 {
-
-	class TransformComponent : public Component
+	class TransformComponent final: public Component, public Graphics::Transform
 	{
 	public:
 		
-
+		SET_TYPE_ID(ComponentId::Transform)
+		void DebugUI()override;
 
 	private:
 

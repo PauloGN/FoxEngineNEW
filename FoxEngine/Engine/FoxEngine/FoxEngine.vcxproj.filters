@@ -33,6 +33,9 @@
     <ClInclude Include="Inc\TransformComponent.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\TypeIds.h">
+      <Filter>Inc</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
