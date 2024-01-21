@@ -19,8 +19,6 @@ void FoxEngine::GameObject::Initialize()
 	mInitialized = true;
 
 	ASSERT(HasA<TransformComponent>(), "Game Object must have a trasnform");
-
-
 }
 
 void FoxEngine::GameObject::Terminate()
