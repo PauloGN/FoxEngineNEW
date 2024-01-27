@@ -13,6 +13,9 @@ public:
 	void DebugUI() override;
 
 private:
-	
+
+
+	FoxEngine::Graphics::Camera mCamera;
+
 };
 
