@@ -6,8 +6,17 @@ namespace FoxEngine
 {
 	enum class ComponentId
 	{
-		Invalide,
+		Invalid,
 		Transform,
+		Camera,
+
+		Count
+	};
+	
+	enum class ServiceId
+	{
+		Invalid,
+		Camera,
 
 		Count
 	};
@@ -15,8 +24,6 @@ namespace FoxEngine
 	//enum class NewComponentId
 	//{
 	//	newId0 = ComponentId::Count
-
-
 	//};
 }
 

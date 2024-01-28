@@ -23,9 +23,10 @@ namespace FoxEngine::Core
 		std::string mName;
 		std::vector<void*> mFreeBlocks;
 
+		//
 		void* mData = nullptr;
-		size_t mBlockSize = 0;
-		size_t mCapacity = 0;
+		size_t mBlockSize = 0;	//how many bytes for a single block
+		size_t mCapacity = 0;	//how many blocks
 		size_t mBlockAllocatedCurrent = 0;
 		size_t mBlockAllocatedTotal = 0;
 		size_t mBlocksFreed = 0;
