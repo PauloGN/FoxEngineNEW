@@ -25,9 +25,8 @@ namespace FoxEngine
 		{
 			static_assert(std::is_base_of_v<Service, ServiceType>, "GameWorld: service must be of type Service");
 			ASSERT(!mInitialized, "GameWorld must be initialized");
-
 			auto& newService = mServices.emplace_back(std::make_unique<ServiceType>());
-
+			newService->mWorld = this;
 			return static_cast<ServiceType*>(newService.get());
 		}
 
@@ -61,7 +60,7 @@ namespace FoxEngine
 
 	private:
 
-		bool IsValid(GameObjectHandle& handle);
+		bool IsValid(const GameObjectHandle& handle);
 		void ProcessDestroyList();
 
 		struct Slot
@@ -80,6 +79,6 @@ namespace FoxEngine
 		std::vector<uint32_t> mTobeDestroyed;
 
 		bool mInitialized = false;
-		bool mUdating = false;
+		bool mUpdating = false;
 	};
 }

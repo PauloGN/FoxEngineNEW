@@ -9,6 +9,7 @@ namespace FoxEngine
 		Invalid,
 		Transform,
 		Camera,
+		FPSCamera,
 
 		Count
 	};
@@ -17,6 +18,7 @@ namespace FoxEngine
 	{
 		Invalid,
 		Camera,
+		Update,
 
 		Count
 	};

@@ -21,7 +21,7 @@ void FoxEngine::GameWorld::Initialize(uint32_t capacity)
 
 void FoxEngine::GameWorld::Terminate()
 {
-	ASSERT(!mUdating, "GameWorld: cant terminate while updating");
+	ASSERT(!mUpdating, "GameWorld: cant terminate while updating");
 
 	if (mInitialized)
 	{
@@ -33,6 +33,7 @@ void FoxEngine::GameWorld::Terminate()
 		if (slot.gameObject != nullptr)
 		{
 			slot.gameObject->Terminate();
+			slot.gameObject.reset();
 		}
 	}
 
@@ -62,6 +63,14 @@ void FoxEngine::GameWorld::Render()
 
 void FoxEngine::GameWorld::DebugUI()
 {
+	for (auto& slot : mGameObjectSlots)
+	{
+		if (slot.gameObject != nullptr)
+		{
+			slot.gameObject->DebugUI();
+		}
+	}
+
 	for (auto& service : mServices)
 	{
 		service->DebugUI();
@@ -97,17 +106,57 @@ GameObject* FoxEngine::GameWorld::CreateGameObject(const std::filesystem::path& 
 
 GameObject* FoxEngine::GameWorld::GetGameObject(const GameObjectHandle& handle)
 {
-	return nullptr;
+	if (!IsValid(handle))
+	{
+		return nullptr;
+	}
+
+	return mGameObjectSlots[handle.mIndex].gameObject.get();
 }
 
 void FoxEngine::GameWorld::DestroyObject(const GameObjectHandle& handle)
-{}
-
-bool FoxEngine::GameWorld::IsValid(GameObjectHandle & handle)
 {
-	return false;
+	if (!IsValid(handle))
+	{
+		return;
+	}
+
+	Slot& slot = mGameObjectSlots[handle.mIndex];
+	slot.generation++;
+	mTobeDestroyed.push_back(handle.mIndex);
+}
+
+bool FoxEngine::GameWorld::IsValid(const GameObjectHandle& handle)
+{
+	if (handle.mIndex < 0 || handle.mIndex >= mGameObjectSlots.size())
+	{
+		return false;
+	}
+
+	if (mGameObjectSlots[handle.mIndex].generation != handle.mGeneration)
+	{
+		return false;
+	}
+
+	return true;
 }
 
 void FoxEngine::GameWorld::ProcessDestroyList()
-{}
+{
+	ASSERT(!mUpdating, "GameWorld: cant destroy while updating");
+
+	for (uint32_t index : mTobeDestroyed)
+	{
+		Slot& slot = mGameObjectSlots[index];
+
+		GameObject* gameObject = slot.gameObject.get();
+		ASSERT(!IsValid(gameObject->GetHandle()), "GameWorld: object is still alive");
+
+		gameObject->Terminate();
+		slot.gameObject.reset();
+		mFreeSlots.push_back(index);
+	}
+
+	mTobeDestroyed.clear();
+}
 

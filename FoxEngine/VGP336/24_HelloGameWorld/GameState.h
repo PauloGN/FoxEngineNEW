@@ -13,14 +13,10 @@ public:
 	void DebugUI();
 
 	//Engine Tools
-	void EngineCameraController(float deltaTime, FoxEngine::Graphics::Camera& camera);
+	void SwapCamera();
 private:
 	//Assignment Colors change
 	void ChangeScreenColor();
 
-	FoxEngine::GameObject mGameObject;
-	FoxEngine::GameObject mCameraGameObject01;
-	FoxEngine::GameObject mCameraGameObject02;
-
-	FoxEngine::CameraService mCameraService;
+	FoxEngine::GameWorld mGameworld;
 };

@@ -5,6 +5,11 @@
 using namespace FoxEngine;
 using namespace FoxEngine::Graphics;
 
+void FoxEngine::CameraService::DebugUI()
+{
+	SimpleDraw::Render(GetMain());
+}
+
 const Camera& CameraService::GetMain() const
 {
 	ASSERT(mMainCamera != nullptr, "CameraServices: has no main camera");
