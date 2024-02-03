@@ -1,6 +1,9 @@
 #include "Precompiled.h"
 #include "GameObjectFactory.h"
 #include "GameObject.h"
+
+#include "CameraComponent.h"
+#include "FPSCameraComponent.h"
 #include "TransformComponent.h"
 
 using namespace FoxEngine;
@@ -32,10 +35,19 @@ void GameObjectFactory::Make(const std::filesystem::path& templatePath, GameObje
 			TransformComponent* transformComponent = gameObject.AddComponent<TransformComponent>();
 			transformComponent->Deserialize(component.value);
 		}
+		else if (strcmp(componentName, "CameraComponent") == 0)
+		{
+			CameraComponent* cameraComponent = gameObject.AddComponent<CameraComponent>();
+			cameraComponent->Deserialize(component.value);
+		}
+		else if (strcmp(componentName, "FPSCameraComponent") == 0)
+		{
+			FPSCameraComponent* fpsCameraComponent = gameObject.AddComponent<FPSCameraComponent>();
+			fpsCameraComponent->Deserialize(component.value);
+		}
 		else
 		{
 			ASSERT(false, "GameObject: %s was not defined", componentName);
 		}
 	}
-
 }

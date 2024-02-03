@@ -12,6 +12,10 @@ FoxEngine::Core::BlockAllocator::BlockAllocator(const char* name, size_t blockSi
 	ASSERT(blockSize > 0, "BlockAllocator: invalid block size");
 	ASSERT(capacity > 0, "BlockAllocator: invalid capacity");
 
+	/**
+	 * malloc gives me a void pointer back but I have to say what is the size of it
+	 *
+	 */
 	mData = std::malloc(blockSize * capacity);
 
 
