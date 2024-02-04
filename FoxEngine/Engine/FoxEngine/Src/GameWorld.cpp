@@ -4,6 +4,7 @@
 #include "GameObjectFactory.h"
 #include "CameraService.h"
 #include "UpdateService.h"
+#include "RenderService.h"
 
 //components
 #include "TransformComponent.h"
@@ -29,7 +30,7 @@ void FoxEngine::GameWorld::Terminate()
 {
 	ASSERT(!mUpdating, "GameWorld: cant terminate while updating");
 
-	if (mInitialized)
+	if (!mInitialized)
 	{
 		return;
 	}
@@ -158,7 +159,13 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 		{
 			UpdateService* updateService = AddService<UpdateService>();
 			updateService->Deserialize(service.value);
-		}else
+		}
+		else if (strcmp(ServiceName, "RenderService") == 0)
+		{
+			RenderService* renderService = AddService<RenderService>();
+			renderService->Deserialize(service.value);
+		}
+		else
 		{
 			ASSERT(false, "GameWorld: service %s not defined", ServiceName);
 		}

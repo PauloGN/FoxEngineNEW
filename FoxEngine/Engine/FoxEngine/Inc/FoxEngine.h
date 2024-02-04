@@ -18,6 +18,7 @@
 #include "Service.h"
 #include "CameraService.h"
 #include "UpdateService.h"
+#include "RenderService.h"
 
 namespace FoxEngine
 {

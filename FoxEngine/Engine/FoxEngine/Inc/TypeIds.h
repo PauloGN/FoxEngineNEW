@@ -19,6 +19,7 @@ namespace FoxEngine
 		Invalid,
 		Camera,
 		Update,
+		Render,
 
 		Count
 	};
