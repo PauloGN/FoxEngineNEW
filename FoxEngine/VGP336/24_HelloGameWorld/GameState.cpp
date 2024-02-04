@@ -9,12 +9,7 @@ using namespace FoxEngine::Graphics;
 
 void GameState::Initialize() 
 {
-	mGameworld.AddService<CameraService>();
-	mGameworld.AddService<UpdateService>();
-	mGameworld.Initialize(1000);
-	mGameworld.CreateGameObject("../../Assets/Templates/test_objects.json");
-	mGameworld.CreateGameObject("../../Assets/Templates/test_Camera.json");
-	mGameworld.CreateGameObject("../../Assets/Templates/test_fps_Camera.json");
+	mGameworld.LoadLevel("../../Assets/Templates/Levels/test_Level.json");
 }
 void GameState::Terminate() 
 {
@@ -25,7 +20,7 @@ void GameState::Update(float deltaTime)
 	mGameworld.Update(deltaTime);
 
 	ChangeScreenColor();
-	SwapCamera();
+	//SwapCamera();
 }
 void GameState::Render() 
 {

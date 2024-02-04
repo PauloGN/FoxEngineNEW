@@ -14,6 +14,9 @@ namespace FoxEngine
 
 		void Update(float deltaTime)override;
 
+		//Serialize and deserialize
+		void Deserialize(rapidjson::Value& value) override;
+
 		void Register(Component* component);
 		void Unregister(Component* component);
 

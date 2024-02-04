@@ -2,6 +2,12 @@
 #include "GameWorld.h"
 
 #include "GameObjectFactory.h"
+#include "CameraService.h"
+#include "UpdateService.h"
+
+//components
+#include "TransformComponent.h"
+
 using namespace FoxEngine;
 
 void FoxEngine::GameWorld::Initialize(uint32_t capacity)
@@ -124,6 +130,65 @@ void FoxEngine::GameWorld::DestroyObject(const GameObjectHandle& handle)
 	Slot& slot = mGameObjectSlots[handle.mIndex];
 	slot.generation++;
 	mTobeDestroyed.push_back(handle.mIndex);
+}
+
+void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
+{
+	FILE* file = nullptr;
+	auto err = fopen_s(&file, levelFile.u8string().c_str(), "r");
+	ASSERT(err == 0 && file != nullptr, "GameWorld: failed to load level %s", levelFile.u8string().c_str());
+
+	char readBuffer[65536];
+	rapidjson::FileReadStream readStream (file, readBuffer, sizeof(readBuffer));
+	fclose(file);
+
+	rapidjson::Document doc;
+	doc.ParseStream(readStream);
+
+	auto services = doc["Services"].GetObj();
+	for (auto& service : services)
+	{
+		const char* ServiceName = service.name.GetString();
+		if(strcmp(ServiceName, "CameraService") == 0)
+		{
+			CameraService* cameraService = AddService<CameraService>();
+			cameraService->Deserialize(service.value);
+		}
+		else if(strcmp(ServiceName, "UpdateService") == 0)
+		{
+			UpdateService* updateService = AddService<UpdateService>();
+			updateService->Deserialize(service.value);
+		}else
+		{
+			ASSERT(false, "GameWorld: service %s not defined", ServiceName);
+		}
+	}
+
+	uint32_t capacity = static_cast<int32_t>(doc["Capacity"].GetInt());
+	Initialize(capacity);
+
+	auto gameObjects = doc["GameObjects"].GetObj();
+	for(auto& gameObject : gameObjects)
+	{
+		const char* templateFile = gameObject.value["Template"].GetString();
+		GameObject* obj = CreateGameObject(templateFile);
+		if(obj != nullptr)
+		{
+			std::string name = gameObject.name.GetString();
+			obj->SetName(name);
+
+			if(gameObject.value.HasMember("Position"))
+			{
+				const auto& pos = gameObject.value["Position"].GetArray();
+				const float x = pos[0].GetFloat();
+				const float y = pos[1].GetFloat();
+				const float z = pos[2].GetFloat();
+
+				TransformComponent* transformComponent = obj->GetComponent<TransformComponent>();
+				transformComponent->position = Vector3(x, y, z);
+			}
+		}
+	}
 }
 
 bool FoxEngine::GameWorld::IsValid(const GameObjectHandle& handle)

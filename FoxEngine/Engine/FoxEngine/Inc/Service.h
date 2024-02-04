@@ -26,6 +26,9 @@ namespace FoxEngine
 		virtual void Update(float deltaTime) {}
 		virtual void Render() {}
 		virtual void DebugUI() {}
+		//Serialize and deserialize
+		virtual void Serialize(rapidjson::Document& doc, rapidjson::Value& value) {}
+		virtual void Deserialize(rapidjson::Value& value) {}
 
 		GameWorld& GetWorld() { return*mWorld; }
 		const GameWorld& GetWorld() const { return*mWorld; }

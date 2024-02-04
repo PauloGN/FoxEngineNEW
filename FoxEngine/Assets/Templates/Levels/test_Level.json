@@ -1,0 +1,30 @@
+{
+  "Name": "Test Level",
+  "Capacity": 1000,
+  "Services": {
+    "CameraService": {
+
+    },
+    "UpdateService": {
+
+    }
+  },
+  "GameObjects": {
+    "MainCamera": {
+      "Template": "../../Assets/Templates/test_fps_Camera.json",
+      "Position": [ 0.0, 0.0, -4.0 ]
+    },
+    "TestObject0": {
+      "Template": "../../Assets/Templates/test_objects.json",
+      "Position": [ 0.0, 0.0, 0.0 ]
+    },
+    "TestObject1": {
+      "Template": "../../Assets/Templates/test_objects.json",
+      "Position": [ 3.0, 0.0, 0.0 ]
+    },
+    "TestObject2": {
+      "Template": "../../Assets/Templates/test_objects.json",
+      "Position": [ 0.0, 2.0, 0.0 ]
+    }
+  }
+}

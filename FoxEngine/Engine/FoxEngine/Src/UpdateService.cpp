@@ -16,6 +16,11 @@ void FoxEngine::UpdateService::Update(float deltaTime)
 	RegisterPendingUpdates();
 }
 
+void UpdateService::Deserialize(rapidjson::Value& value)
+{
+
+}
+
 void FoxEngine::UpdateService::Register(Component * component)
 {
 	if (mIsUpdating)

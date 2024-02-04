@@ -15,7 +15,7 @@ public:
 	//Engine Tools
 	void SwapCamera();
 private:
-	//Assignment Colors change
+	//Colors change
 	void ChangeScreenColor();
 
 	FoxEngine::GameWorld mGameworld;
