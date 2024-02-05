@@ -6,6 +6,7 @@
 namespace FoxEngine
 {
 	class CameraService;
+	class MeshComponent;
 	class ModelComponent;
 	class TransformComponent;
 
@@ -28,6 +29,9 @@ namespace FoxEngine
 		void Register(const ModelComponent* modelComponent);
 		void Unregister(const ModelComponent* modelComponent);
 
+		void Register(const MeshComponent* meshComponent);
+		void Unregister(const MeshComponent* meshComponent);
+
 	private:
 
 		const CameraService* mCameraService = nullptr;
@@ -40,6 +44,7 @@ namespace FoxEngine
 
 		struct Entry
 		{
+			const MeshComponent* meshComponent = nullptr;
 			const ModelComponent* modelComponent = nullptr;
 			const TransformComponent* transformComponent = nullptr;
 			Graphics::RenderGroup renderGroup;

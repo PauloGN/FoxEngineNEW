@@ -20,6 +20,9 @@
       "Template": "../../Assets/Templates/test_fps_Camera.json",
       "Position": [ 0.0, 0.0, -4.0 ]
     },
+    "Ground": {
+      "Template": "../../Assets/Templates/test_ground.json"
+    },
     "TestObject0": {
       "Template": "../../Assets/Templates/test_objects.json",
       "Position": [ 0.0, 0.0, 0.0 ]

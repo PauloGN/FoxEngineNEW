@@ -235,7 +235,7 @@ MeshPX FoxEngine::Graphics::MeshBuilder::CreateRectPX(float width, float height,
 	return mesh;
 }
 
-Mesh FoxEngine::Graphics::MeshBuilder::CreateGroundPlane(float numRows, int numColums, float spacing)
+Mesh FoxEngine::Graphics::MeshBuilder::CreateGroundPlane(int numRows, int numColums, float spacing)
 {
 	Mesh mesh;
 

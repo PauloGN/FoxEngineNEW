@@ -11,6 +11,7 @@ namespace FoxEngine
 		Camera,
 		FPSCamera,
 		Model,
+		Mesh,
 
 		Count
 	};

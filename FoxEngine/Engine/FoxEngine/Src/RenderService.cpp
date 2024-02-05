@@ -3,6 +3,7 @@
 
 #include "GameWorld.h"
 #include "CameraService.h"
+#include "MeshComponent.h"
 #include "ModelComponent.h"
 #include "TransformComponent.h"
 
@@ -146,6 +147,34 @@ void RenderService::Unregister(const ModelComponent* modelComponent)
 		[&](const Entry& entry)
 		{
 			return entry.modelComponent == modelComponent;
+		}
+	);
+
+	if (iter != mRenderEntries.end())
+	{
+		CleanupRenderGroup(iter->renderGroup);
+		mRenderEntries.erase(iter);
+	}
+}
+
+void RenderService::Register(const MeshComponent* meshComponent)
+{
+	Entry& entry = mRenderEntries.emplace_back();
+
+	const GameObject& gameObject = meshComponent->GetOwner();
+	entry.meshComponent = meshComponent;
+	entry.transformComponent = gameObject.GetComponent<TransformComponent>();
+	entry.renderGroup = CreateRenderGroup(meshComponent->GetModel());
+}
+
+void RenderService::Unregister(const MeshComponent* meshComponent)
+{
+	auto iter = std::find_if(
+		mRenderEntries.begin(),
+		mRenderEntries.end(),
+		[&](const Entry& entry)
+		{
+			return entry.meshComponent == meshComponent;
 		}
 	);
 

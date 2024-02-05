@@ -40,7 +40,7 @@ void App::Run(const FoxEngine::AppConfig& config)
 	GraphicsSystem::StaticInitialize(handle, false);
 	DebugUI::StaticInitialize(handle, false, true);
 	SimpleDraw::StaticInitialize(config.debugDrawLimit);
-	TextureManager::StaticInitialize("../../Assets/Textures/");
+	TextureManager::StaticInitialize(config.textureRoot);
 	ModelManager::StaticInitialize();
 
 	PhysicsWorld::Settings settings;
