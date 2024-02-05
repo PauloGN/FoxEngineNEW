@@ -6,6 +6,8 @@
 namespace FoxEngine
 {
 	class CameraService;
+	class ModelComponent;
+	class TransformComponent;
 
 	class RenderService final: public Service
 	{
@@ -22,6 +24,10 @@ namespace FoxEngine
 
 		void Deserialize(rapidjson::Value& value) override;
 
+		//Registers
+		void Register(const ModelComponent* modelComponent);
+		void Unregister(const ModelComponent* modelComponent);
+
 	private:
 
 		const CameraService* mCameraService = nullptr;
@@ -32,6 +38,15 @@ namespace FoxEngine
 
 		float mFPS = 0.0f;
 
+		struct Entry
+		{
+			const ModelComponent* modelComponent = nullptr;
+			const TransformComponent* transformComponent = nullptr;
+			Graphics::RenderGroup renderGroup;
+		};
+
+		using RenderEntries = std::vector<Entry>;
+		RenderEntries mRenderEntries;
 
 	};
 }

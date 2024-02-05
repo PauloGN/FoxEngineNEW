@@ -10,6 +10,7 @@ namespace FoxEngine
 		Transform,
 		Camera,
 		FPSCamera,
+		Model,
 
 		Count
 	};

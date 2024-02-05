@@ -13,6 +13,7 @@
 #include "Component.h"
 #include "CameraComponent.h"
 #include "FPSCameraComponent.h"
+#include "ModelComponent.h"
 #include "TransformComponent.h"
 //Services
 #include "Service.h"

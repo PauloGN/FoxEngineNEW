@@ -26,7 +26,7 @@
     },
     "TestObject1": {
       "Template": "../../Assets/Templates/test_objects.json",
-      "Position": [ 3.0, 0.0, 0.0 ]
+      "Position": [ 2.0, 0.0, 0.0 ]
     },
     "TestObject2": {
       "Template": "../../Assets/Templates/test_objects.json",

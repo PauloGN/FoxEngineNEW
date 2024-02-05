@@ -3,6 +3,8 @@
 
 #include "GameWorld.h"
 #include "CameraService.h"
+#include "ModelComponent.h"
+#include "TransformComponent.h"
 
 using namespace FoxEngine;
 using namespace FoxEngine::Graphics;
@@ -36,10 +38,26 @@ void RenderService::Render()
 	const Camera& camera = mCameraService->GetMain();
 	mStandardEffect.SetCamera(camera);
 
+	for ( Entry& entry : mRenderEntries)
+	{
+		for (RenderObject& renderObject : entry.renderGroup)
+		{
+			renderObject.transform = *entry.transformComponent;
+		}
+	}
+
 	mShadowEffect.Begin();
+	for (const Entry& entry : mRenderEntries)
+	{
+		DrawrenderGroup(mShadowEffect, entry.renderGroup);
+	}
 	mShadowEffect.End();
 
 	mStandardEffect.Begin();
+	for (const Entry& entry : mRenderEntries)
+	{
+		DrawrenderGroup(mStandardEffect, entry.renderGroup);
+	}
 	mStandardEffect.End();
 }
 
@@ -107,5 +125,33 @@ void RenderService::Deserialize(rapidjson::Value& value)
 		const float a = color[3].GetFloat();
 
 		mDirectionalLight.specular = { r, g, b, a };
+	}
+}
+
+void RenderService::Register(const ModelComponent* modelComponent)
+{
+	Entry& entry = mRenderEntries.emplace_back();
+
+	const GameObject& gameObject = modelComponent->GetOwner();
+	entry.modelComponent = modelComponent;
+	entry.transformComponent = gameObject.GetComponent<TransformComponent>();
+	entry.renderGroup = CreateRenderGroup(modelComponent->GetModelId());
+}
+
+void RenderService::Unregister(const ModelComponent* modelComponent)
+{
+	auto iter = std::find_if(
+		mRenderEntries.begin(),
+		mRenderEntries.end(),
+		[&](const Entry& entry)
+		{
+			return entry.modelComponent == modelComponent;
+		}
+	);
+
+	if (iter != mRenderEntries.end())
+	{
+		CleanupRenderGroup(iter->renderGroup);
+		mRenderEntries.erase(iter);
 	}
 }

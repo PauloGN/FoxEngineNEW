@@ -4,6 +4,7 @@
 
 #include "CameraComponent.h"
 #include "FPSCameraComponent.h"
+#include "ModelComponent.h"
 #include "TransformComponent.h"
 
 using namespace FoxEngine;
@@ -44,6 +45,11 @@ void GameObjectFactory::Make(const std::filesystem::path& templatePath, GameObje
 		{
 			FPSCameraComponent* fpsCameraComponent = gameObject.AddComponent<FPSCameraComponent>();
 			fpsCameraComponent->Deserialize(component.value);
+		}
+		else if (strcmp(componentName, "ModelComponent") == 0)
+		{
+			ModelComponent* modelComponent = gameObject.AddComponent<ModelComponent>();
+			modelComponent->Deserialize(component.value);
 		}
 		else
 		{
