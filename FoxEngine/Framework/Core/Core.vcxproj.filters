@@ -7,6 +7,27 @@
     <Filter Include="Src">
       <UniqueIdentifier>{4bf8da0b-edc7-4598-a735-c3863de632c4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Inc\Platform">
+      <UniqueIdentifier>{76af7153-b1ac-493c-856b-18c63d1a9ef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inc\Utility">
+      <UniqueIdentifier>{5320b837-11ca-4d6c-8d9f-1886654d95e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Utilty">
+      <UniqueIdentifier>{e392a650-30af-4880-8fac-c009dd5c7262}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Platform">
+      <UniqueIdentifier>{5aebe246-6974-4ae2-a2fb-f4b05964059e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Inc\Memory">
+      <UniqueIdentifier>{0021c08a-01ba-4704-a02d-bdef7024797f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Memory">
+      <UniqueIdentifier>{95c576ed-6401-4ad9-8fa2-9584a845c700}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Pch">
+      <UniqueIdentifier>{bca13b0c-8f3b-4ac1-96a4-ce5312b57756}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\Common.h">
@@ -15,37 +36,43 @@
     <ClInclude Include="Inc\Core.h">
       <Filter>Inc</Filter>
     </ClInclude>
-    <ClInclude Include="Src\Precompiled.h">
-      <Filter>Src</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\DebugUtil.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
-    <ClInclude Include="Inc\TimeUtil.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
     <ClInclude Include="Inc\Window.h">
-      <Filter>Inc</Filter>
+      <Filter>Inc\Platform</Filter>
     </ClInclude>
     <ClInclude Include="Inc\WindowMessageHandler.h">
-      <Filter>Inc</Filter>
+      <Filter>Inc\Platform</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\BlockAllocator.h" />
-    <ClInclude Include="Inc\TypedAllocator.h" />
+    <ClInclude Include="Inc\DebugUtil.h">
+      <Filter>Inc\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\TimeUtil.h">
+      <Filter>Inc\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\Precompiled.h">
+      <Filter>Src\Pch</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\BlockAllocator.h">
+      <Filter>Inc\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\TypedAllocator.h">
+      <Filter>Inc\Memory</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
-      <Filter>Src</Filter>
+      <Filter>Src\Pch</Filter>
     </ClCompile>
     <ClCompile Include="Src\TimeUtil.cpp">
-      <Filter>Src</Filter>
+      <Filter>Src\Utilty</Filter>
     </ClCompile>
     <ClCompile Include="Src\Window.cpp">
-      <Filter>Src</Filter>
+      <Filter>Src\Platform</Filter>
     </ClCompile>
     <ClCompile Include="Src\WindowMessageHandler.cpp">
-      <Filter>Src</Filter>
+      <Filter>Src\Platform</Filter>
     </ClCompile>
-    <ClCompile Include="Src\BlockAllocator.cpp" />
+    <ClCompile Include="Src\BlockAllocator.cpp">
+      <Filter>Src\Memory</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
