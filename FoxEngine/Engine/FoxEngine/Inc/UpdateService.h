@@ -13,7 +13,7 @@ namespace FoxEngine
 		SET_TYPE_ID(ServiceId::Update)
 
 		void Update(float deltaTime)override;
-
+		
 		void Register(Component* component);
 		void Unregister(Component* component);
 

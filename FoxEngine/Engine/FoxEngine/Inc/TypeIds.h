@@ -10,6 +10,8 @@ namespace FoxEngine
 		Transform,
 		Camera,
 		FPSCamera,
+		Model,
+		Mesh,
 
 		Count
 	};
@@ -19,6 +21,7 @@ namespace FoxEngine
 		Invalid,
 		Camera,
 		Update,
+		Render,
 
 		Count
 	};

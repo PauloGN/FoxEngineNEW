@@ -45,5 +45,4 @@ void FoxEngine::CameraComponent::Deserialize(rapidjson::Value& value)
 
 		mCamera.SetLookAt({ x, y, z });
 	}
-
 }

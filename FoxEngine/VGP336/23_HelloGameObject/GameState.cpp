@@ -12,7 +12,7 @@ void GameState::Initialize()
 	mCamera.SetPosition({0.0f, 1.5f,-4.0f});
 	mCamera.SetLookAt({0.0f, 0.0f, 0.0f});
 
-	GameObjectFactory::Make("../../Assets/Templates/test_objects.json", mGameObject);
+	GameObjectFactory::Make("../../Assets/Templates/test_objects_Empty.json", mGameObject);
 	//mGameObject.AddComponent<TransformComponent>();
 	mGameObject.Initialize();
 }

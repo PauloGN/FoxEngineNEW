@@ -2,6 +2,7 @@
 #include "FPSCameraComponent.h"
 
 #include "CameraComponent.h"
+#include "TransformComponent.h"
 #include "GameWorld.h"
 #include "UpdateService.h"
 
@@ -11,6 +12,7 @@ using namespace FoxEngine::Graphics;
 
 void FoxEngine::FPSCameraComponent::Initialize()
 {
+	mTransformComponent = GetOwner().GetComponent<TransformComponent>();
 	mCameraComponet = GetOwner().GetComponent<CameraComponent>();
 	UpdateService* updateService = GetOwner().GetWorld().GetService<UpdateService>();
 	ASSERT(updateService != nullptr, "FPSCameraComponente: Update service is unavailable ");
@@ -72,6 +74,11 @@ void FoxEngine::FPSCameraComponent::Update(float deltaTime)
 	else if (input->IsKeyDown(KeyCode::E))
 	{
 		camera.Rise(displacement);
+	}
+
+	if (mTransformComponent != nullptr)
+	{
+		mTransformComponent->position = camera.GetPosition();
 	}
 }
 

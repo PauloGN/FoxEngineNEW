@@ -5,10 +5,9 @@
 using namespace FoxEngine;
 using namespace FoxEngine::Core;
 
-FoxEngine::Core::BlockAllocator::BlockAllocator(const char* name, size_t blockSize, size_t capacity) :
-	mName(name), mBlockSize(blockSize), mCapacity(capacity), mFreeBlocks(capacity)
+BlockAllocator::BlockAllocator(const char* name, size_t blockSize, size_t capacity) :
+	mFreeBlocks(capacity), mName(name), mBlockSize(blockSize), mCapacity(capacity)
 {
-
 	ASSERT(blockSize > 0, "BlockAllocator: invalid block size");
 	ASSERT(capacity > 0, "BlockAllocator: invalid capacity");
 
@@ -18,7 +17,6 @@ FoxEngine::Core::BlockAllocator::BlockAllocator(const char* name, size_t blockSi
 	 */
 	mData = std::malloc(blockSize * capacity);
 
-
 	for (size_t i = 0; i < capacity; ++i)
 	{
 		mFreeBlocks[i] = static_cast<uint8_t*>(mData) + (i * mBlockSize);
@@ -27,17 +25,14 @@ FoxEngine::Core::BlockAllocator::BlockAllocator(const char* name, size_t blockSi
 	LOG("%s allocated %zu blocks, blocks size: %zu", mName.c_str(), capacity, blockSize);
 }
 
-FoxEngine::Core::BlockAllocator::~BlockAllocator()
+BlockAllocator::~BlockAllocator()
 {
-
 	ASSERT(mBlockAllocatedTotal == mBlocksFreed, "BlockAllocator: not all blocks are freed");
 	std::free(mData);
-
 	LOG("%s destructed, Allocated: %zu, Freed: %zu, Highest: %zu", mName.c_str(), mBlockAllocatedCurrent, mBlocksFreed, mBlocksHighest);
-
 }
 
-void* FoxEngine::Core::BlockAllocator::Allocate()
+void* BlockAllocator::Allocate()
 {
 	if (mFreeBlocks.empty())
 	{
@@ -57,7 +52,7 @@ void* FoxEngine::Core::BlockAllocator::Allocate()
 	return freeBlock;
 }
 
-void FoxEngine::Core::BlockAllocator::Free(void* ptr)
+void BlockAllocator::Free(void* ptr)
 {
 	if (ptr == nullptr)
 	{

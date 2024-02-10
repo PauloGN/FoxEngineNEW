@@ -13,11 +13,14 @@
 #include "Component.h"
 #include "CameraComponent.h"
 #include "FPSCameraComponent.h"
+#include "MeshComponent.h"
+#include "ModelComponent.h"
 #include "TransformComponent.h"
 //Services
 #include "Service.h"
 #include "CameraService.h"
 #include "UpdateService.h"
+#include "RenderService.h"
 
 namespace FoxEngine
 {

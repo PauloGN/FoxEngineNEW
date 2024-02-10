@@ -10,7 +10,7 @@ namespace FoxEngine
 		uint32_t winWidth = 1280;
 		uint32_t winHeight = 720;
 		uint32_t debugDrawLimit = 1000000;
-		std::filesystem::path textureRoot = "../../Assets/Images";
+		std::filesystem::path textureRoot = "../../Assets/Textures/";
 		std::filesystem::path audioRoot = "../../Assets/Audio";
 	};
 

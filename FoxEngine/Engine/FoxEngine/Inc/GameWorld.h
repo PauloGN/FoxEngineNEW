@@ -20,6 +20,8 @@ namespace FoxEngine
 		GameObject* GetGameObject(const GameObjectHandle& handle);
 		void DestroyObject(const GameObjectHandle& handle);
 
+		void LoadLevel(const std::filesystem::path& levelFile);
+
 		template<class ServiceType>
 		ServiceType* AddService()
 		{
