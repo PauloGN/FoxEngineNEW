@@ -68,7 +68,7 @@ void PhysicsWorld::Terminate()
 void PhysicsWorld::Update(float deltaTime)
 {
 	mDynamicWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
-	mSoftBodyWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
+	//mSoftBodyWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
 
 	for (PhysicsObject* po : mPhysicsObjects)
 	{

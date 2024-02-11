@@ -3,6 +3,7 @@
 
 #include "GameObjectFactory.h"
 #include "CameraService.h"
+#include "PhysicsService.h"
 #include "UpdateService.h"
 #include "RenderService.h"
 
@@ -164,6 +165,11 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 		{
 			RenderService* renderService = AddService<RenderService>();
 			renderService->Deserialize(service.value);
+		}
+		else if (strcmp(ServiceName, "PhysicsService") == 0)
+		{
+			PhysicsService* physicsService = AddService<PhysicsService>();
+			physicsService->Deserialize(service.value);
 		}
 		else
 		{

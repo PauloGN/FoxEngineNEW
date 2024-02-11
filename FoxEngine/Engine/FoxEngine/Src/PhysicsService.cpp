@@ -26,9 +26,9 @@ void PhysicsService::Deserialize(rapidjson::Value& value)
 		const float z = gravity[2].GetFloat();
 		PhysicsWorld::Get()->SetGravity({x, y, z});
 	}
-	if (value.HasMember("SimSteps"))
+	if (value.HasMember("SimStep"))
 	{
-		const uint32_t simSteps = value["SimSteps"].GetInt();
+		const uint32_t simSteps = value["SimStep"].GetInt();
 		PhysicsWorld::Get()->SetSimulationSteps(simSteps);
 	}
 	if (value.HasMember("FixedTimeStep"))

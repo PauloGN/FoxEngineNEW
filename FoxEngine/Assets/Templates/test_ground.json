@@ -26,6 +26,16 @@
         "BumpMap": "../../Assets/Images/mountain/mountain_height.jpg",
         "SpecularMap": "../../Assets/Images/mountain/mountain_spec.jpg"
       }
+    },
+    "ColliderComponent": {
+      "Shape": {
+        "Type": "Hull",
+        "HalfExtents": [ 5.0, 0.1, 5.0 ],
+        "Origin": [ 0.0, 0.1, 0.0 ]
+      }
+    },
+    "RigidBodyComponent": {
+      "Mass": 0.0
     }
   }
 }
