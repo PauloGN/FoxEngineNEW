@@ -9,6 +9,7 @@
 
 //components
 #include "TransformComponent.h"
+#include "RigidBodyComponent.h"
 
 using namespace FoxEngine;
 
@@ -199,6 +200,12 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 
 				TransformComponent* transformComponent = obj->GetComponent<TransformComponent>();
 				transformComponent->position = Vector3(x, y, z);
+
+				RigidBodyComponent* rigidBodyComponent = obj->GetComponent<RigidBodyComponent>();
+				if(rigidBodyComponent != nullptr)
+				{
+					rigidBodyComponent->SetPosition(transformComponent->position);
+				}
 			}
 		}
 	}

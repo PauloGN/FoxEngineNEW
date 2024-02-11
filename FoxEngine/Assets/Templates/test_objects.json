@@ -12,7 +12,7 @@
       "Shape": {
         "Type": "Hull",
         "HalfExtents": [ 0.5, 1.0, 0.5 ],
-        "Origin": [ 0.0, -1.0, 0.0 ]
+        "Origin": [ 0.0, 1.0, 0.0 ]
       }
     },
     "RigidBodyComponent": {
