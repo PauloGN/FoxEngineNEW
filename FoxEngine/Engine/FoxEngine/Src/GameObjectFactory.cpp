@@ -3,9 +3,11 @@
 #include "GameObject.h"
 
 #include "CameraComponent.h"
+#include "ColliderComponent.h"
 #include "FPSCameraComponent.h"
 #include "MeshComponent.h"
 #include "ModelComponent.h"
+#include "RigidBodyComponent.h"
 #include "TransformComponent.h"
 
 using namespace FoxEngine;
@@ -56,6 +58,16 @@ void GameObjectFactory::Make(const std::filesystem::path& templatePath, GameObje
 		{
 			MeshComponent* meshComponent = gameObject.AddComponent<MeshComponent>();
 			meshComponent->Deserialize(component.value);
+		}
+		else if (strcmp(componentName, "RigidBodyComponent") == 0)
+		{
+			RigidBodyComponent* rigidBodyComponent = gameObject.AddComponent<RigidBodyComponent>();
+			rigidBodyComponent->Deserialize(component.value);
+		}
+		else if (strcmp(componentName, "ColliderComponent") == 0)
+		{
+			ColliderComponent* colliderComponent = gameObject.AddComponent<ColliderComponent>();
+			colliderComponent->Deserialize(component.value);
 		}
 		else
 		{

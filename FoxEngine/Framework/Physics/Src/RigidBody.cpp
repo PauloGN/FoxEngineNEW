@@ -1,7 +1,7 @@
 #include "Precompiled.h"
 #include "RigidBody.h"
 #include "CollisionShape.h"
-#include "PhysicsWorld.h"
+//#include "PhysicsWorld.h"
 
 #include <Graphics/Inc/Transform.h>
 
@@ -24,12 +24,12 @@ void RigidBody::Initialize(FoxEngine::Graphics::Transform& graphicsTransform, co
 	//Apply bounciness
 	mRigidBody->setRestitution(restitution);
 
-	PhysicsWorld::Get()->Register(this);
+	//PhysicsWorld::Get()->Register(this);
 }
 
 void RigidBody::Terminate()
 {
-	PhysicsWorld::Get()->Unregister(this);
+	//PhysicsWorld::Get()->Unregister(this);
 	SafeDelete(mMotionState);
 	SafeDelete(mRigidBody);
 	mGraphicsTransform = nullptr;

@@ -100,6 +100,31 @@ void PhysicsWorld::DebugUI()
 	}
 }
 
+void PhysicsWorld::SetGravity(const FoxMath::Vector3& gravity)
+{
+	mSettings.gravity = gravity;
+
+	if(mDynamicWorld != nullptr)
+	{
+		mDynamicWorld->setGravity(gravity);
+	}
+
+	if (mSoftBodyWorld != nullptr)
+	{
+		mSoftBodyWorld->setGravity(gravity);
+	}
+}
+
+void PhysicsWorld::SetSimulationSteps(const uint32_t steps)
+{
+	mSettings.simulationSteps = steps;
+}
+
+void PhysicsWorld::SetFixedTimeStep(const float timeStep)
+{
+	mSettings.fixedTimeStep = timeStep;
+}
+
 void FoxEngine::Physics::PhysicsWorld::Register(PhysicsObject* physicsObject)
 {
 	if (std::find(mPhysicsObjects.begin(), mPhysicsObjects.end(), physicsObject) == mPhysicsObjects.end())

@@ -12,6 +12,8 @@ namespace FoxEngine
 		FPSCamera,
 		Model,
 		Mesh,
+		RigidBody,
+		Collider,
 
 		Count
 	};
@@ -22,6 +24,7 @@ namespace FoxEngine
 		Camera,
 		Update,
 		Render,
+		Physics,
 
 		Count
 	};

@@ -12,9 +12,11 @@
 //Components
 #include "Component.h"
 #include "CameraComponent.h"
+#include "ColliderComponent.h"
 #include "FPSCameraComponent.h"
 #include "MeshComponent.h"
 #include "ModelComponent.h"
+#include "RigidBodyComponent.h"
 #include "TransformComponent.h"
 //Services
 #include "Service.h"

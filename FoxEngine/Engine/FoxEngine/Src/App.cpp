@@ -77,7 +77,7 @@ void App::Run(const FoxEngine::AppConfig& config)
 
 		if (deltaTime < .5f)
 		{
-			PhysicsWorld::Get()->Update(deltaTime);
+			//PhysicsWorld::Get()->Update(deltaTime);
 			mCurrentState->Update(deltaTime);
 		}
 

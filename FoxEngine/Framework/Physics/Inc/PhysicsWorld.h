@@ -30,6 +30,10 @@ namespace FoxEngine::Physics
 		void Update(float deltaTime);
 		void DebugUI();
 
+		void SetGravity(const FoxMath::Vector3& gravity);
+		void SetSimulationSteps(const uint32_t steps);
+		void SetFixedTimeStep(const float timeStep);
+
 		void Register(PhysicsObject* physicsObject);
 		void Unregister(PhysicsObject* physicsObject);
 

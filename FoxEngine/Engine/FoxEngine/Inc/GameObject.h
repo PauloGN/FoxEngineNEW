@@ -85,15 +85,16 @@ namespace FoxEngine
 	private:
 
 		friend class GameWorld;
+		using Components = std::vector<std::unique_ptr<Component>>;
 
 		GameWorld* mWorld = nullptr;
+		Components mComponents;
+
 		GameObjectHandle mHandle;
 
 		std::string mName = "EMPTY";
 		bool mInitialized = false;
 		uint32_t mUniqueId = 0;
 
-		using Components = std::vector<std::unique_ptr<Component>>;
-		Components mComponents;
 	};
 }

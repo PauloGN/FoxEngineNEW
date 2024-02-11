@@ -89,4 +89,7 @@ void RenderTarget::EndRender()
     auto context = GraphicsSystem::Get()->GetContext();
     context->OMSetRenderTargets(1, &mOldRenderTargetView, mOldDepthStencilView);
     context->RSSetViewports(1, &mOldViewport);
+
+    SafeRelease(mOldDepthStencilView);
+    SafeRelease(mOldRenderTargetView);
 }

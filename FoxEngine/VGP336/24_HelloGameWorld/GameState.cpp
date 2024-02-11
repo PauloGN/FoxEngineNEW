@@ -52,7 +52,7 @@ void GameState::ChangeScreenColor()
 
 	if (I->IsKeyPressed(KeyCode::UP))
 	{
-		GS->SetClearColor(Colors::Red);
+		GS->SetClearColor(Colors::DeepSkyBlue);
 	}
 	if (I->IsKeyPressed(KeyCode::DOWN))
 	{
