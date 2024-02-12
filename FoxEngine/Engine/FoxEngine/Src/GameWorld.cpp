@@ -13,6 +13,16 @@
 
 using namespace FoxEngine;
 
+namespace 
+{
+	CustomService TryServiceMake;
+}
+
+void GameWorld::SetCustomServiceMake(CustomService customService)
+{
+	TryServiceMake = customService;
+}
+
 void FoxEngine::GameWorld::Initialize(uint32_t capacity)
 {
 	ASSERT(!mInitialized, "GameWorld: is already initialized");
@@ -152,7 +162,14 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 	for (auto& service : services)
 	{
 		const char* ServiceName = service.name.GetString();
-		if(strcmp(ServiceName, "CameraService") == 0)
+
+		if(TryServiceMake(ServiceName, service.value, *this))
+		{
+			//Custom service, project level
+
+
+		}
+		else if(strcmp(ServiceName, "CameraService") == 0)
 		{
 			CameraService* cameraService = AddService<CameraService>();
 			cameraService->Deserialize(service.value);

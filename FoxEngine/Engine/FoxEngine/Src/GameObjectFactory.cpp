@@ -14,6 +14,16 @@ using namespace FoxEngine;
 
 namespace rj = rapidjson;
 
+namespace 
+{
+	CustomMake TryMake;
+}
+
+void GameObjectFactory::SetCustomMake(CustomMake customMake)
+{
+	TryMake = customMake;
+}
+
 void GameObjectFactory::Make(const std::filesystem::path& templatePath, GameObject& gameObject)
 {
 	FILE* file = nullptr;
@@ -34,7 +44,11 @@ void GameObjectFactory::Make(const std::filesystem::path& templatePath, GameObje
 	{
 		const char* componentName = component.name.GetString();
 
-		if (strcmp(componentName, "TransformComponent") == 0)
+		if(TryMake(componentName, component.value, gameObject))
+		{
+			//custom and we handle on the project
+		}
+		else if	(strcmp(componentName, "TransformComponent") == 0)
 		{
 			TransformComponent* transformComponent = gameObject.AddComponent<TransformComponent>();
 			transformComponent->Deserialize(component.value);

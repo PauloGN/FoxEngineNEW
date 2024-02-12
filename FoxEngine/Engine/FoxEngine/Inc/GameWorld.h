@@ -5,9 +5,12 @@
 
 namespace FoxEngine
 {
+	using CustomService = std::function<bool(const char*, const rapidjson::Value& value, GameWorld&)>;
 	class GameWorld final
 	{
 	public:
+
+		static void SetCustomServiceMake(CustomService customService);
 
 		void Initialize(uint32_t capacity);
 		void Terminate();
