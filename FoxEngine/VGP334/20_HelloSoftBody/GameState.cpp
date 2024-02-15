@@ -46,8 +46,8 @@ void GameState::Initialize()
 	int lastVertex = mClothMesh.vertices.size() - 1;
 	int lastVertexOtherSide = lastVertex - rows;
 
-	mClothSoftBody.Initialize(mClothMesh, 1.0f, { lastVertex, lastVertexOtherSide });
 	mCloth.meshBuffer.Initialize(nullptr, sizeof(Vertex), mClothMesh.vertices.size(), mClothMesh.indices.data(), mClothMesh.indices.size());
+	mClothSoftBody.Initialize(mClothMesh, 1.0f, { lastVertex, lastVertexOtherSide });
 
 	mCloth.diffuseMapId = TextureManager::Get()->LoadTexture(L"space.jpg");
 	mCloth.material.ambient = { 0.3f, 0.3f, 0.3f, 1.0f };
@@ -117,6 +117,8 @@ void GameState::Update(float deltaTime)
 
 	//Controller
 	EngineCameraController(deltaTime);
+
+	Physics::PhysicsWorld::Get()->Update(deltaTime, true);
 
 }
 

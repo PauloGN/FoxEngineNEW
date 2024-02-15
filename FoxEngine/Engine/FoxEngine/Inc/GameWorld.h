@@ -25,6 +25,8 @@ namespace FoxEngine
 
 		void LoadLevel(const std::filesystem::path& levelFile);
 
+#pragma region templatized
+
 		template<class ServiceType>
 		ServiceType* AddService()
 		{
@@ -62,6 +64,7 @@ namespace FoxEngine
 			}
 			return nullptr;
 		}
+#pragma endregion
 
 	private:
 
@@ -78,10 +81,10 @@ namespace FoxEngine
 		using GameObjectSlots = std::vector<Slot>;
 
 		Services mServices;
-
 		GameObjectSlots mGameObjectSlots;
+
 		std::vector<uint32_t> mFreeSlots;
-		std::vector<uint32_t> mTobeDestroyed;
+		std::vector<uint32_t> mToBeDestroyed;
 
 		bool mInitialized = false;
 		bool mUpdating = false;

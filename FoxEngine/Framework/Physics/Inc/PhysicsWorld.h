@@ -27,7 +27,7 @@ namespace FoxEngine::Physics
 		void Initialize(const Settings& settings);
 		void Terminate();
 
-		void Update(float deltaTime);
+		void Update(float deltaTime, bool bUpdateSoftBody = false);
 		void DebugUI();
 
 		void SetGravity(const FoxMath::Vector3& gravity);

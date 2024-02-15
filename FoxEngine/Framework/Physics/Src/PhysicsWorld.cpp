@@ -65,10 +65,13 @@ void PhysicsWorld::Terminate()
 	SafeDelete(mCollisionConfiguration);
 }
 
-void PhysicsWorld::Update(float deltaTime)
+void PhysicsWorld::Update(float deltaTime, bool bUpdateSoftBody)
 {
 	mDynamicWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
-	//mSoftBodyWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
+	if (bUpdateSoftBody)
+	{
+		mSoftBodyWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
+	}
 
 	for (PhysicsObject* po : mPhysicsObjects)
 	{

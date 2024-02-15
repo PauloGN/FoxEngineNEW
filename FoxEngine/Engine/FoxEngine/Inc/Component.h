@@ -33,7 +33,7 @@ namespace FoxEngine
 
 	private:
 
-		//Gameobject also has access to private members
+		//Gameobject also has access to private members then it will assign this pointer to a valid data as soon as it gets attached to a game Object.
 		friend class GameObject;
 		GameObject* mOwner = nullptr;
 	};
