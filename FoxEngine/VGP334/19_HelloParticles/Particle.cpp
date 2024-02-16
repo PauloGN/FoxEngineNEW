@@ -15,10 +15,12 @@ void Particle::Initialize()
 	mParticle.meshBuffer.Initialize(nullptr, sizeof(VertexPC), mMesh.vertices.size(), mMesh.indices.data(), mMesh.indices.size());
 	mShape.InitializeEmpty();
 	mRigidbody.Initialize(mParticle.transform, mShape, 0.1f);
+	Physics::PhysicsWorld::Get()->Register(&mRigidbody);
 }
 
 void Particle::Terminate()
 {
+	Physics::PhysicsWorld::Get()->Unregister(&mRigidbody);
 	mRigidbody.Terminate();
 	mShape.Terminate();
 	mParticle.Terminate();

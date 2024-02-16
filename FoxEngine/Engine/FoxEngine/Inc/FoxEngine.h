@@ -1,8 +1,11 @@
 #pragma once
 
 #include "Common.h"
+//App headers
 #include "App.h"
 #include "AppState.h"
+
+//World headers
 #include "GameObject.h"
 #include "GameObjectHandle.h"
 #include "GameObjectFactory.h"

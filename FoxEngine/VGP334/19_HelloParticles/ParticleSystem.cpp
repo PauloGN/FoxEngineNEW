@@ -58,6 +58,7 @@ void ParticleSystem::Terminate()
 
 void ParticleSystem::Update(const float deltaTime)
 {
+	Physics::PhysicsWorld::Get()->Update(deltaTime);
 	if (mLifeTime > 0.f)
 	{
 		mLifeTime -= deltaTime;
