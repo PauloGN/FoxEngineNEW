@@ -11,7 +11,6 @@
 #include "TransformComponent.h"
 
 using namespace FoxEngine;
-
 namespace rj = rapidjson;
 
 namespace 

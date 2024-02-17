@@ -24,7 +24,7 @@ namespace FoxEngine
 
 		virtual uint32_t GetTypeId() const = 0;
 
-		GameObject& GetOwner() { return*mOwner; }
+		GameObject& GetOwner() { return *mOwner; }
 		const GameObject& GetOwner()  const { return *mOwner; }
 
 		//Serialize and deserialize

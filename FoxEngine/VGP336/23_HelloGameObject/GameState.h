@@ -14,10 +14,13 @@ public:
 
 	//Engine Tools
 	void EngineCameraController(float deltaTime);
+
 private:
+
 	//Assignment Colors change
 	void ChangeScreenColor();
 
 	FoxEngine::Graphics::Camera mCamera;
 	FoxEngine::GameObject mGameObject;
+	FoxEngine::GameObject mGameObject2;
 };

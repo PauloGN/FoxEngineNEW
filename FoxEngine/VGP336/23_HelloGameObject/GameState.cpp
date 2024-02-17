@@ -39,17 +39,21 @@ void GameState::Initialize()
 
 	//pre-load framework components
 	GameObjectFactory::InitializeComponentFactories();
+
 	//set custom components
 	GameObjectFactory::SetCustomMake(CustomComponentMake);
 	GameWorld::SetCustomServiceMake(CustomServiceMake);
 
 	GameObjectFactory::Make("../../Assets/Templates/test_objects_Empty.json", mGameObject);
+	GameObjectFactory::Make("../../Assets/Templates/test_PW5.json", mGameObject2);
 	//mGameObject.AddComponent<TransformComponent>();
 	mGameObject.Initialize();
+	mGameObject2.Initialize();
 }
 void GameState::Terminate() 
 {
 	mGameObject.Terminate();
+	mGameObject2.Terminate();
 }
 void GameState::Update(float deltaTime) 
 {
@@ -62,6 +66,7 @@ void GameState::Render()
 void GameState::DebugUI()
 {
 	mGameObject.DebugUI();
+	mGameObject2.DebugUI();
 	SimpleDraw::Render(mCamera);
 }
 
