@@ -16,7 +16,6 @@ public:
 	void DebugUI() override;
 
 	//Engine Tools
-	void EngineCameraController(float deltaTime);
 	void EngineFPS(float deltaTime);
 	void CharacterAnimationControler(float deltaTime);
 

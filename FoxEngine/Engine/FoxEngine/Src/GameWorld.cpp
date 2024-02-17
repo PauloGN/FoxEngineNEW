@@ -117,9 +117,9 @@ GameObject* FoxEngine::GameWorld::CreateGameObject(const std::filesystem::path& 
 	std::unique_ptr<GameObject>& newObject = slot.gameObject;
 	newObject = std::make_unique<GameObject>();
 
-	//Deserialize game obj
+	//Deserialize game obj and add components
 	GameObjectFactory::Make(templateFile, *newObject);
-
+	
 	//set world, handle and initialize
 	newObject->mWorld = this;
 	newObject->mHandle.mIndex = freeSlot;
@@ -172,7 +172,6 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 		if(TryServiceMake(ServiceName, service.value, *this))
 		{
 			//Custom service, project level
-
 
 		}
 		else if(strcmp(ServiceName, "CameraService") == 0)

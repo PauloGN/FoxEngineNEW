@@ -2,13 +2,15 @@
 #include "ColliderComponent.h"
 
 #include "GameWorld.h"
+//#include "TransformComponent.h"
 
 using namespace FoxEngine;
 
 void FoxEngine::ColliderComponent::Initialize()
 {
 	//
-
+	//mAABB = AABB({0, 0, 0}, {1, 1, 1});
+	//mTransformPtr = GetOwner().GetComponent<TransformComponent>();
 }
 
 void FoxEngine::ColliderComponent::Terminate()
@@ -71,3 +73,20 @@ void FoxEngine::ColliderComponent::Deserialize(rapidjson::Value& value)
 		ASSERT(false, "ColliderComponet: must have shape data");
 	}
 }
+
+//void ColliderComponent::DebugUI()
+//{
+//	Component::DebugUI();
+//
+//	const FoxMath::AABB aabb = GetAABB();
+//	Graphics::SimpleDraw::AddAABB(aabb.center, aabb.extend, FoxEngine::Colors::Blue);
+//}
+//
+//FoxMath::AABB ColliderComponent::GetAABB() const
+//{
+//	FoxMath::AABB aabb;
+//	aabb.center = mTransformPtr->position + mAABB.center;
+//	aabb.extend = mAABB.extend;
+//
+//	return aabb;
+//}

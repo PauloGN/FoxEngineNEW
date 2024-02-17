@@ -37,7 +37,9 @@ void GameState::Initialize()
 	mCamera.SetPosition({0.0f, 1.5f,-4.0f});
 	mCamera.SetLookAt({0.0f, 0.0f, 0.0f});
 
+	//pre-load framework components
 	GameObjectFactory::InitializeComponentFactories();
+	//set custom components
 	GameObjectFactory::SetCustomMake(CustomComponentMake);
 	GameWorld::SetCustomServiceMake(CustomServiceMake);
 
