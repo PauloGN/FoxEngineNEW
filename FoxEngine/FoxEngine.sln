@@ -152,6 +152,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 		Assets\Templates\test_ground.json = Assets\Templates\test_ground.json
 		Assets\Templates\test_objects.json = Assets\Templates\test_objects.json
 		Assets\Templates\test_objects_Empty.json = Assets\Templates\test_objects_Empty.json
+		Assets\Templates\test_PW5.json = Assets\Templates\test_PW5.json
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "01 PathFinding", "VGPTesting\01_PathFiding\01 PathFinding.vcxproj", "{908EA407-5ADC-4B3D-AB84-F20B9F020C52}"

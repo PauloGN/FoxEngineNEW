@@ -24,7 +24,7 @@ namespace FoxEngine
 
 		virtual uint32_t GetTypeId() const = 0;
 
-		GameObject& GetOwner() { return*mOwner; }
+		GameObject& GetOwner() { return *mOwner; }
 		const GameObject& GetOwner()  const { return *mOwner; }
 
 		//Serialize and deserialize
@@ -33,7 +33,7 @@ namespace FoxEngine
 
 	private:
 
-		//Gameobject also has access to private members
+		//Gameobject also has access to private members then it will assign this pointer to a valid data as soon as it gets attached to a game Object.
 		friend class GameObject;
 		GameObject* mOwner = nullptr;
 	};

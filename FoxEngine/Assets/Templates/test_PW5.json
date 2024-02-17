@@ -1,22 +1,18 @@
 {
   "Components": {
     "TransformComponent": {
-      "Position": [ 0.0, 0.0, 0.0 ],
+      "Position": [ 2.0, 0.0, 4.0 ],
       "Rotation": [ 0.0, 0.0, 0.0, 1.0 ],
       "Scale": [ 1.0, 1.0, 1.0 ]
     },
-    "ModelComponent": {
-      "FileName": "../../Assets/Models/Character/AlienMan.model"
-    },
+
     "ColliderComponent": {
       "Shape": {
         "Type": "Hull",
         "HalfExtents": [ 0.5, 1.0, 0.5 ],
         "Origin": [ 0.0, 1.0, 0.0 ]
       }
-    },
-    "RigidBodyComponent": {
-      "Mass": 1.0
     }
+
   }
 }

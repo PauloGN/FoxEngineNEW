@@ -32,6 +32,8 @@ void GameState::Initialize()
 
 	mGroundShape.InitializeHull({10.0f, .5f, 10.0f}, { 0.0f, -.5f, 0.0f });
 	mGroundRigidBody.Initialize(mGround.transform, mGroundShape, 0.0f);
+	Physics::PhysicsWorld::Get()->Register(&mGroundRigidBody);
+
 
 	Mesh ball = MeshBuilder::CreateSphere(60, 60, 0.5f);
 	mBall.meshBuffer.Initialize(ball);
@@ -43,13 +45,16 @@ void GameState::Initialize()
 
 	mBallShape.InitializeSphere(0.5f);
 	mBallRigidBody.Initialize(mBall.transform, mBallShape, 1.0f, 0.99f);
+	Physics::PhysicsWorld::Get()->Register(&mBallRigidBody);
 	mBallRigidBody.SetVelociity({ 0.0f, 5.0f,0.0f });
 }
 
 void GameState::Terminate()
 {
+	Physics::PhysicsWorld::Get()->Unregister(&mBallRigidBody);
 	mBallRigidBody.Terminate();
 	mBallShape.Terminate();
+	Physics::PhysicsWorld::Get()->Unregister(&mGroundRigidBody);
 	mGroundRigidBody.Terminate();
 	mGroundShape.Terminate();
 	mBall.Terminate();
@@ -107,6 +112,9 @@ void GameState::Update(float deltaTime)
 
 	//Controller
 	EngineCameraController(deltaTime);
+
+	//Update physics
+	Physics::PhysicsWorld::Get()->Update(deltaTime);
 
 	if(InputSystem::Get()->IsKeyPressed(KeyCode::SPACE))
 	{

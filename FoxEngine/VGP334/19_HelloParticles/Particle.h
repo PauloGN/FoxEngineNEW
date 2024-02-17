@@ -15,7 +15,6 @@ class Particle
 {
 	FoxEngine::Graphics::RenderObject mParticle;
 	FoxEngine::Graphics::MeshPC mMesh;
-	FoxEngine::Physics::RigidBody mRigidbody;
 	FoxEngine::Physics::CollisionShape mShape;
 
 	bool isActive = false;
@@ -27,6 +26,7 @@ class Particle
 public:
 	Particle() = default;
 	
+	FoxEngine::Physics::RigidBody mRigidbody;
 	void Initialize();
 	void Terminate();
 

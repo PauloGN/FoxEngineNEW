@@ -1,7 +1,6 @@
 #pragma once
 #include "PhysicsObject.h"
 
-
 namespace FoxEngine::Graphics
 {
 	struct Transform;

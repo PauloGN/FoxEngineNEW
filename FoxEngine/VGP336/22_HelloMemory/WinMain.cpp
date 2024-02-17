@@ -14,8 +14,8 @@ public:
 
 private:
 	std::string mName;
-	int mMarks;
-	int mFinalMarks;
+	int mMarks = 0;
+	int mFinalMarks = 0;
 
 };
 

@@ -65,10 +65,13 @@ void PhysicsWorld::Terminate()
 	SafeDelete(mCollisionConfiguration);
 }
 
-void PhysicsWorld::Update(float deltaTime)
+void PhysicsWorld::Update(float deltaTime, bool bUpdateSoftBody)
 {
 	mDynamicWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
-	mSoftBodyWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
+	if (bUpdateSoftBody)
+	{
+		mSoftBodyWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
+	}
 
 	for (PhysicsObject* po : mPhysicsObjects)
 	{
@@ -98,6 +101,31 @@ void PhysicsWorld::DebugUI()
 		mDynamicWorld->debugDrawWorld();
 		mSoftBodyWorld->debugDrawWorld();
 	}
+}
+
+void PhysicsWorld::SetGravity(const FoxMath::Vector3& gravity)
+{
+	mSettings.gravity = gravity;
+
+	if(mDynamicWorld != nullptr)
+	{
+		mDynamicWorld->setGravity(gravity);
+	}
+
+	if (mSoftBodyWorld != nullptr)
+	{
+		mSoftBodyWorld->setGravity(gravity);
+	}
+}
+
+void PhysicsWorld::SetSimulationSteps(const uint32_t steps)
+{
+	mSettings.simulationSteps = steps;
+}
+
+void PhysicsWorld::SetFixedTimeStep(const float timeStep)
+{
+	mSettings.fixedTimeStep = timeStep;
 }
 
 void FoxEngine::Physics::PhysicsWorld::Register(PhysicsObject* physicsObject)

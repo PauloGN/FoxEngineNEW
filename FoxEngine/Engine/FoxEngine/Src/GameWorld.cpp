@@ -3,13 +3,25 @@
 
 #include "GameObjectFactory.h"
 #include "CameraService.h"
+#include "PhysicsService.h"
 #include "UpdateService.h"
 #include "RenderService.h"
 
 //components
 #include "TransformComponent.h"
+#include "RigidBodyComponent.h"
 
 using namespace FoxEngine;
+
+namespace 
+{
+	CustomService TryServiceMake;
+}
+
+void GameWorld::SetCustomServiceMake(CustomService customService)
+{
+	TryServiceMake = customService;
+}
 
 void FoxEngine::GameWorld::Initialize(uint32_t capacity)
 {
@@ -20,10 +32,13 @@ void FoxEngine::GameWorld::Initialize(uint32_t capacity)
 		service->Initialize();
 	}
 
+	GameObjectFactory::InitializeComponentFactories();
+
 	mGameObjectSlots.resize(capacity);
 	mFreeSlots.resize(capacity);
 	std::iota(mFreeSlots.begin(), mFreeSlots.end(), 0);
 	mInitialized = true;
+
 }
 
 void FoxEngine::GameWorld::Terminate()
@@ -93,18 +108,21 @@ GameObject* FoxEngine::GameWorld::CreateGameObject(const std::filesystem::path& 
 		ASSERT(false, "GameWorld: is not initialized");
 		return nullptr;
 	}
-
-	const uint32_t freeslot = mFreeSlots.back();
+	//Get a free slot
+	const uint32_t freeSlot = mFreeSlots.back();
 	mFreeSlots.pop_back();
 
-	Slot& slot = mGameObjectSlots[freeslot];
+	//allocate and construct GameOBJ
+	Slot& slot = mGameObjectSlots[freeSlot];
 	std::unique_ptr<GameObject>& newObject = slot.gameObject;
 	newObject = std::make_unique<GameObject>();
 
+	//Deserialize game obj and add components
 	GameObjectFactory::Make(templateFile, *newObject);
-
+	
+	//set world, handle and initialize
 	newObject->mWorld = this;
-	newObject->mHandle.mIndex = freeslot;
+	newObject->mHandle.mIndex = freeSlot;
 	newObject->mHandle.mGeneration = slot.generation;
 	newObject->Initialize();
 
@@ -130,7 +148,7 @@ void FoxEngine::GameWorld::DestroyObject(const GameObjectHandle& handle)
 
 	Slot& slot = mGameObjectSlots[handle.mIndex];
 	slot.generation++;
-	mTobeDestroyed.push_back(handle.mIndex);
+	mToBeDestroyed.push_back(handle.mIndex);
 }
 
 void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
@@ -150,7 +168,13 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 	for (auto& service : services)
 	{
 		const char* ServiceName = service.name.GetString();
-		if(strcmp(ServiceName, "CameraService") == 0)
+
+		if(TryServiceMake(ServiceName, service.value, *this))
+		{
+			//Custom service, project level
+
+		}
+		else if(strcmp(ServiceName, "CameraService") == 0)
 		{
 			CameraService* cameraService = AddService<CameraService>();
 			cameraService->Deserialize(service.value);
@@ -164,6 +188,11 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 		{
 			RenderService* renderService = AddService<RenderService>();
 			renderService->Deserialize(service.value);
+		}
+		else if (strcmp(ServiceName, "PhysicsService") == 0)
+		{
+			PhysicsService* physicsService = AddService<PhysicsService>();
+			physicsService->Deserialize(service.value);
 		}
 		else
 		{
@@ -193,6 +222,12 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 
 				TransformComponent* transformComponent = obj->GetComponent<TransformComponent>();
 				transformComponent->position = Vector3(x, y, z);
+
+				RigidBodyComponent* rigidBodyComponent = obj->GetComponent<RigidBodyComponent>();
+				if(rigidBodyComponent != nullptr)
+				{
+					rigidBodyComponent->SetPosition(transformComponent->position);
+				}
 			}
 		}
 	}
@@ -217,7 +252,7 @@ void FoxEngine::GameWorld::ProcessDestroyList()
 {
 	ASSERT(!mUpdating, "GameWorld: cant destroy while updating");
 
-	for (uint32_t index : mTobeDestroyed)
+	for (uint32_t index : mToBeDestroyed)
 	{
 		Slot& slot = mGameObjectSlots[index];
 
@@ -229,6 +264,5 @@ void FoxEngine::GameWorld::ProcessDestroyList()
 		mFreeSlots.push_back(index);
 	}
 
-	mTobeDestroyed.clear();
+	mToBeDestroyed.clear();
 }
-

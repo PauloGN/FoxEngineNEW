@@ -5,9 +5,12 @@
 
 namespace FoxEngine
 {
+	using CustomService = std::function<bool(const char*, const rapidjson::Value& value, GameWorld&)>;
 	class GameWorld final
 	{
 	public:
+
+		static void SetCustomServiceMake(CustomService customService);
 
 		void Initialize(uint32_t capacity);
 		void Terminate();
@@ -21,6 +24,8 @@ namespace FoxEngine
 		void DestroyObject(const GameObjectHandle& handle);
 
 		void LoadLevel(const std::filesystem::path& levelFile);
+
+#pragma region templatized
 
 		template<class ServiceType>
 		ServiceType* AddService()
@@ -59,6 +64,7 @@ namespace FoxEngine
 			}
 			return nullptr;
 		}
+#pragma endregion
 
 	private:
 
@@ -75,10 +81,10 @@ namespace FoxEngine
 		using GameObjectSlots = std::vector<Slot>;
 
 		Services mServices;
-
 		GameObjectSlots mGameObjectSlots;
+
 		std::vector<uint32_t> mFreeSlots;
-		std::vector<uint32_t> mTobeDestroyed;
+		std::vector<uint32_t> mToBeDestroyed;
 
 		bool mInitialized = false;
 		bool mUpdating = false;

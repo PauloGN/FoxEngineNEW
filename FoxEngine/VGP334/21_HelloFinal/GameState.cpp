@@ -7,7 +7,6 @@ using namespace FoxEngine::Graphics;
 
 namespace
 {
-	bool bRotateChar = false;
 	bool bPlayAnimTrigger = true;
 	bool bCamZomm = false;
 	std::unique_ptr<ThirdPersonCamera> thCam;
@@ -38,12 +37,6 @@ void GameState::Initialize()
 	mCharacterAnimator.Initialize(mCharacterId);
 	mAlien = CreateRenderGroup(mCharacterId, &mCharacterAnimator);
 
-	for (auto& a: mAlien)
-	{
-		a.transform.position = Vector3::Zero;
-		//Quaternion::Conjugate(a.transform.rotation);
-	}
-
 	thCam = std::make_unique<ThirdPersonCamera>(mCamera, mAlien);
 
 	Mesh groundMesh = MeshBuilder::CreateGroundPlane(20,20,1.0f);
@@ -53,13 +46,13 @@ void GameState::Initialize()
 	mGround.material.diffuse = { 0.8f, 0.8f, 0.8f, 1.0f };
 	mGround.material.specular = { 0.6f, 0.6f, 0.6f, 1.0f };
 	mGround.material.power = 20.0f;
-
 }
 
 void GameState::Terminate()
 {
 	CleanupRenderGroup(mAlien);
 	mGround.Terminate();
+	thCam.reset();
 	mStandardEffect.Terminate();
 }
 
@@ -108,7 +101,6 @@ void GameState::DebugUI()
 			ImGui::ColorEdit4("Specular##Light", &mDirectionalLight.specular.r);
 		}
 		ImGui::PopID();
-
 		//Quaternion
 #pragma region Quaternion controller
 		ImGui::PushID("Rotation");
@@ -158,106 +150,32 @@ void GameState::DebugUI()
 
 void GameState::Update(float deltaTime)
 {
-
+	//Input system
 	auto input = Input::InputSystem::Get();
 
-	//Controller
-	//EngineCameraController(deltaTime);
 	//FPS
 	EngineFPS(deltaTime);
 
-	if (input->IsKeyPressed(KeyCode::SPACE))
-	{
-		bRotateChar = !bRotateChar;
-	}
-	if (bRotateChar)
-	{
-		for (auto& a : mAlien)
-		{
-			a.transform.vrotation.y += 1 * deltaTime;
-		}
-	}
-	
+#pragma region Character TPC
 	//Character controller
 	mCharacterAnimator.Update(deltaTime * mAnimationScale);
 	thCam->Update(input->GetMouseMoveX(), -input->GetMouseMoveY(), deltaTime);
 	thCam->Rotate(-mCamera.GetDirection());
 	//thCam->Move(Vector3(10.0f, 0.0f, 10.0f), deltaTime, .2f);
-
-	if (input->IsMouseDown(MouseButton::RBUTTON))
-	{
-		const int turnSpeedMultiplyer = input->IsKeyDown(KeyCode::LSHIFT) ? 2 : 1;
-
-		const float x = input->GetMouseMoveX() * deltaTime * turnSpeedMultiplyer;
-		const float y = input->GetMouseMoveY() * deltaTime * turnSpeedMultiplyer;
-
-		mCamera.Yaw(x);
-		mCamera.Pitch(y);
-	}
-
-
-
 	thCam->LateUpdate(bCamZomm, 0.02f);
+	CharacterAnimationControler(deltaTime);
+#pragma endregion
 
+#pragma region Testing Functions
 	//FoxMath::Vector3 cameraDir = mCamera.GetDirection();
 	//bool bRotate = mCamera.GetDirection().x != 0 || mCamera.GetDirection().y != 0 || mCamera.GetDirection().z != 0;
-	////RotateAlongCamera(mAlien, bRotate, cameraDir);
+	//RotateAlongCamera(mAlien, bRotate, cameraDir);
 
 	//FoxMath::Vector3 cameraPos = mCamera.GetPosition();
 	//bool bMove = mCamera.GetPosition().x != 0 || mCamera.GetPosition().y != 0 || mCamera.GetPosition().z != 0;
-	////MoveAlongCamera(mAlien, bMove, cameraPos, deltaTime, 50);
+	//MoveAlongCamera(mAlien, bMove, cameraPos, deltaTime, 50);
+#pragma endregion
 
-	CharacterAnimationControler(deltaTime);
-
-}
-
-void GameState::EngineCameraController(float deltaTime)
-{
-	const InputSystem* input = Input::InputSystem::Get();
-	const int moveSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? 10 : 1;
-	const float displacement = 0.01f * moveSpeed;
-
-	//Foward and Backward
-	if (input->IsKeyDown(KeyCode::W))
-	{
-		mCamera.Walk(displacement);
-	}
-	else if (input->IsKeyDown(KeyCode::S))
-	{
-		mCamera.Walk(-displacement);
-	}
-	//Right and Left
-	if (input->IsKeyDown(KeyCode::D))
-	{
-		mCamera.Strafe(displacement);
-	}
-	else if (input->IsKeyDown(KeyCode::A))
-	{
-		mCamera.Strafe(-displacement);
-	}
-
-	//Rotation
-	if (input->IsMouseDown(MouseButton::RBUTTON))
-	{
-		const int turnSpeedMultiplyer = input->IsKeyDown(KeyCode::LSHIFT) ? 2 : 1;
-
-		const float x = input->GetMouseMoveX() * deltaTime * turnSpeedMultiplyer;
-		const float y = input->GetMouseMoveY() * deltaTime * turnSpeedMultiplyer;
-
-		mCamera.Yaw(x);
-		mCamera.Pitch(y);
-	}
-
-	//UP and Down
-
-	if (input->IsKeyDown(KeyCode::Q))
-	{
-		mCamera.Rise(-displacement);
-	}
-	else if (input->IsKeyDown(KeyCode::E))
-	{
-		mCamera.Rise(displacement);
-	}
 }
 
 void GameState::EngineFPS(float deltaTime)
@@ -273,7 +191,6 @@ void GameState::EngineFPS(float deltaTime)
 		mFrameCount = 0.0f;
 	}
 }
-
 void GameState::CharacterAnimationControler(float deltaTime)
 {
 	const InputSystem* input = Input::InputSystem::Get();

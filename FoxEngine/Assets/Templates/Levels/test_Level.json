@@ -1,12 +1,23 @@
 {
   "Name": "Test Level",
   "Capacity": 1000,
+  "ServiceOrder": [
+    "CameraService",
+    "UpdateService",
+    "PhysicsService",
+    "RenderService"
+  ],
   "Services": {
     "CameraService": {
 
     },
     "UpdateService": {
 
+    },
+    "PhysicsService": {
+      "Gravity": [ 0.0, -9.81, 0.0 ],
+      "SimStep": 10,
+      "FixedTimeStep": 0.016666667
     },
     "RenderService": {
       "LightDirection": [ 1.0, -1.0, 1.0 ],

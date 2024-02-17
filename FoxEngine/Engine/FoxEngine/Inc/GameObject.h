@@ -4,7 +4,7 @@
 
 namespace FoxEngine
 {
-	//class GameWorld;
+	class GameWorld;
 
 	class GameObject final
 	{
@@ -24,6 +24,7 @@ namespace FoxEngine
 		const GameWorld& GetWorld() const { return* mWorld; }
 		const GameObjectHandle& GetHandle() const { return mHandle;}
 
+#pragma region Templatized
 		template<class ComponentType>
 		ComponentType* AddComponent()
 		{
@@ -51,6 +52,7 @@ namespace FoxEngine
 			}
 			return false;
 		}
+
 		//GET COMPONENT
 		template<class ComponentType>
 		ComponentType* GetComponent()
@@ -76,24 +78,25 @@ namespace FoxEngine
 			{
 				if (component->GetTypeId() == ComponentType::StaticGetTypeId())
 				{
-					return static_cast<ComponentType*>(component.get());
+					return static_cast<const ComponentType*>(component.get());
 				}
 			}
 			return nullptr;
 		}
+#pragma endregion
 
 	private:
 
 		friend class GameWorld;
+		using Components = std::vector<std::unique_ptr<Component>>;
 
 		GameWorld* mWorld = nullptr;
+		Components mComponents;
+
 		GameObjectHandle mHandle;
 
 		std::string mName = "EMPTY";
 		bool mInitialized = false;
 		uint32_t mUniqueId = 0;
-
-		using Components = std::vector<std::unique_ptr<Component>>;
-		Components mComponents;
 	};
 }
