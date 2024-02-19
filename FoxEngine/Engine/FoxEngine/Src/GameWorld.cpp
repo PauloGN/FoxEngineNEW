@@ -38,7 +38,6 @@ void FoxEngine::GameWorld::Initialize(uint32_t capacity)
 	mFreeSlots.resize(capacity);
 	std::iota(mFreeSlots.begin(), mFreeSlots.end(), 0);
 	mInitialized = true;
-
 }
 
 void FoxEngine::GameWorld::Terminate()

@@ -18,7 +18,7 @@ void FoxEngine::ColliderComponent::Terminate()
 	mCollisionShape.Terminate();
 }
 
-void FoxEngine::ColliderComponent::Deserialize(rapidjson::Value& value)
+void FoxEngine::ColliderComponent::Deserialize(const rapidjson::Value& value)
 {
 	if(value.HasMember("Shape"))
 	{

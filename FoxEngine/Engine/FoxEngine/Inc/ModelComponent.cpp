@@ -22,7 +22,7 @@ void ModelComponent::Terminate()
 	rs->Unregister(this);
 }
 
-void ModelComponent::Deserialize(rapidjson::Value& value)
+void ModelComponent::Deserialize(const rapidjson::Value& value)
 {
 	if(value.HasMember("FileName"))
 	{

@@ -12,7 +12,7 @@ namespace FoxEngine
 
 		void Initialize() override;
 		void Terminate() override;
-		void Deserialize(rapidjson::Value& value) override;
+		void Deserialize(const rapidjson::Value& value) override;
 
 		void SetPosition(const FoxEngine::FoxMath::Vector3& position);
 

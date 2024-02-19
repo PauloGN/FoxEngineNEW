@@ -82,7 +82,7 @@ void FoxEngine::FPSCameraComponent::Update(float deltaTime)
 	}
 }
 
-void FoxEngine::FPSCameraComponent::Deserialize(rapidjson::Value & value)
+void FoxEngine::FPSCameraComponent::Deserialize(const rapidjson::Value & value)
 {
 	if (value.HasMember("MoveSpeed"))
 	{

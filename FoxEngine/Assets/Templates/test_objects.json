@@ -2,7 +2,7 @@
   "Components": {
     "TransformComponent": {
       "Position": [ 0.0, 0.0, 0.0 ],
-      "Rotation": [ 0.0, 0.0, 0.0, 1.0 ],
+      "Rotation": [ 0.0, 0.0, 0.0],
       "Scale": [ 1.0, 1.0, 1.0 ]
     },
     "ModelComponent": {
@@ -11,7 +11,7 @@
     "ColliderComponent": {
       "Shape": {
         "Type": "Hull",
-        "HalfExtents": [ 0.5, 1.0, 0.5 ],
+        "HalfExtents": [ 0.3, 1.0, 0.3 ],
         "Origin": [ 0.0, 1.0, 0.0 ]
       }
     },

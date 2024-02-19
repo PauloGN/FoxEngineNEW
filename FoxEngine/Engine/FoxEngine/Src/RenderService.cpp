@@ -64,7 +64,7 @@ void RenderService::Render()
 
 void RenderService::DebugUI()
 {
-	ImGui::Text("FPS %f", mFPS);
+	ImGui::Text("FPS %.2f", mFPS);
 	ImGui::Separator();
 	ImGui::PushID("Light");
 	if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))

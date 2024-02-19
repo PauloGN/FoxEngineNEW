@@ -7,6 +7,7 @@ using namespace FoxEngine::Core;
 using namespace FoxEngine::Input;
 using namespace FoxEngine::Graphics;
 using namespace FoxEngine::Physics;
+using namespace FoxEngine::Audio;
 
 void FoxEngine::App::ChangeState(const std::string& stateName)
 {
@@ -20,7 +21,6 @@ void FoxEngine::App::ChangeState(const std::string& stateName)
 
 void App::Run(const FoxEngine::AppConfig& config)
 {
-
 	//create window
 	
 	Window myWindow;
@@ -30,7 +30,6 @@ void App::Run(const FoxEngine::AppConfig& config)
 		config.winWidth,
 		config.winHeight
 	);
-
 
 	ASSERT(myWindow.IsActive(), "Window creation has failed!");
 
@@ -42,6 +41,8 @@ void App::Run(const FoxEngine::AppConfig& config)
 	SimpleDraw::StaticInitialize(config.debugDrawLimit);
 	TextureManager::StaticInitialize(config.textureRoot);
 	ModelManager::StaticInitialize();
+	AudioSystem::StaticInitialize();
+	SoundEffectManager::StaticInitialize(config.audioRoot);
 
 	PhysicsWorld::Settings settings;
 	PhysicsWorld::StaticInitialize(settings);
@@ -56,8 +57,8 @@ void App::Run(const FoxEngine::AppConfig& config)
 		myWindow.ProcessMessage();
 
 		auto inputSystem = InputSystem::Get();
-
 		inputSystem->Update();
+
 		if (!myWindow.IsActive() || inputSystem->IsKeyPressed(KeyCode::ESCAPE))
 		{
 			Quit();
@@ -71,6 +72,8 @@ void App::Run(const FoxEngine::AppConfig& config)
 			mCurrentState = std::exchange(mNextState, nullptr);
 			mCurrentState->Initialize();
 		}
+
+		AudioSystem::Get()->Update();
 
 		//run the game
 		auto deltaTime = TimeUtil::GetDeltaTime();
@@ -92,6 +95,8 @@ void App::Run(const FoxEngine::AppConfig& config)
 	mCurrentState->Terminate();
 
 	// terminate static classes
+	SoundEffectManager::StaticTerminate();
+	AudioSystem::StaticTerminate();
 	PhysicsWorld::StaticTerminate();
 	ModelManager::StaticTerminate();
 	TextureManager::StaticTerminate();

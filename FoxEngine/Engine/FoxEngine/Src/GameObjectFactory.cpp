@@ -8,6 +8,7 @@
 #include "MeshComponent.h"
 #include "ModelComponent.h"
 #include "RigidBodyComponent.h"
+#include "SoundEffectComponent.h"
 #include "TransformComponent.h"
 
 using namespace FoxEngine;
@@ -157,6 +158,10 @@ void GameObjectFactory::RegisterComponentFactories()
 		colliderComponent->Deserialize(value);
 		});
 
-	// Add new components as needed
+	RegisterComponentFactory("SoundEffectComponent", [](rj::Value& value, GameObject& gameObject) {
+		SoundEffectComponent* soundEffectComponent = gameObject.AddComponent<SoundEffectComponent>();
+		soundEffectComponent->Deserialize(value);
+		});
 
+	// Add new components as needed
 }

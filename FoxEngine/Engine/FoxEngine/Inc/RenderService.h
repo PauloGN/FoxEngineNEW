@@ -2,7 +2,6 @@
 
 #include "Service.h"
 
-
 namespace FoxEngine
 {
 	class CameraService;
@@ -25,10 +24,10 @@ namespace FoxEngine
 
 		void Deserialize(rapidjson::Value& value) override;
 
-		//Registers
+		//Register model
 		void Register(const ModelComponent* modelComponent);
 		void Unregister(const ModelComponent* modelComponent);
-
+		//Register mesh
 		void Register(const MeshComponent* meshComponent);
 		void Unregister(const MeshComponent* meshComponent);
 
