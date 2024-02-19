@@ -15,6 +15,7 @@ namespace FoxEngine
 		RigidBody,
 		Collider,
 		SoundEffect,
+		SoundBank,
 
 		Count
 	};

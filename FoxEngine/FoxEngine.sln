@@ -148,6 +148,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{C1815E61-ACE5-43D7-94CE-731B1852B3F5}"
 	ProjectSection(SolutionItems) = preProject
 		Assets\Templates\test_Audio.json = Assets\Templates\test_Audio.json
+		Assets\Templates\test_Audios.json = Assets\Templates\test_Audios.json
 		Assets\Templates\test_Camera.json = Assets\Templates\test_Camera.json
 		Assets\Templates\test_fps_Camera.json = Assets\Templates\test_fps_Camera.json
 		Assets\Templates\test_ground.json = Assets\Templates\test_ground.json

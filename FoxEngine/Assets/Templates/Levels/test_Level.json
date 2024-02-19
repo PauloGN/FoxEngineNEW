@@ -46,9 +46,13 @@
       "Template": "../../Assets/Templates/test_objects.json",
       "Position": [ 0.0, 2.0, 0.0 ]
     },
+    "TestAudios": {
+      "Template": "../../Assets/Templates/test_Audios.json",
+      "Position": [ 3.0, 10.0, 3.0 ]
+    },
     "TestAudio": {
       "Template": "../../Assets/Templates/test_Audio.json",
-      "Position": [ 0.0, 10.0, 0.0 ]
+      "Position": [ 0.0, 7.0, 0.0 ]
     }
   }
 }
