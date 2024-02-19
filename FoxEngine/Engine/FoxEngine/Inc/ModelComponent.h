@@ -23,5 +23,8 @@ namespace FoxEngine
 
 		std::string mFileName;
 		Graphics::ModelId mModelId;
+
+		using Animations = std::vector<std::string>;
+		Animations mAnimationFileNames;
 	};
 }

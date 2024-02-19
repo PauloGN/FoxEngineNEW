@@ -6,6 +6,7 @@
 #include "MeshComponent.h"
 #include "ModelComponent.h"
 #include "TransformComponent.h"
+#include "AnimatorComponent.h"
 
 using namespace FoxEngine;
 using namespace FoxEngine::Graphics;
@@ -136,7 +137,15 @@ void RenderService::Register(const ModelComponent* modelComponent)
 	const GameObject& gameObject = modelComponent->GetOwner();
 	entry.modelComponent = modelComponent;
 	entry.transformComponent = gameObject.GetComponent<TransformComponent>();
-	entry.renderGroup = CreateRenderGroup(modelComponent->GetModelId());
+
+	const Animator* animator = nullptr;
+	const AnimatorComponent* animatorComponent = gameObject.GetComponent<AnimatorComponent>();
+	if(animatorComponent != nullptr)
+	{
+		animator = &animatorComponent->GetAnimator();
+	}
+
+	entry.renderGroup = CreateRenderGroup(modelComponent->GetModelId(), animator);
 }
 
 void RenderService::Unregister(const ModelComponent* modelComponent)

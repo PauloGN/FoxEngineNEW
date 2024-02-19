@@ -10,7 +10,17 @@ using namespace FoxEngine::Graphics;
 void ModelComponent::Initialize()
 {
 	ModelManager* mm = ModelManager::Get();
-	mModelId = mm->LoadModel(mFileName);
+
+	mModelId = mm->GetModelId(mFileName);
+
+	if(mm->GetModel(mModelId) == nullptr)
+	{
+		mModelId = mm->LoadModel(mFileName);
+		for(const std::string& fileName : mAnimationFileNames)
+		{
+			mm->AddAnimation(mModelId, fileName);
+		}
+	}
 
 	RenderService* rs = GetOwner().GetWorld().GetService<RenderService>();
 	rs->Register(this);
@@ -28,4 +38,14 @@ void ModelComponent::Deserialize(const rapidjson::Value& value)
 	{
 		mFileName = value["FileName"].GetString();
 	}
+
+	if (value.HasMember("Animations"))
+	{
+		auto animations = value["Animations"].GetArray();
+		for (auto& animation : animations)
+		{
+			mAnimationFileNames.push_back(animation.GetString());
+		}
+	}
+
 }

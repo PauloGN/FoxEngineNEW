@@ -16,6 +16,7 @@ namespace FoxEngine
 		Collider,
 		SoundEffect,
 		SoundBank,
+		Animator,
 
 		Count
 	};

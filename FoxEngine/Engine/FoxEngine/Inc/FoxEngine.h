@@ -14,6 +14,7 @@
 
 //Components
 #include "Component.h"
+#include "AnimatorComponent.h"
 #include "CameraComponent.h"
 #include "ColliderComponent.h"
 #include "FPSCameraComponent.h"

@@ -11,6 +11,7 @@
 #include "SoundBankComponent.h"
 #include "SoundEffectComponent.h"
 #include "TransformComponent.h"
+#include "AnimatorComponent.h"
 
 using namespace FoxEngine;
 namespace rj = rapidjson;
@@ -167,6 +168,11 @@ void GameObjectFactory::RegisterComponentFactories()
 	RegisterComponentFactory("SoundBankComponent", [](rj::Value& value, GameObject& gameObject) {
 		SoundBankComponent* soundBankComponent = gameObject.AddComponent<SoundBankComponent>();
 		soundBankComponent->Deserialize(value);
+		});
+
+	RegisterComponentFactory("AnimatorComponent", [](rj::Value& value, GameObject& gameObject) {
+		AnimatorComponent* animatorComponent = gameObject.AddComponent<AnimatorComponent>();
+		animatorComponent->Deserialize(value);
 		});
 
 	// Add new components as needed
