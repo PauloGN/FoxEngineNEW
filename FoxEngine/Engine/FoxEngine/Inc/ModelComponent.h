@@ -11,17 +11,17 @@ namespace FoxEngine
 		void Initialize() override;
 		void Terminate() override;
 
-		void Deserialize(rapidjson::Value& value) override;
+		void Deserialize(const rapidjson::Value& value) override;
 
 		Graphics::ModelId GetModelId()const { return mModelId; }
-		const Graphics::Model& GetModel()const
-		{
-			return *Graphics::ModelManager::Get()->GetModel(mModelId);
-		}
+		const Graphics::Model& GetModel()const;
 
 	private:
 
 		std::string mFileName;
 		Graphics::ModelId mModelId;
+
+		using Animations = std::vector<std::string>;
+		Animations mAnimationFileNames;
 	};
 }

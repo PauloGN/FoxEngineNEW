@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Inc\AnimatorComponent.h" />
     <ClInclude Include="Inc\App.h" />
     <ClInclude Include="Inc\AppState.h" />
     <ClInclude Include="Inc\CameraComponent.h" />
@@ -166,6 +167,8 @@
     <ClInclude Include="Inc\RenderService.h" />
     <ClInclude Include="Inc\RigidBodyComponent.h" />
     <ClInclude Include="Inc\Service.h" />
+    <ClInclude Include="Inc\SoundBankComponent.h" />
+    <ClInclude Include="Inc\SoundEffectComponent.h" />
     <ClInclude Include="Inc\TransformComponent.h" />
     <ClInclude Include="Inc\TypeIds.h" />
     <ClInclude Include="Inc\UpdateService.h" />
@@ -173,6 +176,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Inc\ModelComponent.cpp" />
+    <ClCompile Include="Src\AnimatorComponent.cpp" />
     <ClCompile Include="Src\App.cpp" />
     <ClCompile Include="Src\CameraComponent.cpp" />
     <ClCompile Include="Src\CameraService.cpp" />
@@ -192,10 +196,15 @@
     </ClCompile>
     <ClCompile Include="Src\RenderService.cpp" />
     <ClCompile Include="Src\RigidBodyComponent.cpp" />
+    <ClCompile Include="Src\SoundBankComponent.cpp" />
+    <ClCompile Include="Src\SoundEffectComponent.cpp" />
     <ClCompile Include="Src\TransformComponent.cpp" />
     <ClCompile Include="Src\UpdateService.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\Audio\Audio.vcxproj">
+      <Project>{163a0de8-4143-492a-91df-85fc56df935c}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\..\Framework\Core\Core.vcxproj">
       <Project>{277bff3a-17c1-4bfe-8dae-54d22615e82e}</Project>
     </ProjectReference>

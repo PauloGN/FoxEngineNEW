@@ -6,6 +6,7 @@
 #include "MeshComponent.h"
 #include "ModelComponent.h"
 #include "TransformComponent.h"
+#include "AnimatorComponent.h"
 
 using namespace FoxEngine;
 using namespace FoxEngine::Graphics;
@@ -14,13 +15,13 @@ void RenderService::Initialize()
 {
 	mCameraService = GetWorld().GetService<CameraService>();
 
-	mShadowEffect.Initialize();
-	mShadowEffect.SetdirectionalLight(mDirectionalLight);
-
 	mStandardEffect.Initialize(L"../../Assets/Shaders/Standard.fx");
 	mStandardEffect.SetDirectionalLight(mDirectionalLight);
 	mStandardEffect.SetLightCamera(mShadowEffect.GetLightCamera());
 	mStandardEffect.SetShadowMap(mShadowEffect.GetDepthMap());
+
+	mShadowEffect.Initialize();
+	mShadowEffect.SetdirectionalLight(mDirectionalLight);
 }
 
 void RenderService::Terminate()
@@ -39,20 +40,14 @@ void RenderService::Render()
 	const Camera& camera = mCameraService->GetMain();
 	mStandardEffect.SetCamera(camera);
 
+	
 	for ( Entry& entry : mRenderEntries)
 	{
 		for (RenderObject& renderObject : entry.renderGroup)
 		{
-			renderObject.transform = *entry.transformComponent;
+			renderObject.transform = static_cast<Transform>(*entry.transformComponent);
 		}
 	}
-
-	mShadowEffect.Begin();
-	for (const Entry& entry : mRenderEntries)
-	{
-		DrawrenderGroup(mShadowEffect, entry.renderGroup);
-	}
-	mShadowEffect.End();
 
 	mStandardEffect.Begin();
 	for (const Entry& entry : mRenderEntries)
@@ -60,11 +55,19 @@ void RenderService::Render()
 		DrawrenderGroup(mStandardEffect, entry.renderGroup);
 	}
 	mStandardEffect.End();
+
+	mShadowEffect.Begin();
+	for (const Entry& entry : mRenderEntries)
+	{
+		DrawrenderGroup(mShadowEffect, entry.renderGroup);
+	}
+	mShadowEffect.End();
+	
 }
 
 void RenderService::DebugUI()
 {
-	ImGui::Text("FPS %f", mFPS);
+	ImGui::Text("FPS %.2f", mFPS);
 	ImGui::Separator();
 	ImGui::PushID("Light");
 	if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
@@ -136,7 +139,15 @@ void RenderService::Register(const ModelComponent* modelComponent)
 	const GameObject& gameObject = modelComponent->GetOwner();
 	entry.modelComponent = modelComponent;
 	entry.transformComponent = gameObject.GetComponent<TransformComponent>();
-	entry.renderGroup = CreateRenderGroup(modelComponent->GetModelId());
+
+	const Animator* animator = nullptr;
+	const AnimatorComponent* animatorComponent = gameObject.GetComponent<AnimatorComponent>();
+	if(animatorComponent != nullptr)
+	{
+		animator = &animatorComponent->GetAnimator();
+	}
+
+	entry.renderGroup = CreateRenderGroup(modelComponent->GetModelId(), animator);
 }
 
 void RenderService::Unregister(const ModelComponent* modelComponent)

@@ -8,7 +8,10 @@
 #include "MeshComponent.h"
 #include "ModelComponent.h"
 #include "RigidBodyComponent.h"
+#include "SoundBankComponent.h"
+#include "SoundEffectComponent.h"
 #include "TransformComponent.h"
+#include "AnimatorComponent.h"
 
 using namespace FoxEngine;
 namespace rj = rapidjson;
@@ -157,6 +160,20 @@ void GameObjectFactory::RegisterComponentFactories()
 		colliderComponent->Deserialize(value);
 		});
 
-	// Add new components as needed
+	RegisterComponentFactory("SoundEffectComponent", [](rj::Value& value, GameObject& gameObject) {
+		SoundEffectComponent* soundEffectComponent = gameObject.AddComponent<SoundEffectComponent>();
+		soundEffectComponent->Deserialize(value);
+		});
 
+	RegisterComponentFactory("SoundBankComponent", [](rj::Value& value, GameObject& gameObject) {
+		SoundBankComponent* soundBankComponent = gameObject.AddComponent<SoundBankComponent>();
+		soundBankComponent->Deserialize(value);
+		});
+
+	RegisterComponentFactory("AnimatorComponent", [](rj::Value& value, GameObject& gameObject) {
+		AnimatorComponent* animatorComponent = gameObject.AddComponent<AnimatorComponent>();
+		animatorComponent->Deserialize(value);
+		});
+
+	// Add new components as needed
 }

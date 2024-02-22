@@ -48,7 +48,7 @@ void GameState::Update(float deltaTime)
 	mGameworld.Update(deltaTime);
 
 	ChangeScreenColor();
-	//SwapCamera();
+	SwapCamera();
 }
 void GameState::Render() 
 {

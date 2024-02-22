@@ -49,7 +49,7 @@ namespace FoxEngine::FoxMath
  
         FoxMath::Vector3 Rotate(const FoxMath::Vector3& v) noexcept;
 
-
+        static Quaternion EulerToQuaternion(const Vector3& euler) noexcept;
         static Quaternion Lerp(const Quaternion& q0, const Quaternion& q1, float t);
         static Quaternion Slerp(const Quaternion& q0, const Quaternion& q1, float t);
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////

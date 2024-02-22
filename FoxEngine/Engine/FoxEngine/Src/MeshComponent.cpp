@@ -19,7 +19,7 @@ void MeshComponent::Terminate()
 	rs->Unregister(this);
 }
 
-void MeshComponent::Deserialize(rapidjson::Value& value)
+void MeshComponent::Deserialize(const rapidjson::Value& value)
 {
 	Model::MeshData& meshData = mModel.meshData.emplace_back();
 	Model::MaterialData& material = mModel.materialData.emplace_back();

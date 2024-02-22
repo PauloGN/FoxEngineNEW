@@ -162,6 +162,25 @@ Quaternion Quaternion::CreateFromRotationMatrix(const Matrix4& m) noexcept
     };  
 }
 
+Quaternion Quaternion::EulerToQuaternion(const Vector3& euler) noexcept
+{
+    // Assuming Euler angles are in the order: yaw (Z), pitch (Y), roll (X)
+    float cy = cos(euler.x * 0.5f);
+    float sy = sin(euler.x * 0.5f);
+    float cp = cos(euler.y * 0.5f);
+    float sp = sin(euler.y * 0.5f);
+    float cr = cos(euler.z * 0.5f);
+    float sr = sin(euler.z * 0.5f);
+
+    FoxEngine::FoxMath::Quaternion result;
+    result.w = cy * cp * cr + sy * sp * sr;
+    result.x = cy * cp * sr - sy * sp * cr;
+    result.y = sy * cp * sr + cy * sp * cr;
+    result.z = sy * cp * cr - cy * sp * sr;
+
+    return result;
+}
+
 
 Quaternion Quaternion::Lerp(const Quaternion& q0, const Quaternion& q1, float t)
 {

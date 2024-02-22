@@ -1,0 +1,25 @@
+{
+  "Components": {
+    "TransformComponent": {
+      "Position": [ 0.0, 0.0, 0.0 ],
+      "Rotation": [ 0.0, 0.0, 0.0, 1.0 ],
+      "Scale": [ 1.0, 1.0, 1.0 ]
+    },
+    "SoundBankComponent": {
+      "SoundEffects": {
+        "Phanton": {
+          "FileName": "photongun1.wav",
+          "Looping": false
+        },
+        "storm_eagle": {
+          "FileName": "megamanx_storm_eagle.wav",
+          "Looping": false
+        },
+        "Blast": {
+          "FileName": "megamanx_blast.wav",
+          "Looping": false
+        }
+      }
+    }
+  }
+}

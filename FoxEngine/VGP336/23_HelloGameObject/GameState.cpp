@@ -41,6 +41,7 @@ void GameState::Initialize()
 	GameObjectFactory::InitializeComponentFactories();
 
 	//set custom components
+	
 	GameObjectFactory::SetCustomMake(CustomComponentMake);
 	GameWorld::SetCustomServiceMake(CustomServiceMake);
 

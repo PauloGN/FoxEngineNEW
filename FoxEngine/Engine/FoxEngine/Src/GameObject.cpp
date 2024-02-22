@@ -32,8 +32,11 @@ void FoxEngine::GameObject::Terminate()
 
 void FoxEngine::GameObject::DebugUI()
 {
-	for (auto& component : mComponents)
+	if(ImGui::CollapsingHeader(mName.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
 	{
-		component->DebugUI();
+		for (auto& component : mComponents)
+		{
+			component->DebugUI();
+		}
 	}
 }

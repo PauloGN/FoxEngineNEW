@@ -22,7 +22,7 @@ void FoxEngine::CameraComponent::Terminate()
 	cameraServive->Unregister(this);
 }
 
-void FoxEngine::CameraComponent::Deserialize(rapidjson::Value& value)
+void FoxEngine::CameraComponent::Deserialize(const rapidjson::Value& value)
 {
 	if (value.HasMember("Position"))
 	{

@@ -147,6 +147,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "23_HelloGameObject", "VGP33
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{C1815E61-ACE5-43D7-94CE-731B1852B3F5}"
 	ProjectSection(SolutionItems) = preProject
+		Assets\Templates\test_Audio.json = Assets\Templates\test_Audio.json
+		Assets\Templates\test_Audios.json = Assets\Templates\test_Audios.json
 		Assets\Templates\test_Camera.json = Assets\Templates\test_Camera.json
 		Assets\Templates\test_fps_Camera.json = Assets\Templates\test_fps_Camera.json
 		Assets\Templates\test_ground.json = Assets\Templates\test_ground.json
@@ -163,6 +165,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Levels", "Levels", "{F03026
 	ProjectSection(SolutionItems) = preProject
 		Assets\Templates\Levels\test_Level.json = Assets\Templates\Levels\test_Level.json
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "DirectXTKAudio_Desktop_2022_Win8", "External\DirectXTK\Audio\DirectXTKAudio_Desktop_2022_Win8.vcxproj", "{4F150A30-CECB-49D1-8283-6A3F57438CF5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "23_HelloGameObject2", "VGP336\23_HelloGameObject 2\23_HelloGameObject2.vcxproj", "{9227BFF7-3D1D-4368-A2E9-408B83834A80}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Audio", "Framework\Audio\Audio.vcxproj", "{163A0DE8-4143-492A-91DF-85FC56DF935C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -516,6 +524,30 @@ Global
 		{1C95310C-B5AD-4A6F-8042-B1E0FFFECA02}.Release|x64.Build.0 = Release|x64
 		{1C95310C-B5AD-4A6F-8042-B1E0FFFECA02}.Release|x86.ActiveCfg = Release|Win32
 		{1C95310C-B5AD-4A6F-8042-B1E0FFFECA02}.Release|x86.Build.0 = Release|Win32
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Debug|x64.ActiveCfg = Debug|x64
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Debug|x64.Build.0 = Debug|x64
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Debug|x86.ActiveCfg = Debug|Win32
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Debug|x86.Build.0 = Debug|Win32
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x64.ActiveCfg = Release|x64
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x64.Build.0 = Release|x64
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x86.ActiveCfg = Release|Win32
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5}.Release|x86.Build.0 = Release|Win32
+		{9227BFF7-3D1D-4368-A2E9-408B83834A80}.Debug|x64.ActiveCfg = Debug|x64
+		{9227BFF7-3D1D-4368-A2E9-408B83834A80}.Debug|x64.Build.0 = Debug|x64
+		{9227BFF7-3D1D-4368-A2E9-408B83834A80}.Debug|x86.ActiveCfg = Debug|Win32
+		{9227BFF7-3D1D-4368-A2E9-408B83834A80}.Debug|x86.Build.0 = Debug|Win32
+		{9227BFF7-3D1D-4368-A2E9-408B83834A80}.Release|x64.ActiveCfg = Release|x64
+		{9227BFF7-3D1D-4368-A2E9-408B83834A80}.Release|x64.Build.0 = Release|x64
+		{9227BFF7-3D1D-4368-A2E9-408B83834A80}.Release|x86.ActiveCfg = Release|Win32
+		{9227BFF7-3D1D-4368-A2E9-408B83834A80}.Release|x86.Build.0 = Release|Win32
+		{163A0DE8-4143-492A-91DF-85FC56DF935C}.Debug|x64.ActiveCfg = Debug|x64
+		{163A0DE8-4143-492A-91DF-85FC56DF935C}.Debug|x64.Build.0 = Debug|x64
+		{163A0DE8-4143-492A-91DF-85FC56DF935C}.Debug|x86.ActiveCfg = Debug|Win32
+		{163A0DE8-4143-492A-91DF-85FC56DF935C}.Debug|x86.Build.0 = Debug|Win32
+		{163A0DE8-4143-492A-91DF-85FC56DF935C}.Release|x64.ActiveCfg = Release|x64
+		{163A0DE8-4143-492A-91DF-85FC56DF935C}.Release|x64.Build.0 = Release|x64
+		{163A0DE8-4143-492A-91DF-85FC56DF935C}.Release|x86.ActiveCfg = Release|Win32
+		{163A0DE8-4143-492A-91DF-85FC56DF935C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -570,6 +602,9 @@ Global
 		{908EA407-5ADC-4B3D-AB84-F20B9F020C52} = {08B0B8F6-103E-4D68-BB2D-B35B726E5855}
 		{1C95310C-B5AD-4A6F-8042-B1E0FFFECA02} = {0C4DEF16-1A8E-4AC6-A49D-737C60C6443C}
 		{F0302644-D0D8-40E5-AF22-30786A79C6B3} = {C1815E61-ACE5-43D7-94CE-731B1852B3F5}
+		{4F150A30-CECB-49D1-8283-6A3F57438CF5} = {3CC0261A-FAE2-434D-92FB-C6F3AAE87FF2}
+		{9227BFF7-3D1D-4368-A2E9-408B83834A80} = {0C4DEF16-1A8E-4AC6-A49D-737C60C6443C}
+		{163A0DE8-4143-492A-91DF-85FC56DF935C} = {6AD9C3EF-FFBC-4A6C-9495-1E5AC777E76C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8AAEF0A-45CE-442C-8536-7E32257CE89E}

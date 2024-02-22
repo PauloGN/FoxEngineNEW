@@ -29,7 +29,7 @@ void RigidBodyComponent::Terminate()
 	mRigidBody.Terminate();
 }
 
-void RigidBodyComponent::Deserialize(rapidjson::Value& value)
+void RigidBodyComponent::Deserialize(const rapidjson::Value& value)
 {
 	//
 	if(value.HasMember("Mass"))

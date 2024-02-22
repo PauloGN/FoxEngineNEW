@@ -13,7 +13,7 @@ namespace FoxEngine
 		SET_TYPE_ID(ComponentId::Transform)
 
 		void DebugUI()override;
-		void Deserialize(rapidjson::Value& value)override;
+		void Deserialize(const rapidjson::Value& value)override;
 
 	private:
 

@@ -15,7 +15,7 @@ namespace FoxEngine
 		void Initialize() override;
 		void Terminate() override;
 		void Update(float deltaTime) override;
-		void Deserialize(rapidjson::Value& value)override;
+		void Deserialize(const rapidjson::Value& value)override;
 	private:
 
 		TransformComponent* mTransformComponent = nullptr;

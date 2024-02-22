@@ -29,7 +29,7 @@ namespace FoxEngine
 
 		//Serialize and deserialize
 		virtual void Serialize(rapidjson::Document& doc, rapidjson::Value& value) {}
-		virtual void Deserialize(rapidjson::Value& value){}
+		virtual void Deserialize(const rapidjson::Value& value){}
 
 	private:
 
