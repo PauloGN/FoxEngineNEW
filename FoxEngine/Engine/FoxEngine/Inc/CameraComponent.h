@@ -19,6 +19,5 @@ namespace FoxEngine
 	private:
 
 		Graphics::Camera mCamera;
-
 	};
 }

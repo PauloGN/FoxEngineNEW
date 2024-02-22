@@ -34,10 +34,11 @@ namespace
 
 void GameState::Initialize() 
 {
-	mCamera.SetPosition({0.0f, 1.5f,-4.0f});
-	mCamera.SetLookAt({0.0f, 0.0f, 0.0f});
-
 	//pre-load framework components when game world initializes
+	mGameWorld.AddService<PhysicsService>();
+	mGameWorld.AddService<RenderService>();
+	mGameWorld.AddService<CameraService>();
+	mGameWorld.AddService<UpdateService>();
 	mGameWorld.Initialize(1000);
 
 	//set custom components
@@ -50,6 +51,7 @@ void GameState::Initialize()
 	auto gameObject2 = mGameWorld.CreateGameObject("../../Assets/Templates/test_PW5.json");
 	mGameObjHandle2 = gameObject2->GetHandle();
 
+	mGameWorld.CreateGameObject("../../Assets/Templates/test_fps_Camera.json");
 }
 void GameState::Terminate() 
 {
@@ -59,26 +61,29 @@ void GameState::Update(float deltaTime)
 {
 	ChangeScreenColor();
 	EngineCameraController(deltaTime);
+
+	mGameWorld.Update(deltaTime);
 }
 void GameState::Render() 
 {
+	mGameWorld.Render();
 }
 void GameState::DebugUI()
 {
 	auto gameObj = mGameWorld.GetGameObject(mGameObjHandle);
 	auto gameObj2 = mGameWorld.GetGameObject(mGameObjHandle2);
 
-	if(gameObj != nullptr)
-	{
-		gameObj->DebugUI();
-	}
+	mGameWorld.DebugUI();
 
-	if (gameObj2 != nullptr)
-	{
-		gameObj2->DebugUI();
-	}
-
-	SimpleDraw::Render(mCamera);
+	//if(gameObj != nullptr)
+	//{
+	//	gameObj->DebugUI();
+	//}
+	//if (gameObj2 != nullptr)
+	//{
+	//	gameObj2->DebugUI();
+	//}
+	//SimpleDraw::Render(mCamera);
 }
 
 void GameState::EngineCameraController(float deltaTime)

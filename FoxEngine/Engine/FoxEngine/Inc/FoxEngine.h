@@ -27,6 +27,7 @@
 //Services
 #include "Service.h"
 #include "CameraService.h"
+#include "PhysicsService.h"
 #include "UpdateService.h"
 #include "RenderService.h"
 

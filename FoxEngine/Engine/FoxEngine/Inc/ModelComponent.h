@@ -14,10 +14,7 @@ namespace FoxEngine
 		void Deserialize(const rapidjson::Value& value) override;
 
 		Graphics::ModelId GetModelId()const { return mModelId; }
-		const Graphics::Model& GetModel()const
-		{
-			return *Graphics::ModelManager::Get()->GetModel(mModelId);
-		}
+		const Graphics::Model& GetModel()const;
 
 	private:
 

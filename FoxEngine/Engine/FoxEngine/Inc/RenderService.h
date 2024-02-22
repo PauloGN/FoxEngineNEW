@@ -43,14 +43,13 @@ namespace FoxEngine
 
 		struct Entry
 		{
-			const MeshComponent* meshComponent = nullptr;
 			const ModelComponent* modelComponent = nullptr;
+			const MeshComponent* meshComponent = nullptr;
 			const TransformComponent* transformComponent = nullptr;
 			Graphics::RenderGroup renderGroup;
 		};
 
 		using RenderEntries = std::vector<Entry>;
 		RenderEntries mRenderEntries;
-
 	};
 }

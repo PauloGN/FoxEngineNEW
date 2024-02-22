@@ -55,6 +55,7 @@ void FoxEngine::Graphics::ShadowEffect::Render(const RenderObject & renderObject
 	data.wvp = FoxMath::Transpose(matWorld * matView * matProj);
 	mTransformBuffer.Update(data);
 
+
 	renderObject.meshBuffer.Render();
 }
 

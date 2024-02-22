@@ -47,5 +47,9 @@ void ModelComponent::Deserialize(const rapidjson::Value& value)
 			mAnimationFileNames.push_back(animation.GetString());
 		}
 	}
+}
 
+const Graphics::Model& ModelComponent::GetModel() const
+{
+	return *Graphics::ModelManager::Get()->GetModel(mModelId);
 }
