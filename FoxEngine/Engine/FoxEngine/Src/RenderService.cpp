@@ -40,7 +40,6 @@ void RenderService::Render()
 	const Camera& camera = mCameraService->GetMain();
 	mStandardEffect.SetCamera(camera);
 
-	
 	for ( Entry& entry : mRenderEntries)
 	{
 		for (RenderObject& renderObject : entry.renderGroup)

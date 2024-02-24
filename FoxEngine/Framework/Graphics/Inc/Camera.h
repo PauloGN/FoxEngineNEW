@@ -50,7 +50,11 @@ namespace FoxEngine::Graphics
 		FoxMath::Matrix4 GetPerspectiveMatrix() const;
 		FoxMath::Matrix4 GetOrthographicMatrix() const;
 
+		void SetIsActive(bool active);
+		const bool GetIsActive() const;
+
 	private:
+
 		ProjectionMode mProjectionMode = ProjectionMode::Perspective;
 
 		FoxMath::Vector3 mPosition = FoxMath::Vector3::Zero;
@@ -66,5 +70,7 @@ namespace FoxEngine::Graphics
 
 		float mNearPlane = 0.01f;
 		float mFarPlane = 10000.0f;
+
+		bool isActive = true;
 	};
 }

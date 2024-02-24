@@ -54,7 +54,7 @@ void GameObjectFactory::Make(const std::filesystem::path& templatePath, GameObje
 	doc.ParseStream(readStream);
 
 	auto components = doc["Components"].GetObj();
-
+		
 	for (auto& component : components)
 	{
 		const char* componentName = component.name.GetString();

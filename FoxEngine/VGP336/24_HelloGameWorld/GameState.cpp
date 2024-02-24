@@ -67,6 +67,7 @@ void GameState::SwapCamera()
 	if (input->IsKeyPressed(KeyCode::ONE))
 	{
 		cameraService->SetMainCamera(0);
+
 	}
 	else if (input->IsKeyPressed(KeyCode::TWO))
 	{

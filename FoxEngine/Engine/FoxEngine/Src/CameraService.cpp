@@ -21,13 +21,14 @@ void FoxEngine::CameraService::SetMainCamera(uint32_t index)
 {
 	if (index < mCameraEntries.size())
 	{
+		mMainCamera->GetCamera().SetIsActive(false);
 		mMainCamera = mCameraEntries[index];
+		mMainCamera->GetCamera().SetIsActive(true);
 	}
 }
 
-void CameraService::Register(const CameraComponent* cameraComponent)
+void CameraService::Register( CameraComponent* cameraComponent)
 {
-
 	mCameraEntries.push_back(cameraComponent);
 	if(mMainCamera == nullptr)
 	{

@@ -24,6 +24,13 @@ void FoxEngine::CameraComponent::Terminate()
 
 void FoxEngine::CameraComponent::Deserialize(const rapidjson::Value& value)
 {
+	// position, direction , look at
+	// in case read Mode
+	// if perspective, fov, aspect ratio
+	// if orthographic, read size
+	// new/far planes
+	// zoom
+
 	if (value.HasMember("Position"))
 	{
 		const auto& pos = value["Position"].GetArray();

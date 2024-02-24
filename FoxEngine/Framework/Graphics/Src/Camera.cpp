@@ -157,3 +157,13 @@ FoxMath::Matrix4 Camera::GetOrthographicMatrix() const
 		0.0f,  0.0f,  n / (n - f), 1.0f
 	};
 }
+
+void Camera::SetIsActive(bool active)
+{
+	isActive = active;
+}
+
+const bool Camera::GetIsActive() const
+{
+	return isActive;
+}

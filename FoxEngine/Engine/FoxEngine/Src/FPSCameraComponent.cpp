@@ -29,11 +29,16 @@ void FoxEngine::FPSCameraComponent::Terminate()
 
 void FoxEngine::FPSCameraComponent::Update(float deltaTime)
 {
+	Camera& camera = mCameraComponet->GetCamera();
+	if(!camera.GetIsActive())
+	{
+		return;
+	}
+
 	const InputSystem* input = Input::InputSystem::Get();
 	const int moveSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? 10 : mMoveSpeed;
 	const float displacement = mTurnpeed * moveSpeed;
 
-	Camera& camera = mCameraComponet->GetCamera();
 
 	//Foward and Backward
 	if (input->IsKeyDown(KeyCode::W))

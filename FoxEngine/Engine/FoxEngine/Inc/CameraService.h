@@ -21,11 +21,11 @@ namespace FoxEngine
 
 		friend class CameraComponent;
 
-		void Register(const CameraComponent* cameraComponent);
+		void Register(CameraComponent* cameraComponent);
 		void Unregister(const CameraComponent* cameraComponent);
-		using CameraEntries = std::vector<const CameraComponent*>;
+		using CameraEntries = std::vector<CameraComponent*>;
 		CameraEntries mCameraEntries;
-		const CameraComponent* mMainCamera = nullptr;
+		CameraComponent* mMainCamera = nullptr;
 	};
 
 }
