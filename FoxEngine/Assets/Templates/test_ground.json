@@ -24,7 +24,8 @@
         "NormalMap": "../../Assets/Images/mountain/mountain_normal.jpg",
         "BumpMap": "../../Assets/Images/mountain/mountain_height.jpg",
         "SpecularMap": "../../Assets/Images/mountain/mountain_spec.jpg"
-      }
+      },
+      "CastShadow": false
     },
     "ColliderComponent": {
       "Shape": {

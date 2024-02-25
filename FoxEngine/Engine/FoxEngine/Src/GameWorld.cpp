@@ -148,6 +148,7 @@ void FoxEngine::GameWorld::DestroyObject(const GameObjectHandle& handle)
 	Slot& slot = mGameObjectSlots[handle.mIndex];
 	slot.generation++;
 	mToBeDestroyed.push_back(handle.mIndex);
+	ProcessDestroyList();
 }
 
 void GameWorld::LoadLevel(const std::filesystem::path& levelFile)

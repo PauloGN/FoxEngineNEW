@@ -215,10 +215,17 @@ void GameState::CharacterAnimationControler(float deltaTime)
 		thCam->Move(newTarget, deltaTime, moveSpeed);
 
 	}
-	else if (input->IsKeyDown(KeyCode::S))
+
+	if (input->IsKeyDown(KeyCode::LSHIFT))
 	{
-		mCamera.Zoom(10);
+		moveSpeed = 24.f;
+		mAnimationScale = 1.2;
+	}else
+	{
+		mAnimationScale = 1;
+		moveSpeed = 16.f;
 	}
+
 	//Right and Left
 	if (input->IsKeyDown(KeyCode::D))
 	{

@@ -60,7 +60,6 @@ void GameState::Terminate()
 void GameState::Update(float deltaTime) 
 {
 	ChangeScreenColor();
-	EngineCameraController(deltaTime);
 
 	mGameWorld.Update(deltaTime);
 }
@@ -86,54 +85,6 @@ void GameState::DebugUI()
 	SimpleDraw::Render(mCamera);*/
 }
 
-void GameState::EngineCameraController(float deltaTime)
-{
-	const InputSystem* input = Input::InputSystem::Get();
-	const int moveSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? 10 : 1;
-	const float displacement = 0.01f * moveSpeed;
-
-	//Foward and Backward
-	if (input->IsKeyDown(KeyCode::W))
-	{
-		mCamera.Walk(displacement);
-	}
-	else if (input->IsKeyDown(KeyCode::S))
-	{
-		mCamera.Walk(-displacement);
-	}
-	//Right and Left
-	if (input->IsKeyDown(KeyCode::D))
-	{
-		mCamera.Strafe(displacement);
-	}
-	else if (input->IsKeyDown(KeyCode::A))
-	{
-		mCamera.Strafe(-displacement);
-	}
-
-	//Rotation
-	if (input->IsMouseDown(MouseButton::RBUTTON))
-	{
-		const int turnSpeedMultiplyer = input->IsKeyDown(KeyCode::LSHIFT) ? 2 : 1;
-
-		const float x = input->GetMouseMoveX() * deltaTime * turnSpeedMultiplyer;
-		const float y = input->GetMouseMoveY() * deltaTime * turnSpeedMultiplyer;
-
-		mCamera.Yaw(x);
-		mCamera.Pitch(y);
-	}
-
-	//UP and Down
-
-	if (input->IsKeyDown(KeyCode::Q))
-	{
-		mCamera.Rise(-displacement);
-	}
-	else if (input->IsKeyDown(KeyCode::E))
-	{
-		mCamera.Rise(displacement);
-	}
-}
 void GameState::ChangeScreenColor()
 {
 	const auto I = InputSystem::Get();
@@ -147,7 +98,7 @@ void GameState::ChangeScreenColor()
 	{
 		GS->SetClearColor(Colors::Black);
 		//Destroy game object
-		mGameWorld.DestroyObject(mGameObjHandle2);
+		//mGameWorld.DestroyObject(mGameObjHandle2);
 		mGameWorld.DestroyObject(mGameObjHandle);
 	}
 }

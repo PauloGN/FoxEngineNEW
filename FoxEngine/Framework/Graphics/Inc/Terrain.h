@@ -8,6 +8,7 @@ namespace FoxEngine::Graphics
 	{
 	public:
 		void Initialize(const std::filesystem::path& fileName, float heightScale);
+		void Terminate();
 		float GetHeight(const FoxMath::Vector3& position) const;
 
 		Mesh mesh;

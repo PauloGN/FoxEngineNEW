@@ -48,20 +48,22 @@ void RenderService::Render()
 		}
 	}
 
+	mShadowEffect.Begin();
+	for (const Entry& entry : mRenderEntries)
+	{
+		if(entry.castShadow)
+		{
+			DrawrenderGroup(mShadowEffect, entry.renderGroup);
+		}
+	}
+	mShadowEffect.End();
+
 	mStandardEffect.Begin();
 	for (const Entry& entry : mRenderEntries)
 	{
 		DrawrenderGroup(mStandardEffect, entry.renderGroup);
 	}
 	mStandardEffect.End();
-
-	mShadowEffect.Begin();
-	for (const Entry& entry : mRenderEntries)
-	{
-		DrawrenderGroup(mShadowEffect, entry.renderGroup);
-	}
-	mShadowEffect.End();
-	
 }
 
 void RenderService::DebugUI()
@@ -138,6 +140,7 @@ void RenderService::Register(const ModelComponent* modelComponent)
 	const GameObject& gameObject = modelComponent->GetOwner();
 	entry.modelComponent = modelComponent;
 	entry.transformComponent = gameObject.GetComponent<TransformComponent>();
+	entry.castShadow = modelComponent->CastShadow();
 
 	const Animator* animator = nullptr;
 	const AnimatorComponent* animatorComponent = gameObject.GetComponent<AnimatorComponent>();
@@ -172,6 +175,7 @@ void RenderService::Register(const MeshComponent* meshComponent)
 	Entry& entry = mRenderEntries.emplace_back();
 
 	const GameObject& gameObject = meshComponent->GetOwner();
+	entry.castShadow = meshComponent->CastShadow();
 	entry.meshComponent = meshComponent;
 	entry.transformComponent = gameObject.GetComponent<TransformComponent>();
 	entry.renderGroup = CreateRenderGroup(meshComponent->GetModel());

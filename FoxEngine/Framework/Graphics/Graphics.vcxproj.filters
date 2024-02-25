@@ -10,6 +10,9 @@
     <Filter Include="Inc\Animation">
       <UniqueIdentifier>{64be5966-0ddc-42a8-86b3-82ee36ccfd69}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Src\Animation">
+      <UniqueIdentifier>{e6014ee7-d053-47a8-9776-77edd1df7c8b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\Common.h">
@@ -224,20 +227,20 @@
     <ClCompile Include="Src\TerrainEffect.cpp">
       <Filter>Src</Filter>
     </ClCompile>
-    <ClCompile Include="Src\Animation.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\AnimationBuilder.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\AnimationUtil.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
-    <ClCompile Include="Src\Animator.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="Src\ParticleEffect.cpp">
       <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Animation.cpp">
+      <Filter>Src\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\AnimationBuilder.cpp">
+      <Filter>Src\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\AnimationUtil.cpp">
+      <Filter>Src\Animation</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\Animator.cpp">
+      <Filter>Src\Animation</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

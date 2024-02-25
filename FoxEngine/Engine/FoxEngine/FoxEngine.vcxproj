@@ -169,6 +169,7 @@
     <ClInclude Include="Inc\Service.h" />
     <ClInclude Include="Inc\SoundBankComponent.h" />
     <ClInclude Include="Inc\SoundEffectComponent.h" />
+    <ClInclude Include="Inc\TPSCameraComponent.h" />
     <ClInclude Include="Inc\TransformComponent.h" />
     <ClInclude Include="Inc\TypeIds.h" />
     <ClInclude Include="Inc\UpdateService.h" />
@@ -198,6 +199,7 @@
     <ClCompile Include="Src\RigidBodyComponent.cpp" />
     <ClCompile Include="Src\SoundBankComponent.cpp" />
     <ClCompile Include="Src\SoundEffectComponent.cpp" />
+    <ClCompile Include="Src\TPSCameraComponent.cpp" />
     <ClCompile Include="Src\TransformComponent.cpp" />
     <ClCompile Include="Src\UpdateService.cpp" />
   </ItemGroup>

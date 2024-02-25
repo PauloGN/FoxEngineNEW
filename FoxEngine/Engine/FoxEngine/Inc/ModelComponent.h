@@ -13,6 +13,8 @@ namespace FoxEngine
 
 		void Deserialize(const rapidjson::Value& value) override;
 
+		bool CastShadow() const { return mCastShadow; }
+
 		Graphics::ModelId GetModelId()const { return mModelId; }
 		const Graphics::Model& GetModel()const;
 
@@ -21,6 +23,7 @@ namespace FoxEngine
 		std::string mFileName;
 		Graphics::ModelId mModelId;
 
+		bool mCastShadow = true;
 		using Animations = std::vector<std::string>;
 		Animations mAnimationFileNames;
 	};

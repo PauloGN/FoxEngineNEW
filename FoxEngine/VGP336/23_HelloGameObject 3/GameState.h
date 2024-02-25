@@ -12,15 +12,10 @@ public:
 	void Render();
 	void DebugUI();
 
-	//Engine Tools
-	void EngineCameraController(float deltaTime);
-
 private:
 
 	//Assignment Colors change
 	void ChangeScreenColor();
-
-	FoxEngine::Graphics::Camera mCamera;
 
 	FoxEngine::GameWorld mGameWorld;
 	

@@ -47,6 +47,11 @@ void ModelComponent::Deserialize(const rapidjson::Value& value)
 			mAnimationFileNames.push_back(animation.GetString());
 		}
 	}
+
+	if (value.HasMember("CastShadow"))
+	{
+		mCastShadow = value["CastShadow"].GetBool();
+	}
 }
 
 const Graphics::Model& ModelComponent::GetModel() const
