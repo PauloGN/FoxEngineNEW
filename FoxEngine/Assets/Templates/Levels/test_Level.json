@@ -40,15 +40,19 @@
     },
     "TestObject0": {
       "Template": "../../Assets/Templates/test_objects.json",
-      "Position": [ 0.0, 0.0, 0.0 ]
+      "Position": [ 2.0, 0.0, 3.0 ]
     },
     "TestObject1": {
       "Template": "../../Assets/Templates/test_objects.json",
-      "Position": [ 2.0, 0.0, 0.0 ]
+      "Position": [ -2.0, 0.0, 3.0 ]
     },
     "TestObject2": {
       "Template": "../../Assets/Templates/test_objects.json",
-      "Position": [ 0.0, 2.0, 0.0 ]
+      "Position": [ 2.0, 2.0, -1.0 ]
+    },
+    "TestObjectSave": {
+      "Template": "../../Assets/Templates/test_object_Save.json",
+      "Position": [ -2.0, 2.0, -1.0 ]
     },
     "TestAudios": {
       "Template": "../../Assets/Templates/test_Audios.json",

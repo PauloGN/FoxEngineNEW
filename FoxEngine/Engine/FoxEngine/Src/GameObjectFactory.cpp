@@ -50,6 +50,9 @@ void GameObjectFactory::Make(const std::filesystem::path& templatePath, GameObje
 	rj::FileReadStream readStream (file, readBuffer, sizeof(readBuffer));
 	fclose(file);
 
+	//Serialize -- set file path
+	gameObject.SetTemplate(templatePath);
+
 	rj::Document doc;
 	doc.ParseStream(readStream);
 

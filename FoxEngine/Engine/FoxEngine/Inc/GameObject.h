@@ -20,6 +20,9 @@ namespace FoxEngine
 		const std::string& GetName() const { return mName; }
 		uint32_t GetUniqueId() const { return mUniqueId; }
 
+		void SetTemplate(const std::filesystem::path& tempatePath) { mTemplatePath = tempatePath; }
+		const std::filesystem::path& GetTemplatePath() const { return mTemplatePath; }
+
 		GameWorld& GetWorld() { return*mWorld; }
 		const GameWorld& GetWorld() const { return* mWorld; }
 		const GameObjectHandle& GetHandle() const { return mHandle;}
@@ -85,6 +88,8 @@ namespace FoxEngine
 		}
 #pragma endregion
 
+		void Serialize(rapidjson::Document& doc);
+
 	private:
 
 		friend class GameWorld;
@@ -92,9 +97,9 @@ namespace FoxEngine
 
 		GameWorld* mWorld = nullptr;
 		Components mComponents;
-
 		GameObjectHandle mHandle;
 
+		std::filesystem::path mTemplatePath;
 		std::string mName = "EMPTY";
 		bool mInitialized = false;
 		uint32_t mUniqueId = 0;

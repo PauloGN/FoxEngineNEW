@@ -154,6 +154,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Templates", "Templates", "{
 		Assets\Templates\test_ground.json = Assets\Templates\test_ground.json
 		Assets\Templates\test_objects.json = Assets\Templates\test_objects.json
 		Assets\Templates\test_objects_Empty.json = Assets\Templates\test_objects_Empty.json
+		Assets\Templates\test_object_Save.json = Assets\Templates\test_object_Save.json
 		Assets\Templates\test_PW5.json = Assets\Templates\test_PW5.json
 	EndProjectSection
 EndProject

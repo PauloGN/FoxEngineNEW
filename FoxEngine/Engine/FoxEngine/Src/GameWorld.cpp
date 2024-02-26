@@ -118,7 +118,7 @@ GameObject* FoxEngine::GameWorld::CreateGameObject(const std::filesystem::path& 
 
 	//Deserialize game obj and add components
 	GameObjectFactory::Make(templateFile, *newObject);
-	
+
 	//set world, handle and initialize
 	newObject->mWorld = this;
 	newObject->mHandle.mIndex = freeSlot;
@@ -230,6 +230,30 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 				}
 			}
 		}
+	}
+}
+
+void GameWorld::SaveLevel(const std::filesystem::path& levelFile)
+{
+}
+
+void GameWorld::SaveTemplate(const std::filesystem::path& templateFile, const GameObjectHandle& handle)
+{
+	GameObject* go = GetGameObject(handle);
+	if(go != nullptr)
+	{
+		rapidjson::Document doc;
+		go->Serialize(doc);
+
+		FILE* file = nullptr;
+		auto err = fopen_s(&file, templateFile.u8string().c_str(), "w");
+		ASSERT(err == 0 && file != nullptr, "GameWorld: save template file failed %s", templateFile.u8string().c_str());
+
+		char writeBuffer[65536];
+		rapidjson::FileWriteStream writeStream(file, writeBuffer, sizeof(writeBuffer));
+		rapidjson::PrettyWriter<rapidjson::FileWriteStream> writer(writeStream);
+		doc.Accept(writer);
+		fclose(file);
 	}
 }
 

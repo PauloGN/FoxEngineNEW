@@ -24,6 +24,8 @@ namespace FoxEngine
 		void DestroyObject(const GameObjectHandle& handle);
 
 		void LoadLevel(const std::filesystem::path& levelFile);
+		void SaveLevel(const std::filesystem::path& levelFile);
+		void SaveTemplate(const std::filesystem::path& templateFile, const GameObjectHandle& handle);
 
 #pragma region templatized
 
