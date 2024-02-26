@@ -1,30 +1,30 @@
 {
-  "Components": {
-    "TransformComponent": {
-      "Position": [ 0.0, 0.0, 0.0 ],
-      "Rotation": [ 0.0, 0.0, 0.0 ],
-      "Scale": [ 1.0, 1.0, 1.0 ]
-    },
-    "ModelComponent": {
-      "FileName": "../../Assets/Models/Character/AlienMan.model",
-      "Animations": [
-        "../../Assets/Models/Character/AlienMan.animset",
-        "../../Assets/Models/Character/Walking.animset",
-        "../../Assets/Models/Character/Idle.animset"
-      ]
-    },
-    "AnimatorComponent": {
-
-    },
-    "ColliderComponent": {
-      "Shape": {
-        "Type": "Hull",
-        "HalfExtents": [ 0.3, 1.0, 0.3 ],
-        "Origin": [ 0.0, 1.0, 0.0 ]
-      }
-    },
-    "RigidBodyComponent": {
-      "Mass": 1.0
+    "Components": {
+        "TransformComponent": {
+            "Position": [
+                6.38634318761433e-8,
+                0.07999999076128006,
+                0.0003073844709433615
+            ],
+            "Rotation": [
+                0.0,
+                45.000003814697266,
+                0.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "ModelComponent": {
+            "FileName": "../../Assets/Models/Character/AlienMan.model",
+            "CastShadow": true,
+            "Animations": [
+                "../../Assets/Models/Character/AlienMan.animset",
+                "../../Assets/Models/Character/Walking.animset",
+                "../../Assets/Models/Character/Idle.animset"
+            ]
+        }
     }
-  }
 }

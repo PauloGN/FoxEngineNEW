@@ -51,8 +51,7 @@
       "Position": [ 2.0, 2.0, -1.0 ]
     },
     "TestObjectSave": {
-      "Template": "../../Assets/Templates/test_object_Save.json",
-      "Position": [ -2.0, 2.0, -1.0 ]
+      "Template": "../../Assets/Templates/test_object_Save.json"
     },
     "TestAudios": {
       "Template": "../../Assets/Templates/test_Audios.json",

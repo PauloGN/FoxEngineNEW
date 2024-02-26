@@ -4,6 +4,7 @@
 //App headers
 #include "App.h"
 #include "AppState.h"
+#include "SaveUtil.h"
 
 //World headers
 #include "GameObject.h"

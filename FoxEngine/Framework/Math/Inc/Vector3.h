@@ -4,6 +4,8 @@
 
 namespace FoxEngine::FoxMath
 {
+	struct Quaternion;
+
 	struct Vector3
 	{
 		union
@@ -33,5 +35,11 @@ namespace FoxEngine::FoxMath
 		constexpr Vector3& operator-=(const Vector3& v) { x -= v.x; y -= v.y; z -= v.z; return *this; }
 		constexpr Vector3& operator*=(float s) { x *= s; y *= s, z *= s; return *this; }
 		constexpr Vector3& operator/=(float s) { x /= s; y /= s, z /= s; return *this; }
+
+		//static functions
+
+		static Vector3 QuaternionToEuler(const Quaternion& quaternion) noexcept;
+
 	};
+
 }
