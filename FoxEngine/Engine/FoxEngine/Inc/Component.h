@@ -33,6 +33,7 @@ namespace FoxEngine
 		virtual void Terminate(){}
 		virtual void Update(const float deltaTime){}
 		virtual void DebugUI(){}
+		virtual void EditorUI(){}
 
 		virtual uint32_t GetTypeId() const = 0;
 

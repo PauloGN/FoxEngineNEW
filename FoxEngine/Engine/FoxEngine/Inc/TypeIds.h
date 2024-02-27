@@ -18,6 +18,7 @@ namespace FoxEngine
 		SoundEffect,
 		SoundBank,
 		Animator,
+		Magnetify,
 
 		Count
 	};

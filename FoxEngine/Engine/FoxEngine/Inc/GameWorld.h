@@ -18,6 +18,7 @@ namespace FoxEngine
 		void Update(float deltaTime);
 		void Render();
 		void DebugUI();
+		void EditorUI();
 
 		GameObject* CreateGameObject(const std::filesystem::path& templateFile);
 		GameObject* GetGameObject(const GameObjectHandle& handle);
@@ -85,6 +86,7 @@ namespace FoxEngine
 		Services mServices;
 		GameObjectSlots mGameObjectSlots;
 
+		std::filesystem::path mLevelFile;
 		std::vector<uint32_t> mFreeSlots;
 		std::vector<uint32_t> mToBeDestroyed;
 

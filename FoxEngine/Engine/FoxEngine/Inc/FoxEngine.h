@@ -19,6 +19,7 @@
 #include "CameraComponent.h"
 #include "ColliderComponent.h"
 #include "FPSCameraComponent.h"
+#include "MagnetifyComponent.h"
 #include "MeshComponent.h"
 #include "ModelComponent.h"
 #include "RigidBodyComponent.h"

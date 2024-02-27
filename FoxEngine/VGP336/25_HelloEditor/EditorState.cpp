@@ -56,7 +56,7 @@ void EditorState::Render()
 }
 void EditorState::DebugUI()
 {
-	mGameworld.DebugUI();
+	mGameworld.EditorUI();
 }
 
 void EditorState::SwapCamera()

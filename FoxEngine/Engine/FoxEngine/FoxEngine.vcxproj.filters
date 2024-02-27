@@ -105,6 +105,9 @@
     <ClInclude Include="Inc\SaveUtil.h">
       <Filter>Inc</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\MagnetifyComponent.h">
+      <Filter>Inc\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -172,6 +175,9 @@
     </ClCompile>
     <ClCompile Include="Src\SaveUtil.cpp">
       <Filter>Src</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MagnetifyComponent.cpp">
+      <Filter>Src\Components</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

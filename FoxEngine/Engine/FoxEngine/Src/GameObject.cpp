@@ -3,6 +3,7 @@
 #include "TransformComponent.h"
 
 #include "GameWorld.h"
+#include "FoxEngine.h"
 
 using namespace FoxEngine;
 
@@ -40,10 +41,22 @@ void FoxEngine::GameObject::DebugUI()
 		{
 			component->DebugUI();
 		}
+	}
+}
 
-		if(ImGui::Button(("Save" + mName).c_str()))
+void GameObject::EditorUI()
+{
+	if (ImGui::CollapsingHeader(mName.c_str(), ImGuiTreeNodeFlags_CollapsingHeader))
+	{
+		for (auto& component : mComponents)
 		{
-			mWorld->SaveTemplate(mTemplatePath, mHandle);
+			component->EditorUI();
+		}
+
+		if (ImGui::Button(("Edit: " + mName).c_str()))
+		{
+			// global data here to load the template
+			MainApp().ChangeState("EditTemplateState");
 		}
 	}
 }

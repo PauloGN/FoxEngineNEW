@@ -47,7 +47,6 @@ void EditTemplateState::Update(float deltaTime)
 {
 	mGameworld.Update(deltaTime);
 
-	ChangeScreenColor();
 	SwapCamera();
 }
 void EditTemplateState::Render()
@@ -56,7 +55,12 @@ void EditTemplateState::Render()
 }
 void EditTemplateState::DebugUI()
 {
-	mGameworld.DebugUI();
+	mGameworld.EditorUI();
+	
+	if (ImGui::Button("Exit: Edit Template"))
+	{
+		MainApp().ChangeState("EditorState");
+	}
 }
 
 void EditTemplateState::SwapCamera()
@@ -72,19 +76,5 @@ void EditTemplateState::SwapCamera()
 	else if (input->IsKeyPressed(KeyCode::TWO))
 	{
 		cameraService->SetMainCamera(1);
-	}
-}
-void EditTemplateState::ChangeScreenColor()
-{
-	const auto I = InputSystem::Get();
-	const auto GS = Graphics::GraphicsSystem::Get();
-
-	if (I->IsKeyPressed(KeyCode::UP))
-	{
-		GS->SetClearColor(Colors::DeepSkyBlue);
-	}
-	if (I->IsKeyPressed(KeyCode::DOWN))
-	{
-		GS->SetClearColor(Colors::Black);
 	}
 }

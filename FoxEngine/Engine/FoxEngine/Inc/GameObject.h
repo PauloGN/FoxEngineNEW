@@ -15,6 +15,7 @@ namespace FoxEngine
 		void Initialize();
 		void Terminate();
 		void DebugUI();
+		void EditorUI();
 
 		void SetName(std::string& name) { mName = std::move(name); }
 		const std::string& GetName() const { return mName; }
