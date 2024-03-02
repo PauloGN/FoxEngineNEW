@@ -33,6 +33,7 @@ void CameraService::Register( CameraComponent* cameraComponent)
 	if(mMainCamera == nullptr)
 	{
 		mMainCamera = cameraComponent;
+		mMainCamera->GetCamera().SetIsActive(true);
 	}
 }
 

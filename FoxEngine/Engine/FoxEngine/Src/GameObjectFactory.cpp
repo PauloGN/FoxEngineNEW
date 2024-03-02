@@ -1,6 +1,7 @@
 #include "Precompiled.h"
 #include "GameObjectFactory.h"
 
+#include "AnimatorComponent.h"
 #include "GameObject.h"
 #include "CameraComponent.h"
 #include "ColliderComponent.h"
@@ -10,8 +11,8 @@
 #include "RigidBodyComponent.h"
 #include "SoundBankComponent.h"
 #include "SoundEffectComponent.h"
+#include "TPSCameraComponent.h"
 #include "TransformComponent.h"
-#include "AnimatorComponent.h"
 
 using namespace FoxEngine;
 namespace rj = rapidjson;
@@ -176,6 +177,11 @@ void GameObjectFactory::RegisterComponentFactories()
 	RegisterComponentFactory("AnimatorComponent", [](rj::Value& value, GameObject& gameObject) {
 		AnimatorComponent* animatorComponent = gameObject.AddComponent<AnimatorComponent>();
 		animatorComponent->Deserialize(value);
+		});
+
+	RegisterComponentFactory("TPSCameraComponent", [](rj::Value& value, GameObject& gameObject) {
+		TPSCameraComponent* oTPSCameraComponent = gameObject.AddComponent<TPSCameraComponent>();
+		oTPSCameraComponent->Deserialize(value);
 		});
 
 	// Add new components as needed

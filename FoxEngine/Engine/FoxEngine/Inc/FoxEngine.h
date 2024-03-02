@@ -26,6 +26,8 @@
 #include "SoundBankComponent.h"
 #include "SoundEffectComponent.h"
 #include "TransformComponent.h"
+#include "TPSCameraComponent.h"
+
 //Services
 #include "Service.h"
 #include "CameraService.h"

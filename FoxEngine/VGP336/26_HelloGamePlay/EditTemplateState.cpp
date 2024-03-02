@@ -1,4 +1,4 @@
-#include "GameState.h"
+#include "EditTemplateState.h"
 #include "Graphics/Inc/GraphicsSystem.h"
 #include "Input/Inc/InputSystem.h"
 
@@ -32,34 +32,38 @@ namespace
 	}
 }
 
-void GameState::Initialize() 
+void EditTemplateState::Initialize()
 {
 	GameObjectFactory::SetCustomMake(CustomComponentMake);
 	GameWorld::SetCustomServiceMake(CustomServiceMake);
 
 	mGameworld.LoadLevel("../../Assets/Templates/Levels/test_Level.json");
 }
-void GameState::Terminate() 
+void EditTemplateState::Terminate()
 {
 	mGameworld.Terminate();
 }
-void GameState::Update(float deltaTime) 
+void EditTemplateState::Update(float deltaTime)
 {
 	mGameworld.Update(deltaTime);
 
-	ChangeScreenColor();
 	SwapCamera();
 }
-void GameState::Render() 
+void EditTemplateState::Render()
 {
 	mGameworld.Render();
 }
-void GameState::DebugUI()
+void EditTemplateState::DebugUI()
 {
-	mGameworld.DebugUI();
+	mGameworld.EditorUI();
+	
+	if (ImGui::Button("Exit: Edit Template"))
+	{
+		MainApp().ChangeState("EditorState");
+	}
 }
 
-void GameState::SwapCamera()
+void EditTemplateState::SwapCamera()
 {
 	const InputSystem* input = Input::InputSystem::Get();
 	CameraService* cameraService = mGameworld.GetService<CameraService>();
@@ -72,23 +76,5 @@ void GameState::SwapCamera()
 	else if (input->IsKeyPressed(KeyCode::TWO))
 	{
 		cameraService->SetMainCamera(1);
-	}
-	else if (input->IsKeyPressed(KeyCode::THREE))
-	{
-		cameraService->SetMainCamera(2);
-	}
-}
-void GameState::ChangeScreenColor()
-{
-	const auto I = InputSystem::Get();
-	const auto GS = Graphics::GraphicsSystem::Get();
-
-	if (I->IsKeyPressed(KeyCode::UP))
-	{
-		GS->SetClearColor(Colors::DeepSkyBlue);
-	}
-	if (I->IsKeyPressed(KeyCode::DOWN))
-	{
-		GS->SetClearColor(Colors::Black);
 	}
 }

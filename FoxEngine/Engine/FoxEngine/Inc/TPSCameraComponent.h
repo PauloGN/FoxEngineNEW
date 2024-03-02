@@ -27,9 +27,9 @@ namespace FoxEngine
 		float mMoveSpeed = 1.0f;
 		float mTurnpeed = 0.1f;
 
-		float distance = 7.0f;
+		float mZdistance = 7.0f;
 		float sensitivity = 0.8f;
-		float minYAngle = -30.0f;
+		float minYAngle = 30.0f;
 		float maxYAngle = 70.0f;
 
 		float currentX = 0.0f;

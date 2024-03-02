@@ -32,6 +32,5 @@ namespace FoxEngine::Graphics
 
 		using ModelCashe = std::map<ModelId, std::unique_ptr<Model>>;
 		ModelCashe mInventory;
-
 	};
 }

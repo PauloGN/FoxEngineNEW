@@ -60,6 +60,9 @@
     "TestAudio": {
       "Template": "../../Assets/Templates/test_Audio.json",
       "Position": [ 0.0, 7.0, 0.0 ]
+    },
+    "TPSChar": {
+      "Template": "../../Assets/Templates/TPSCharObject.json"
     }
   }
 }

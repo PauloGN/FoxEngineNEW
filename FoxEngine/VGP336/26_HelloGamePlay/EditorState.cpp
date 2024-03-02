@@ -1,4 +1,4 @@
-#include "GameState.h"
+#include "EditorState.h"
 #include "Graphics/Inc/GraphicsSystem.h"
 #include "Input/Inc/InputSystem.h"
 
@@ -32,34 +32,34 @@ namespace
 	}
 }
 
-void GameState::Initialize() 
+void EditorState::Initialize()
 {
 	GameObjectFactory::SetCustomMake(CustomComponentMake);
 	GameWorld::SetCustomServiceMake(CustomServiceMake);
 
 	mGameworld.LoadLevel("../../Assets/Templates/Levels/test_Level.json");
 }
-void GameState::Terminate() 
+void EditorState::Terminate()
 {
 	mGameworld.Terminate();
 }
-void GameState::Update(float deltaTime) 
+void EditorState::Update(float deltaTime)
 {
 	mGameworld.Update(deltaTime);
 
 	ChangeScreenColor();
 	SwapCamera();
 }
-void GameState::Render() 
+void EditorState::Render()
 {
 	mGameworld.Render();
 }
-void GameState::DebugUI()
+void EditorState::DebugUI()
 {
-	mGameworld.DebugUI();
+	mGameworld.EditorUI();
 }
 
-void GameState::SwapCamera()
+void EditorState::SwapCamera()
 {
 	const InputSystem* input = Input::InputSystem::Get();
 	CameraService* cameraService = mGameworld.GetService<CameraService>();
@@ -73,12 +73,8 @@ void GameState::SwapCamera()
 	{
 		cameraService->SetMainCamera(1);
 	}
-	else if (input->IsKeyPressed(KeyCode::THREE))
-	{
-		cameraService->SetMainCamera(2);
-	}
 }
-void GameState::ChangeScreenColor()
+void EditorState::ChangeScreenColor()
 {
 	const auto I = InputSystem::Get();
 	const auto GS = Graphics::GraphicsSystem::Get();

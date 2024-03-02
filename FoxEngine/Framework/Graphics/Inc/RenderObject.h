@@ -36,7 +36,7 @@ namespace FoxEngine::Graphics
 	};
 
 	using RenderGroup = std::vector<RenderObject>;
-	[[nodiscard]]RenderGroup CreateRenderGroup(ModelId modelId, const Animator* animator = nullptr);
+	[[nodiscard]] RenderGroup CreateRenderGroup(ModelId modelId, const Animator* animator = nullptr);
 	[[nodiscard]] RenderGroup CreateRenderGroup(const Model& model, const Animator* animator = nullptr);
 	void CleanupRenderGroup(RenderGroup& renderGroup);
 

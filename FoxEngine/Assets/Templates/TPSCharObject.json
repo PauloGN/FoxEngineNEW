@@ -1,0 +1,25 @@
+{
+  "Components": {
+    "TransformComponent": {
+      "Position": [ 0.0, 0.0, 4.0 ],
+      "Rotation": [ 0.0, 0.0, 0.0 ],
+      "Scale": [ 1.0, 1.0, 1.0 ]
+    },
+    "ModelComponent": {
+      "FileName": "../../Assets/Models/Character/AlienMan.model"
+    },
+    "ColliderComponent": {
+      "Shape": {
+        "Type": "Hull",
+        "HalfExtents": [ 0.3, 1.0, 0.3 ],
+        "Origin": [ 0.0, 1.0, 0.0 ]
+      }
+    },
+    "CameraComponent": {
+    },
+    "TPSCameraComponent": {
+      "MoveSpeed": 1.0,
+      "TurnSpeed": 0.13
+    }
+  }
+}

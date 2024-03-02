@@ -71,6 +71,6 @@ namespace FoxEngine::Graphics
 		float mNearPlane = 0.01f;
 		float mFarPlane = 10000.0f;
 
-		bool isActive = true;
+		bool isActive = false;
 	};
 }
