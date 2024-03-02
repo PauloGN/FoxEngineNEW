@@ -10,6 +10,7 @@
 //components
 #include "TransformComponent.h"
 #include "RigidBodyComponent.h"
+#include <FoxEngine.h>
 
 using namespace FoxEngine;
 
@@ -61,8 +62,10 @@ void FoxEngine::GameWorld::Terminate()
 	for (auto& service : mServices)
 	{
 		service->Terminate();
+		service.reset();
 	}
 
+	mServices.clear();
 	mInitialized = false;
 }
 
@@ -96,6 +99,37 @@ void FoxEngine::GameWorld::DebugUI()
 	{
 		service->DebugUI();
 	}
+
+	if (ImGui::Button("Edit: Game World"))
+	{
+		MainApp().ChangeState("EditorState");
+	}
+}
+
+void GameWorld::EditorUI()
+{
+	for (auto& slot : mGameObjectSlots)
+	{
+		if (slot.gameObject != nullptr)
+		{
+			slot.gameObject->EditorUI();
+		}
+	}
+
+	//for (auto& service : mServices)
+	//{
+	//	service->DebugUI();
+	//}
+
+	if (ImGui::Button("Save World : GameWorld"))
+	{
+		SaveLevel(mLevelFile);
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Exit : GameWorld"))
+	{
+		MainApp().ChangeState("GameState");
+	}
 }
 
 GameObject* FoxEngine::GameWorld::CreateGameObject(const std::filesystem::path& templateFile)
@@ -118,7 +152,7 @@ GameObject* FoxEngine::GameWorld::CreateGameObject(const std::filesystem::path& 
 
 	//Deserialize game obj and add components
 	GameObjectFactory::Make(templateFile, *newObject);
-	
+
 	//set world, handle and initialize
 	newObject->mWorld = this;
 	newObject->mHandle.mIndex = freeSlot;
@@ -148,6 +182,7 @@ void FoxEngine::GameWorld::DestroyObject(const GameObjectHandle& handle)
 	Slot& slot = mGameObjectSlots[handle.mIndex];
 	slot.generation++;
 	mToBeDestroyed.push_back(handle.mIndex);
+	ProcessDestroyList();
 }
 
 void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
@@ -155,6 +190,8 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 	FILE* file = nullptr;
 	auto err = fopen_s(&file, levelFile.u8string().c_str(), "r");
 	ASSERT(err == 0 && file != nullptr, "GameWorld: failed to load level %s", levelFile.u8string().c_str());
+	//reference to the loaded level
+	mLevelFile = levelFile;
 
 	char readBuffer[65536];
 	rapidjson::FileReadStream readStream (file, readBuffer, sizeof(readBuffer));
@@ -207,6 +244,7 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 	{
 		const char* templateFile = gameObject.value["Template"].GetString();
 		GameObject* obj = CreateGameObject(templateFile);
+		
 		if(obj != nullptr)
 		{
 			std::string name = gameObject.name.GetString();
@@ -229,6 +267,30 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 				}
 			}
 		}
+	}
+}
+
+void GameWorld::SaveLevel(const std::filesystem::path& levelFile)
+{
+}
+
+void GameWorld::SaveTemplate(const std::filesystem::path& templateFile, const GameObjectHandle& handle)
+{
+	GameObject* go = GetGameObject(handle);
+	if(go != nullptr)
+	{
+		rapidjson::Document doc;
+		go->Serialize(doc);
+
+		FILE* file = nullptr;
+		auto err = fopen_s(&file, templateFile.u8string().c_str(), "w");
+		ASSERT(err == 0 && file != nullptr, "GameWorld: save template file failed %s", templateFile.u8string().c_str());
+
+		char writeBuffer[65536];
+		rapidjson::FileWriteStream writeStream(file, writeBuffer, sizeof(writeBuffer));
+		rapidjson::PrettyWriter<rapidjson::FileWriteStream> writer(writeStream);
+		doc.Accept(writer);
+		fclose(file);
 	}
 }
 

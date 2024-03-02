@@ -1,6 +1,18 @@
 #pragma once
 #include "TypeIds.h"
 
+/**
+ * \To Add a new component
+ * New component should be derived from component class,
+ * Add new members and implement any overrides
+ * Add a new entry to componentId
+ * Set the id using SET_TYPE_ID macro
+ * Set Deserialize
+ * Update GameObjectFactory.cpp
+ *
+ *\GameObject has a list of components
+ *
+ */
 namespace FoxEngine
 {
 	class GameObject;
@@ -21,6 +33,7 @@ namespace FoxEngine
 		virtual void Terminate(){}
 		virtual void Update(const float deltaTime){}
 		virtual void DebugUI(){}
+		virtual void EditorUI(){}
 
 		virtual uint32_t GetTypeId() const = 0;
 

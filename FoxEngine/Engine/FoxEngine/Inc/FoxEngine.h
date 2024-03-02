@@ -4,6 +4,7 @@
 //App headers
 #include "App.h"
 #include "AppState.h"
+#include "SaveUtil.h"
 
 //World headers
 #include "GameObject.h"
@@ -18,12 +19,15 @@
 #include "CameraComponent.h"
 #include "ColliderComponent.h"
 #include "FPSCameraComponent.h"
+#include "MagnetifyComponent.h"
 #include "MeshComponent.h"
 #include "ModelComponent.h"
 #include "RigidBodyComponent.h"
 #include "SoundBankComponent.h"
 #include "SoundEffectComponent.h"
 #include "TransformComponent.h"
+#include "TPSCameraComponent.h"
+
 //Services
 #include "Service.h"
 #include "CameraService.h"

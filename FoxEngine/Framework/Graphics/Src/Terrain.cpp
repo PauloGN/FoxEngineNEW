@@ -63,6 +63,10 @@ void Terrain::Initialize(const std::filesystem::path& fileName, float heightScal
 	}
 }
 
+void Terrain::Terminate()
+{
+}
+
 float Terrain::GetHeight(const FoxMath::Vector3 & position) const
 {
 	const int x = static_cast<int>(position.x);

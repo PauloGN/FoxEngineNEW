@@ -43,6 +43,7 @@ namespace FoxEngine
 
 		struct Entry
 		{
+			bool castShadow = true;
 			const ModelComponent* modelComponent = nullptr;
 			const MeshComponent* meshComponent = nullptr;
 			const TransformComponent* transformComponent = nullptr;

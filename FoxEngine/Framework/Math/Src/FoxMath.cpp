@@ -15,6 +15,33 @@ const Vector3 Vector3::XAxis(1.0f, 0.0f, 0.0f);
 const Vector3 Vector3::YAxis(0.0f, 1.0f, 0.0f);
 const Vector3 Vector3::ZAxis(0.0f, 0.0f, 1.0f);
 
+Vector3 Vector3::QuaternionToEuler(const Quaternion& quaternion) noexcept
+{
+    // Extracting yaw (Z), pitch (Y), and roll (X) from the quaternion
+
+    // Yaw (Z) calculation
+    float sinYaw = 2.0f * (quaternion.w * quaternion.z + quaternion.x * quaternion.y);
+    float cosYaw = 1.0f - 2.0f * (quaternion.y * quaternion.y + quaternion.z * quaternion.z);
+    float yaw = atan2f(sinYaw, cosYaw);
+
+    // Pitch (Y) calculation
+    float sinPitch = 2.0f * (quaternion.w * quaternion.y - quaternion.z * quaternion.x);
+    float pitch = asinf(sinPitch);
+
+    // Roll (X) calculation
+    float sinRoll = 2.0f * (quaternion.w * quaternion.x + quaternion.y * quaternion.z);
+    float cosRoll = 1.0f - 2.0f * (quaternion.x * quaternion.x + quaternion.y * quaternion.y);
+    float roll = atan2f(sinRoll, cosRoll);
+
+    // Convert angles to degrees using your constants
+    yaw = yaw * Constants::RadToDeg;
+    pitch = pitch * Constants::RadToDeg;
+    roll = roll * Constants::RadToDeg;
+
+    return Vector3(roll, pitch, yaw);
+}
+
+
 const Matrix4 Matrix4::Zero({ 0, 0, 0, 0,
                             0, 0, 0, 0,
                             0, 0, 0, 0,

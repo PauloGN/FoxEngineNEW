@@ -40,7 +40,7 @@ void GameState::Initialize()
 	mGameWorld.AddService<CameraService>();
 	mGameWorld.AddService<UpdateService>();
 	mGameWorld.Initialize(1000);
-
+		
 	//set custom components
 	GameObjectFactory::SetCustomMake(CustomComponentMake);
 	GameWorld::SetCustomServiceMake(CustomServiceMake);
@@ -49,6 +49,7 @@ void GameState::Initialize()
 	mGameObjHandle = gameObject->GetHandle();
 
 	auto gameObject2 = mGameWorld.CreateGameObject("../../Assets/Templates/test_PW5.json");
+
 	mGameObjHandle2 = gameObject2->GetHandle();
 
 	mGameWorld.CreateGameObject("../../Assets/Templates/test_fps_Camera.json");

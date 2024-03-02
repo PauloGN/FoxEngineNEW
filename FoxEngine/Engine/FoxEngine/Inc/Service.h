@@ -2,6 +2,14 @@
 
 #include "TypeIds.h"
 
+/**
+ * \Add Service
+ *	Add the new service class .h and .cpp
+ *	Derive from Service, add new members and implement any overrides
+ *	Add a new entry to ServiceId
+ *	Set the Id using Set_Type_ID macro
+ *	Add the Service using addService before initializing GameWorld
+ */
 namespace FoxEngine
 {
 	class GameWorld;

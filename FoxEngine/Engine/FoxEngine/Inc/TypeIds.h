@@ -10,6 +10,7 @@ namespace FoxEngine
 		Transform,
 		Camera,
 		FPSCamera,
+		TPSCamera,
 		Model,
 		Mesh,
 		RigidBody,
@@ -17,6 +18,7 @@ namespace FoxEngine
 		SoundEffect,
 		SoundBank,
 		Animator,
+		Magnetify,
 
 		Count
 	};

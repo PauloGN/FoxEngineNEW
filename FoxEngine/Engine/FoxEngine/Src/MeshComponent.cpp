@@ -128,4 +128,9 @@ void MeshComponent::Deserialize(const rapidjson::Value& value)
 			}
 		}
 	}
+
+	if (value.HasMember("CastShadow"))
+	{
+		mCastShadow = value["CastShadow"].GetBool();
+	}
 }

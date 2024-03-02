@@ -1,11 +1,14 @@
 #include "Precompiled.h"
 #include "ShadowEffect.h"
 
+#include "AnimationUtil.h"
 #include "RenderObject.h"
 #include "VertexTypes.h"
 
 using namespace FoxEngine; 
 using namespace FoxEngine::Graphics;
+
+static constexpr size_t MaxBoneCount = 256;
 
 void FoxEngine::Graphics::ShadowEffect::Initialize()
 {
@@ -16,6 +19,7 @@ void FoxEngine::Graphics::ShadowEffect::Initialize()
 	mPixelShader.Initialize(shaderFile);
 
 	mTransformBuffer.Initialize();
+	mBoneTransform.Initialize(MaxBoneCount * sizeof(FoxMath::Matrix4));
 
 	constexpr uint32_t depthMapResolution = 4096;
 	mDepthMapRenderTarget.Initialize(depthMapResolution, depthMapResolution, Texture::Format::RGBA_U32);
@@ -24,6 +28,7 @@ void FoxEngine::Graphics::ShadowEffect::Initialize()
 void FoxEngine::Graphics::ShadowEffect::Terminate()
 {
 	mDepthMapRenderTarget.Terminate();
+	mBoneTransform.Terminate();
 	mTransformBuffer.Terminate();
 	mPixelShader.Terminate();
 	mVertexShader.Terminate();
@@ -36,6 +41,7 @@ void FoxEngine::Graphics::ShadowEffect::Begin()
 	mVertexShader.Bind();
 	mPixelShader.Bind();
 	mTransformBuffer.BindVS(0);
+	mBoneTransform.BindVS(1);
 
 	mDepthMapRenderTarget.BeginRender();
 }
@@ -55,6 +61,19 @@ void FoxEngine::Graphics::ShadowEffect::Render(const RenderObject & renderObject
 	data.wvp = FoxMath::Transpose(matWorld * matView * matProj);
 	mTransformBuffer.Update(data);
 
+	if(renderObject.skeleton != nullptr)
+	{
+		AnimationUtil::BoneTransforms boneTransforms;
+		AnimationUtil::ComputeBoneTransform(renderObject.modelId, boneTransforms, renderObject.animator);
+		AnimationUtil::ApplyBoneOffsets(renderObject.modelId, boneTransforms);
+		for(FoxMath::Matrix4& transform: boneTransforms)
+		{
+			transform = FoxMath::Transpose(transform);
+		}
+
+		boneTransforms.resize(MaxBoneCount);
+		mBoneTransform.Update(boneTransforms.data());
+	}
 
 	renderObject.meshBuffer.Render();
 }
