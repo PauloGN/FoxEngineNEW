@@ -11,6 +11,7 @@ namespace FoxEngine
 	public:
 
 		static void SetCustomServiceMake(CustomService customService);
+		static void SetEditObject(const std::string& objectName);
 
 		void Initialize(uint32_t capacity);
 		void Terminate();

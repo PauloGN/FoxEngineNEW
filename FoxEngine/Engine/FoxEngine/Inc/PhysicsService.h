@@ -18,6 +18,7 @@ namespace FoxEngine
 
 		void Register(RigidBodyComponent& rigidBodyComponent);
 		void Unregister(RigidBodyComponent& rigidBodyComponent);
-		
+
+		void SetEnabled(bool enabled);
 	};
 }

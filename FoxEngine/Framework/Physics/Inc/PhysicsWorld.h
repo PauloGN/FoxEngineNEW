@@ -30,6 +30,7 @@ namespace FoxEngine::Physics
 		void Update(float deltaTime, bool bUpdateSoftBody = false);
 		void DebugUI();
 
+		void SetEnabled(bool enabled);
 		void SetGravity(const FoxMath::Vector3& gravity);
 		void SetSimulationSteps(const uint32_t steps);
 		void SetFixedTimeStep(const float timeStep);
@@ -41,6 +42,7 @@ namespace FoxEngine::Physics
 
 		Settings mSettings;
 		bool mRenderDebugUI = false;
+		bool mEnabled = true;
 
 		PhysicsDebugDrawer mDebugDrawer;
 		//bullet objects

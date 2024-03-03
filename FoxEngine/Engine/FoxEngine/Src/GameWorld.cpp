@@ -16,11 +16,17 @@ using namespace FoxEngine;
 namespace 
 {
 	CustomService TryServiceMake;
+	std::string sEditTemplateName = "";
 }
 
 void GameWorld::SetCustomServiceMake(CustomService customService)
 {
 	TryServiceMake = customService;
+}
+
+void GameWorld::SetEditObject(const std::string& objectName)
+{
+	sEditTemplateName = objectName;
 }
 
 void FoxEngine::GameWorld::Initialize(uint32_t capacity)
@@ -255,18 +261,23 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 	uint32_t capacity = static_cast<int32_t>(doc["Capacity"].GetInt());
 	Initialize(capacity);
 
+	//OBJECTS
 	auto gameObjects = doc["GameObjects"].GetObj();
 	for(auto& gameObject : gameObjects)
 	{
+		std::string name = gameObject.name.GetString();
+		if (!sEditTemplateName.empty() && sEditTemplateName != name)
+		{
+			continue;
+		}
 		const char* templateFile = gameObject.value["Template"].GetString();
 		GameObject* obj = CreateGameObject(templateFile);
 		
 		if(obj != nullptr)
 		{
-			std::string name = gameObject.name.GetString();
 			obj->SetName(name);
 
-			if(gameObject.value.HasMember("Position"))
+			if(sEditTemplateName.empty() && gameObject.value.HasMember("Position"))
 			{
 				const auto& pos = gameObject.value["Position"].GetArray();
 				const float x = pos[0].GetFloat();
