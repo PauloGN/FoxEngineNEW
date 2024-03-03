@@ -38,6 +38,7 @@ void GameState::Initialize()
 	GameWorld::SetCustomServiceMake(CustomServiceMake);
 
 	mGameworld.LoadLevel("../../Assets/Templates/Levels/test_Level.json");
+	mGameworld.CreateSkySphere(L"Space03.jpg", 800);
 }
 void GameState::Terminate() 
 {

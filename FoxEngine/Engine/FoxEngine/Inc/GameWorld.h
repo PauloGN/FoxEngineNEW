@@ -28,6 +28,10 @@ namespace FoxEngine
 		void SaveLevel(const std::filesystem::path& levelFile);
 		void SaveTemplate(const std::filesystem::path& templateFile, const GameObjectHandle& handle);
 
+		//SkySphere
+		void SetSkySphereRenderCamera(Graphics::Camera& camera);
+		void CreateSkySphere(const std::filesystem::path& templateFile, const float radius, const float skyRotationSpeed = 0.005f);
+
 #pragma region templatized
 
 		template<class ServiceType>
@@ -92,5 +96,12 @@ namespace FoxEngine
 
 		bool mInitialized = false;
 		bool mUpdating = false;
+
+		//SkySphere
+
+		float mSkyRotationRate = 0.005f;
+		bool hasSkySphere = false;
+		Graphics::SimpleEffect mSimpleEffect;
+		Graphics::RenderObject mSkySphere{};
 	};
 }

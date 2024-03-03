@@ -65,6 +65,12 @@ void FoxEngine::GameWorld::Terminate()
 		service.reset();
 	}
 
+	if(hasSkySphere)
+	{
+		mSkySphere.Terminate();
+		mSimpleEffect.Terminate();
+	}
+
 	mServices.clear();
 	mInitialized = false;
 }
@@ -75,6 +81,11 @@ void FoxEngine::GameWorld::Update(float deltaTime)
 	{
 		service->Update(deltaTime);
 	}
+
+	if(hasSkySphere)
+	{
+		mSkySphere.transform.vrotation.y += Constants::HalfPi * deltaTime * mSkyRotationRate;
+	}
 }
 
 void FoxEngine::GameWorld::Render()
@@ -82,6 +93,13 @@ void FoxEngine::GameWorld::Render()
 	for (auto& service : mServices)
 	{
 		service->Render();
+	}
+
+	if(hasSkySphere)
+	{
+		mSimpleEffect.Begin();
+			mSimpleEffect.Render(mSkySphere);
+		mSimpleEffect.End();
 	}
 }
 
@@ -160,6 +178,20 @@ GameObject* FoxEngine::GameWorld::CreateGameObject(const std::filesystem::path& 
 	newObject->Initialize();
 
 	return newObject.get();
+}
+
+void GameWorld::CreateSkySphere(const std::filesystem::path& templateFile, const float radius, const float skyRotationSpeed)
+{
+	Graphics::MeshPX sphere = Graphics::MeshBuilder::CreateSkySpherePX(256, 128, radius);
+	mSkySphere.meshBuffer.Initialize(sphere);
+	mSkySphere.diffuseMapId = Graphics::TextureManager::Get()->LoadTexture(templateFile);
+
+	hasSkySphere = true;
+
+	mSimpleEffect.Initialize();
+	auto& camera = GetService<CameraService>()->GetMain();
+	mSimpleEffect.SetCamera(camera);
+	mSkyRotationRate = skyRotationSpeed;
 }
 
 GameObject* FoxEngine::GameWorld::GetGameObject(const GameObjectHandle& handle)
@@ -291,6 +323,14 @@ void GameWorld::SaveTemplate(const std::filesystem::path& templateFile, const Ga
 		rapidjson::PrettyWriter<rapidjson::FileWriteStream> writer(writeStream);
 		doc.Accept(writer);
 		fclose(file);
+	}
+}
+
+void GameWorld::SetSkySphereRenderCamera(Graphics::Camera& camera)
+{
+	if(hasSkySphere)
+	{
+		mSimpleEffect.SetCamera(camera);
 	}
 }
 

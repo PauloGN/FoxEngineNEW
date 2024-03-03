@@ -1,6 +1,7 @@
 #include "Precompiled.h"
 #include "CameraService.h"
 #include "CameraComponent.h"
+#include "GameWorld.h"
 
 using namespace FoxEngine;
 using namespace FoxEngine::Graphics;
@@ -24,6 +25,7 @@ void FoxEngine::CameraService::SetMainCamera(uint32_t index)
 		mMainCamera->GetCamera().SetIsActive(false);
 		mMainCamera = mCameraEntries[index];
 		mMainCamera->GetCamera().SetIsActive(true);
+		GetWorld().SetSkySphereRenderCamera(mMainCamera->GetCamera());
 	}
 }
 
