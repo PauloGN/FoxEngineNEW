@@ -10,7 +10,6 @@
 //components
 #include "TransformComponent.h"
 #include "RigidBodyComponent.h"
-#include <FoxEngine.h>
 
 using namespace FoxEngine;
 
@@ -117,11 +116,6 @@ void FoxEngine::GameWorld::DebugUI()
 	{
 		service->DebugUI();
 	}
-
-	if (ImGui::Button("Edit: Game World"))
-	{
-		MainApp().ChangeState("EditorState");
-	}
 }
 
 void GameWorld::EditorUI()
@@ -138,16 +132,6 @@ void GameWorld::EditorUI()
 	//{
 	//	service->DebugUI();
 	//}
-
-	if (ImGui::Button("Save World : GameWorld"))
-	{
-		SaveLevel(mLevelFile);
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Exit : GameWorld"))
-	{
-		MainApp().ChangeState("GameState");
-	}
 }
 
 GameObject* FoxEngine::GameWorld::CreateGameObject(const std::filesystem::path& templateFile)

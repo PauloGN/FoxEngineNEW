@@ -131,6 +131,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="CustomFactory.cpp" />
     <ClCompile Include="EditorState.cpp" />
     <ClCompile Include="EditTemplateState.cpp" />
     <ClCompile Include="GameState.cpp" />
@@ -142,6 +143,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="CustomFactory.h" />
     <ClInclude Include="EditorState.h" />
     <ClInclude Include="EditTemplateState.h" />
     <ClInclude Include="GameState.h" />

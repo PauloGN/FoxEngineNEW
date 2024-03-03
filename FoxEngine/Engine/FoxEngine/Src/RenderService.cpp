@@ -71,7 +71,7 @@ void RenderService::DebugUI()
 	ImGui::Text("FPS %.2f", mFPS);
 	ImGui::Separator();
 	ImGui::PushID("Light");
-	if (ImGui::CollapsingHeader("Light", ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader("Light"))
 	{
 		if (ImGui::DragFloat3("Directional Light##", &mDirectionalLight.direction.x, 0.01f, -1.0f, 1.0f))
 		{

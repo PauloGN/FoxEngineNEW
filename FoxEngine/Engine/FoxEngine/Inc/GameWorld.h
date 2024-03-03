@@ -27,6 +27,7 @@ namespace FoxEngine
 		void LoadLevel(const std::filesystem::path& levelFile);
 		void SaveLevel(const std::filesystem::path& levelFile);
 		void SaveTemplate(const std::filesystem::path& templateFile, const GameObjectHandle& handle);
+		const std::filesystem::path& GetLevelFile() const { return mLevelFile; }
 
 		//SkySphere
 		void SetSkySphereRenderCamera(Graphics::Camera& camera);
