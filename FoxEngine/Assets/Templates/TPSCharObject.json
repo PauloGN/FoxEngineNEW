@@ -1,25 +1,59 @@
 {
-  "Components": {
-    "TransformComponent": {
-      "Position": [ 0.0, 0.0, 4.0 ],
-      "Rotation": [ 0.0, 0.0, 0.0 ],
-      "Scale": [ 1.0, 1.0, 1.0 ]
-    },
-    "ModelComponent": {
-      "FileName": "../../Assets/Models/Character/AlienMan.model"
-    },
-    "ColliderComponent": {
-      "Shape": {
-        "Type": "Hull",
-        "HalfExtents": [ 0.3, 1.0, 0.3 ],
-        "Origin": [ 0.0, 1.0, 0.0 ]
-      }
-    },
-    "CameraComponent": {
-    },
-    "TPSCameraComponent": {
-      "MoveSpeed": 1.0,
-      "TurnSpeed": 0.13
+    "Components": {
+        "TransformComponent": {
+            "Position": [
+                0.0,
+                0.0,
+                4.0
+            ],
+            "Rotation": [
+                0.0,
+                50.74062728881836,
+                0.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "ModelComponent": {
+            "FileName": "../../Assets/Models/Character/AlienMan.model",
+            "CastShadow": true,
+            "Animations": []
+        },
+        "ColliderComponent": {
+            "Shape": {
+                "Type": "Hull",
+                "HalfExtents": [
+                    0.30000001192092896,
+                    1.0,
+                    0.30000001192092896
+                ],
+                "Origin": [
+                    0.0,
+                    1.0,
+                    0.0
+                ]
+            }
+        },
+        "CameraComponent": {
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "LookAt": [
+                0.0,
+                0.0,
+                0.0
+            ]
+        },
+        "TPSCameraComponent": {
+            "TargetMaxDistance": 10.0,
+            "TargetZoomDistance": 2.0,
+            "Sensitivity": 0.800000011920929,
+            "TargetHeight": 1.0
+        }
     }
-  }
 }

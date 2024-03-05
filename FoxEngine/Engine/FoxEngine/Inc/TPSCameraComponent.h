@@ -15,6 +15,10 @@ namespace FoxEngine
 		void Initialize() override;
 		void Terminate() override;
 		void Update(float deltaTime) override;
+		void Serialize(rapidjson::Document& doc, rapidjson::Value& value) override;
+
+		void EditorUI() override;
+
 		void Deserialize(const rapidjson::Value& value)override;
 	private:
 
@@ -24,13 +28,12 @@ namespace FoxEngine
 
 		TransformComponent* mTransformComponent = nullptr;
 		CameraComponent* mCameraComponet = nullptr;
-		float mMoveSpeed = 1.0f;
-		float mTurnpeed = 0.1f;
 
-		float mZdistance = 7.0f;
-		float sensitivity = 0.8f;
-		float minYAngle = 30.0f;
-		float maxYAngle = 70.0f;
+		float mTargetDistance = 7.0f;
+		float mtargetZoomDistance = 2.0f;
+		float mTargetHeight = 1.0f;
+		float mtargetMaxDistance = 7.0f;
+		float mSensitivity = 0.8f;
 
 		float currentX = 0.0f;
 		float currentY = 0.0f;

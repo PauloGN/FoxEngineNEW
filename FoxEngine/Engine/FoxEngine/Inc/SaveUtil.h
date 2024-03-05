@@ -9,6 +9,7 @@ namespace FoxEngine
 		using strArrayData = const std::vector<std::string>;
 
 		void SaveVector3(const char* key, const FoxMath::Vector3& v, rjDocument& doc, rjValue& member);
+		void SaveColor(const char* key, const Color& c, rjDocument& doc, rjValue& member);
 		void SaveQuaternion(const char* key, const FoxMath::Quaternion& q, rjDocument& doc, rjValue& member);
 		void SaveFloat(const char* key, float& value, rjDocument& doc, rjValue& member);
 		void SaveString(const char* key, const char* value, rjDocument& doc, rjValue& member);

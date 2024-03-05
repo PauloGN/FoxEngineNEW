@@ -3,6 +3,7 @@
 
 #include "GameWorld.h"
 #include "CameraService.h"
+#include "SaveUtil.h"
 
 using namespace FoxEngine;
 
@@ -22,6 +23,16 @@ void FoxEngine::CameraComponent::Terminate()
 	cameraServive->Unregister(this);
 }
 
+void CameraComponent::Serialize(rapidjson::Document& doc, rapidjson::Value& value)
+{
+	rapidjson::Value componentValue(rapidjson::kObjectType);
+	SaveUtil::SaveVector3("Position", mStartingPosition, doc, componentValue);
+	SaveUtil::SaveVector3("LookAt", mStartingLookAt, doc, componentValue);
+
+	//Save component name/data 
+	value.AddMember("CameraComponent", componentValue, doc.GetAllocator());
+}
+
 void FoxEngine::CameraComponent::Deserialize(const rapidjson::Value& value)
 {
 	// position, direction , look at
@@ -39,7 +50,8 @@ void FoxEngine::CameraComponent::Deserialize(const rapidjson::Value& value)
 		float y = pos[1].GetFloat();
 		float z = pos[2].GetFloat();
 
-		mCamera.SetPosition({x, y, z});
+		mStartingPosition = {x, y, z};
+		mCamera.SetPosition(mStartingPosition);
 	}
 
 	if (value.HasMember("LookAt"))
@@ -50,6 +62,7 @@ void FoxEngine::CameraComponent::Deserialize(const rapidjson::Value& value)
 		float y = lookAt[1].GetFloat();
 		float z = lookAt[2].GetFloat();
 
-		mCamera.SetLookAt({ x, y, z });
+		mStartingLookAt = { x, y, z };
+		mCamera.SetLookAt(mStartingLookAt);
 	}
 }

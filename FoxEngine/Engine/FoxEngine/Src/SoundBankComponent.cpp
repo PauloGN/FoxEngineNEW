@@ -1,9 +1,11 @@
 #include "Precompiled.h"
 #include "SoundBankComponent.h"
 #include "GameObject.h"
+#include "SaveUtil.h"
 
 using namespace FoxEngine;
 using namespace FoxEngine::Audio;
+using namespace SaveUtil;
 
 void SoundBankComponent::Initialize()
 {
@@ -17,6 +19,30 @@ void SoundBankComponent::Initialize()
 void SoundBankComponent::Terminate()
 {
 	Component::Terminate();
+}
+
+void SoundBankComponent::Serialize(rapidjson::Document& doc, rapidjson::Value& value)
+{
+	rapidjson::Value componentValue(rapidjson::kObjectType);
+	rapidjson::Value soundValue(rapidjson::kObjectType);
+	bool hasAdd = false;
+
+	for (auto& soundEffect : mSoundEffects)
+	{
+		rapidjson::Value soundEffectValue(rapidjson::kObjectType);
+
+		// Use const references for better performance and readability
+		const rapidjson::GenericStringRef<char> audioName(soundEffect.first.c_str());
+		const rapidjson::GenericStringRef<char> fileName(soundEffect.second.fileName.c_str());
+
+		SaveString("FileName", fileName, doc, soundEffectValue);
+		SaveBool("Looping", soundEffect.second.isLooping, doc, soundEffectValue);
+		soundValue.AddMember(audioName, soundEffectValue, doc.GetAllocator());
+	}
+
+	// Save component name/data
+	componentValue.AddMember("SoundEffects", soundValue, doc.GetAllocator());
+	value.AddMember("SoundBankComponent", componentValue, doc.GetAllocator());
 }
 
 void SoundBankComponent::Deserialize(const rapidjson::Value& value)

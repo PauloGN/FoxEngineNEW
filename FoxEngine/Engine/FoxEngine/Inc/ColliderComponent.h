@@ -14,6 +14,8 @@ namespace  FoxEngine
 
 		void Initialize() override;
 		void Terminate() override;
+
+		void Serialize(rapidjson::Document& doc, rapidjson::Value& value) override;
 		void Deserialize(const rapidjson::Value& value) override;
 		//void DebugUI() override;
 
@@ -23,6 +25,15 @@ namespace  FoxEngine
 
 		friend class RigidBodyComponent;
 		Physics::CollisionShape mCollisionShape;
+
+		struct LoadinData
+		{
+			std::string shapeType{};
+			FoxMath::Vector3 param0{};
+			FoxMath::Vector3 param1{};
+		};
+
+		LoadinData mLoadinData;
 
 		//const TransformComponent* mTransformPtr = nullptr;
 		//FoxMath::AABB mAABB;

@@ -4,6 +4,7 @@
 #include "CameraComponent.h"
 #include "TransformComponent.h"
 #include "GameWorld.h"
+#include "SaveUtil.h"
 #include "UpdateService.h"
 
 using namespace FoxEngine;
@@ -22,7 +23,7 @@ void FoxEngine::TPSCameraComponent::Initialize()
 	mTransformComponent = GetOwner().GetComponent<TransformComponent>();
 	mCameraComponet = GetOwner().GetComponent<CameraComponent>();
 	UpdateService* updateService = GetOwner().GetWorld().GetService<UpdateService>();
-	ASSERT(updateService != nullptr, "FPSCameraComponente: Update service is unavailable ");
+	ASSERT(updateService != nullptr, "TPSCameraComponente: Update service is unavailable ");
 	updateService->Register(this);
 	input = Input::InputSystem::Get();
 }
@@ -30,7 +31,7 @@ void FoxEngine::TPSCameraComponent::Initialize()
 void FoxEngine::TPSCameraComponent::Terminate()
 {
 	UpdateService* updateService = GetOwner().GetWorld().GetService<UpdateService>();
-	ASSERT(updateService != nullptr, "FPSCameraComponente: Update service is unavailable ");
+	ASSERT(updateService != nullptr, "TPSCameraComponente: Update service is unavailable ");
 	updateService->Unregister(this);
 	mCameraComponet = nullptr;
 }
@@ -61,16 +62,65 @@ void FoxEngine::TPSCameraComponent::Update(float deltaTime)
 
 }
 
+void TPSCameraComponent::Serialize(rapidjson::Document& doc, rapidjson::Value& value)
+{
+	rapidjson::Value componentValue(rapidjson::kObjectType);
+
+	SaveUtil::SaveFloat("TargetMaxDistance", mtargetMaxDistance, doc, componentValue);
+	SaveUtil::SaveFloat("TargetZoomDistance", mtargetZoomDistance, doc, componentValue);
+	SaveUtil::SaveFloat("Sensitivity", mSensitivity, doc, componentValue);
+	SaveUtil::SaveFloat("TargetHeight", mTargetHeight, doc, componentValue);
+
+	//Save component name/data 
+	value.AddMember("TPSCameraComponent", componentValue, doc.GetAllocator());
+}
+
+void TPSCameraComponent::EditorUI()
+{
+	std::string headerTag = "TPS Controller: " + GetOwner().GetName();
+	if (ImGui::CollapsingHeader(headerTag.c_str()))
+	{
+		bool bUpdate = false;
+
+		if (ImGui::DragFloat("Sensitivity: ", &mSensitivity))
+		{
+			bUpdate = true;
+		}
+		if (ImGui::DragFloat("TargetMaxDistance: ", &mtargetMaxDistance))
+		{
+			bUpdate = true;
+		}
+		if (ImGui::DragFloat("TargetHeight: ", &mTargetHeight))
+		{
+			bUpdate = true;
+		}
+		if (ImGui::DragFloat("Zoom Distance: ", &mtargetZoomDistance))
+		{
+			bUpdate = true;
+		}
+	}
+}
+
 void FoxEngine::TPSCameraComponent::Deserialize(const rapidjson::Value& value)
 {
-	if (value.HasMember("MoveSpeed"))
+	if (value.HasMember("TargetMaxDistance"))
 	{
-		mMoveSpeed = value["MoveSpeed"].GetFloat();
+		mtargetMaxDistance = value["TargetMaxDistance"].GetFloat();
 	}
 
-	if (value.HasMember("TurnSpeed"))
+	if (value.HasMember("Sensitivity"))
 	{
-		mTurnpeed = value["TurnSpeed"].GetFloat();
+		mSensitivity = value["Sensitivity"].GetFloat();
+	}
+
+	if (value.HasMember("TargetHeight"))
+	{
+		mTargetHeight = value["TargetHeight"].GetFloat();
+	}
+
+	if (value.HasMember("TargetZoomDistance"))
+	{
+		mtargetZoomDistance = value["TargetZoomDistance"].GetFloat();
 	}
 }
 
@@ -80,56 +130,39 @@ void TPSCameraComponent::UpdateMouseInput(const float deltaTime)
 	const float mouseY = input->GetMouseMoveY();
 
 	// Use mouseY for horizontal rotation
-	currentX -= mouseY * sensitivity * deltaTime;
+	currentX -= mouseY * mSensitivity * deltaTime;
 
 	// Use mouseX for vertical rotation
-	currentY += mouseX * sensitivity * deltaTime;
-
-	// Clamp vertical rotation to stay within the specified limits
-	currentY = FoxMath::Clamp(currentY, minYAngle, maxYAngle);
-
-	// Ensure that the vertical rotation does not go beyond the specified limits
-	if (currentY > maxYAngle)
-	{
-		currentY = minYAngle;
-	}
-	else if (currentY < minYAngle)
-	{
-		currentY = minYAngle;
-	}
+	currentY += mouseX * mSensitivity * deltaTime;
 }
 
 void TPSCameraComponent::LateUpdate(Camera& camera)
 {
-	float targetDistance = 7.0f;
+	float targetDistance = mtargetMaxDistance;
 	float targetHeight = 121.5;
 
 	// Set target zoom positions based on bCamZoom
 	const bool bCamZoom = input->IsMouseDown(MouseButton::RBUTTON);
 	if (bCamZoom)
 	{
-		targetDistance = 2.0f;
-
-		float shoulderHeight = 120.0f;  // Set the actual shoulder height of your character here
-		targetHeight = shoulderHeight;  // Adjust as needed
+		targetDistance = mtargetZoomDistance;
 	}
 
 	// Smoothly interpolate the mZdistance and height values separately
-	mZdistance = FoxMath::Lerp(mZdistance, targetDistance, zoomLerpSpeed);
+	mTargetDistance = FoxMath::Lerp(mTargetDistance, targetDistance, zoomLerpSpeed);
 	float height = FoxMath::Lerp(0.0f, targetHeight, zoomLerpSpeed);
 
 	// Calculate the character position height
 	FoxMath::Quaternion rotation = FoxMath::Quaternion::CreateFromYawPitchRoll(0.0f, currentY, currentX);
 
-	float characterHeight = 1.0f;  // Set the actual height of your character here
-	FoxMath::Vector3 charPosHeight = rotation.Rotate(FoxMath::Vector3(0.0f, characterHeight + height, 0.0f));
+	FoxMath::Vector3 charPosHeight = rotation.Rotate(FoxMath::Vector3(0.0f, mTargetHeight + height, 0.0f));
 
 	// Calculate the offset for camera position
-	FoxMath::Vector3 offset = rotation.Rotate(FoxMath::Vector3(0.0f, 0.0f, -mZdistance));
+	FoxMath::Vector3 offset = rotation.Rotate(FoxMath::Vector3(0.0f, 0.0f, -mTargetDistance));
 
 	// Limit the pitch angle to avoid looking directly up or down
-	constexpr float minPitch = -35.0f; // Adjust as needed
-	constexpr float maxPitch = 45.0f;  // Adjust as needed
+	constexpr float minPitch = -15.0f; // Adjust as needed
+	constexpr float maxPitch = 15.0f;  // Adjust as needed
 
 	// Extract pitch angle from quaternion manually
 	float pitch = asin(2.0f * (rotation.y * rotation.z - rotation.w * rotation.x));
@@ -152,6 +185,17 @@ void TPSCameraComponent::LateUpdate(Camera& camera)
 	// Calculate the target position for the camera
 	FoxMath::Vector3 targetPosition = mTransformComponent->position + offset;
 
+	// Control camera height - adjust this as needed
+	float minHeight = -3.0f;
+	float maxHeight = mtargetMaxDistance - (mtargetMaxDistance * 0.1);
+
+	// Check if the camera is too high or too low
+	if (targetPosition.y > maxHeight || targetPosition.y < minHeight)
+	{
+		// Camera is out of bounds, return without making further adjustments
+		return;
+	}
+
 	// Set the position and look-at for the camera
 	camera.SetPosition(targetPosition);
 	camera.SetLookAt(mTransformComponent->position + charPosHeight);
@@ -163,9 +207,5 @@ void TPSCameraComponent::Rotate(const FoxMath::Vector3& cameraForward)
 	FoxMath::Vector3 lookAt = FoxMath::Normalize(FoxMath::Vector3(cameraForward.x, 0.0f, cameraForward.z));
 	float yaw = atan2(lookAt.x, lookAt.z);
 
-	//for (auto& c : character)
-	//{
-	//	c.transform.rotation = FoxMath::Quaternion::CreateFromYawPitchRoll(0.0f, yaw, 0.0f);
-	//}
 	mTransformComponent->rotation = FoxMath::Quaternion::CreateFromYawPitchRoll(0.0f, yaw, 0.0f);
 }

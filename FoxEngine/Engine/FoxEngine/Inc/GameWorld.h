@@ -12,6 +12,7 @@ namespace FoxEngine
 
 		static void SetCustomServiceMake(CustomService customService);
 		static void SetEditObject(const std::string& objectName);
+		static const std::string& GetEditObject();
 
 		void Initialize(uint32_t capacity);
 		void Terminate();
@@ -23,6 +24,7 @@ namespace FoxEngine
 
 		GameObject* CreateGameObject(const std::filesystem::path& templateFile);
 		GameObject* GetGameObject(const GameObjectHandle& handle);
+		GameObject* GetGameObject(const std::string& name);
 		void DestroyObject(const GameObjectHandle& handle);
 
 		void LoadLevel(const std::filesystem::path& levelFile);

@@ -29,6 +29,11 @@ void GameWorld::SetEditObject(const std::string& objectName)
 	sEditTemplateName = objectName;
 }
 
+const std::string& GameWorld::GetEditObject()
+{
+	return sEditTemplateName;
+}
+
 void FoxEngine::GameWorld::Initialize(uint32_t capacity)
 {
 	ASSERT(!mInitialized, "GameWorld: is already initialized");
@@ -194,6 +199,19 @@ GameObject* FoxEngine::GameWorld::GetGameObject(const GameObjectHandle& handle)
 	return mGameObjectSlots[handle.mIndex].gameObject.get();
 }
 
+GameObject* GameWorld::GetGameObject(const std::string& name)
+{
+	for (auto& slot : mGameObjectSlots)
+	{
+		if (slot.gameObject != nullptr && slot.gameObject->GetName() == name)
+		{
+			return slot.gameObject.get();
+		}
+	}
+
+	return nullptr;
+}
+
 void FoxEngine::GameWorld::DestroyObject(const GameObjectHandle& handle)
 {
 	if (!IsValid(handle))
@@ -266,7 +284,7 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 	for(auto& gameObject : gameObjects)
 	{
 		std::string name = gameObject.name.GetString();
-		if (!sEditTemplateName.empty() && sEditTemplateName != name)
+		if (!sEditTemplateName.empty() && sEditTemplateName != name && name != "MainCamera")
 		{
 			continue;
 		}

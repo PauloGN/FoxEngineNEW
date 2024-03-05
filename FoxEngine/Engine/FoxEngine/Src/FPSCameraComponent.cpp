@@ -4,6 +4,7 @@
 #include "CameraComponent.h"
 #include "TransformComponent.h"
 #include "GameWorld.h"
+#include "SaveUtil.h"
 #include "UpdateService.h"
 
 using namespace FoxEngine;
@@ -85,6 +86,16 @@ void FoxEngine::FPSCameraComponent::Update(float deltaTime)
 	{
 		mTransformComponent->position = camera.GetPosition();
 	}
+}
+
+void FPSCameraComponent::Serialize(rapidjson::Document& doc, rapidjson::Value& value)
+{
+	rapidjson::Value componentValue(rapidjson::kObjectType);
+	SaveUtil::SaveFloat("MoveSpeed", mMoveSpeed, doc, componentValue);
+	SaveUtil::SaveFloat("TurnSpeed", mTurnpeed, doc, componentValue);
+
+	//Save component name/data 
+	value.AddMember("FPSCameraComponent", componentValue, doc.GetAllocator());
 }
 
 void FoxEngine::FPSCameraComponent::Deserialize(const rapidjson::Value& value)

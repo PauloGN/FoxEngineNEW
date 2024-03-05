@@ -8,6 +8,7 @@
  * Add a new entry to componentId
  * Set the id using SET_TYPE_ID macro
  * Set Deserialize
+ * Set Serialize
  * Update GameObjectFactory.cpp
  *
  *\GameObject has a list of components

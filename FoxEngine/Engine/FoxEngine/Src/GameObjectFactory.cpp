@@ -6,6 +6,7 @@
 #include "CameraComponent.h"
 #include "ColliderComponent.h"
 #include "FPSCameraComponent.h"
+#include "MagnetifyComponent.h"
 #include "MeshComponent.h"
 #include "ModelComponent.h"
 #include "RigidBodyComponent.h"
@@ -184,5 +185,9 @@ void GameObjectFactory::RegisterComponentFactories()
 		oTPSCameraComponent->Deserialize(value);
 		});
 
+	RegisterComponentFactory("MagnetifyComponent", [](rj::Value& value, GameObject& gameObject) {
+		MagnetifyComponent* magnetifyComponent = gameObject.AddComponent<MagnetifyComponent>();
+		magnetifyComponent->Deserialize(value);
+		});
 	// Add new components as needed
 }

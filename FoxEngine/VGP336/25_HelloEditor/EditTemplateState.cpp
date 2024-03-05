@@ -40,11 +40,22 @@ void EditTemplateState::DebugUI()
 	ImGui::Begin("Edit Template State", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	mGameworld.EditorUI();
 
+	if (ImGui::Button("Save: Edit Template"))
+	{
+		GameObject* go = mGameworld.GetGameObject(GameWorld::GetEditObject());
+		mGameworld.SaveTemplate(go->GetTemplatePath(), go->GetHandle());
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Reload: Edit Template"))
+	{
+		MainApp().ChangeState("EditTemplateState");
+	}
+	ImGui::SameLine();
 	if (ImGui::Button("Exit: Edit Template"))
 	{
+		GameWorld::SetEditObject("");
 		MainApp().ChangeState("EditorState");
 	}
-
 	ImGui::End();
 }
 
