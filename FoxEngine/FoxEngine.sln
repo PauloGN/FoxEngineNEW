@@ -164,6 +164,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "24_HelloGameWorld", "VGP336
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Levels", "Levels", "{F0302644-D0D8-40E5-AF22-30786A79C6B3}"
 	ProjectSection(SolutionItems) = preProject
+		Assets\Templates\Levels\GamePlayLevel.json = Assets\Templates\Levels\GamePlayLevel.json
 		Assets\Templates\Levels\test_Level.json = Assets\Templates\Levels\test_Level.json
 	EndProjectSection
 EndProject
@@ -179,7 +180,9 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "25_HelloEditor", "VGP336\25
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Preloads", "Preloads", "{DC517BE8-291D-422E-B645-18791316DB84}"
 	ProjectSection(SolutionItems) = preProject
+		Assets\Templates\Sphere.json = Assets\Templates\Sphere.json
 		Assets\Templates\TPSCharObject.json = Assets\Templates\TPSCharObject.json
+		Assets\Templates\TPSSpaceObject.json = Assets\Templates\TPSSpaceObject.json
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "26_HelloGamePlay", "VGP336\26_HelloGamePlay\26_HelloGamePlay.vcxproj", "{4B0A7D20-BCB2-4DB1-9516-55BF36DF6346}"

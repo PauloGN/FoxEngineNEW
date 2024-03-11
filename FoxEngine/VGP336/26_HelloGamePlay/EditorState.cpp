@@ -14,7 +14,7 @@ void EditorState::Initialize()
 	GameObjectFactory::SetCustomMake(CustomFactory::CustomComponentMake);
 	GameWorld::SetCustomServiceMake(CustomFactory::CustomServiceMake);
 
-	mGameworld.LoadLevel("../../Assets/Templates/Levels/test_Level.json");
+	mGameworld.LoadLevel("../../Assets/Templates/Levels/GamePlayLevel.json");
 	PhysicsService* ps = mGameworld.GetService<PhysicsService>();
 	if (ps != nullptr)
 	{

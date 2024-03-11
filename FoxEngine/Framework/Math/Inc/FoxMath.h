@@ -152,6 +152,15 @@ namespace FoxEngine::FoxMath
 		return v;
 	}
 
+	inline Vector3 GetForwardVectorFromQuaternion(const Quaternion& q)
+	{
+		return Normalize(Vector3(
+			2.0f * (q.x * q.z + q.w * q.y),
+			2.0f * (q.y * q.x - q.w * q.x),
+			1.0f - 2.0f * (q.x * q.x + q.y * q.y)
+		));
+	}
+
 	inline constexpr Vector3 GetTranslation(const Matrix4& m)
 	{
 		return { m._41, m._42, m._43 };

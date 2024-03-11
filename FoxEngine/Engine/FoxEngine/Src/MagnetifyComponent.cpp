@@ -5,6 +5,7 @@
 
 #include "TransformComponent.h"
 #include "GameWorld.h"
+#include "SaveUtil.h"
 #include "UpdateService.h"
 
 using namespace FoxEngine;
@@ -17,7 +18,6 @@ void FoxEngine::MagnetifyComponent::Initialize()
 	UpdateService* updateService = GetOwner().GetWorld().GetService<UpdateService>();
 	ASSERT(updateService != nullptr, "Magnetify Component: Update service is unavailable ");
 	updateService->Register(this);
-
 }
 
 void FoxEngine::MagnetifyComponent::Terminate()
@@ -36,16 +36,43 @@ void FoxEngine::MagnetifyComponent::Update(float deltaTime)
 		UpdateOutOfRangeComponentsList();
 		timer = 0.0f;
 	}
+	AttractionEffect(deltaTime);
+}
+
+void MagnetifyComponent::AddObject(GameObject& go)
+{
+	mOutOfRangeComponents.push_back(&go);
+}
+
+void MagnetifyComponent::RemoveObject(GameObject& go)
+{
+	for (std::list<GameObject*>::iterator it = mInRangeComponents.begin(); it != mInRangeComponents.end(); ++it)
+	{
+		if(go.GetUniqueId() == (*it)->GetUniqueId())
+		{
+			mInRangeComponents.erase(it);
+			return;
+		}
+	}
+
+	for (std::list<GameObject*>::iterator it = mOutOfRangeComponents.begin(); it != mOutOfRangeComponents.end(); ++it)
+	{
+		if (go.GetUniqueId() == (*it)->GetUniqueId())
+		{
+			mOutOfRangeComponents.erase(it);
+			break;
+		}
+	}
 }
 
 void MagnetifyComponent::UpdateInRangeComponentsList()
 {
-	std::list<TransformComponent*>::iterator it = mInRangeComponents.begin();
+	std::list<GameObject*>::iterator it = mInRangeComponents.begin();
 	while (it != mInRangeComponents.end())
 	{
-		const float dist = Distance((*it)->position , *mPosition);
+		const float dist = Distance((*it)->GetComponent<TransformComponent>()->position , *mPosition);
 
-		if(dist > mExitRadius)
+	if(dist > mExitRadius)
 		{
 			mOutOfRangeComponents.splice(mOutOfRangeComponents.end(), mInRangeComponents, it++);
 			//mOutOfRangeComponents.insert();
@@ -59,10 +86,10 @@ void MagnetifyComponent::UpdateInRangeComponentsList()
 
 void MagnetifyComponent::UpdateOutOfRangeComponentsList()
 {
-	std::list<TransformComponent*>::iterator it = mOutOfRangeComponents.begin();
+	std::list<GameObject*>::iterator it = mOutOfRangeComponents.begin();
 	while (it != mOutOfRangeComponents.end())
 	{
-		const float dist = Distance((*it)->position, *mPosition);
+		const float dist = Distance((*it)->GetComponent<TransformComponent>()->position, *mPosition);
 
 		if (dist < mEntryRadius)
 		{
@@ -78,23 +105,49 @@ void MagnetifyComponent::UpdateOutOfRangeComponentsList()
 void MagnetifyComponent::AttractionEffect(const float dt)
 {
 	// Checar lista antes de deletar.
-	// 
 	
 	for (auto& obj : mInRangeComponents)
 	{
-		if(Distance(*mPosition, obj->position) <= minDistance)
+		auto& pos = obj->GetComponent<TransformComponent>()->position;
+
+		if(mIsAttractive && Distance(*mPosition, pos) <= minDistance)
 		{
-			
+			//Final effect
+		}else
+		{
+			Vector3 dir = mIsAttractive ? *mPosition - pos : pos - *mPosition;
+			pos += dir * mMoveSpeed * dt;
 		}
-		
-		Vector3 dir = *mPosition - obj->position;
-		obj->position += dir * mMoveSpeed * dt;
+	}
+}
+
+void MagnetifyComponent::EditorUI()
+{
+	ImGui::Separator();
+	const std::string headerTag = "Magnetic Component: " + GetOwner().GetName();
+	if (ImGui::CollapsingHeader(headerTag.c_str()))
+	{
+		//Camera Settings
+		ImGui::Text("Magnetic Settings");
+		ImGui::Checkbox("IsAttractive", &mIsAttractive);
+		ImGui::DragFloat("Move Speed Force: ", &mMoveSpeed);
+		ImGui::DragFloat("Min. Distance: ", &minDistance);
+		ImGui::DragFloat("EntryRadius: ", &mEntryRadius);
+		ImGui::DragFloat("ExitRadius: ", &mExitRadius);
 	}
 }
 
 void MagnetifyComponent::Serialize(rapidjson::Document& doc, rapidjson::Value& value)
 {
-	//TODO
+	rapidjson::Value componentValue(rapidjson::kObjectType);
+	SaveUtil::SaveFloat("MoveSpeed", mMoveSpeed, doc, componentValue);
+	SaveUtil::SaveFloat("MinDistance", minDistance, doc, componentValue);
+	SaveUtil::SaveFloat("EntryRadius", mEntryRadius, doc, componentValue);
+	SaveUtil::SaveFloat("ExitRadius", mExitRadius, doc, componentValue);
+	SaveUtil::SaveBool("IsAttractive", mIsAttractive, doc, componentValue);
+
+	//Save component name/data 
+	value.AddMember("MagnetifyComponent", componentValue, doc.GetAllocator());
 }
 
 void FoxEngine::MagnetifyComponent::Deserialize(const rapidjson::Value& value)
@@ -102,5 +155,28 @@ void FoxEngine::MagnetifyComponent::Deserialize(const rapidjson::Value& value)
 	if (value.HasMember("MoveSpeed"))
 	{
 		mMoveSpeed = value["MoveSpeed"].GetFloat();
+	}
+
+	//Stop magnetify effect
+	if (value.HasMember("MinDistance"))
+	{
+		minDistance = value["MinDistance"].GetFloat();
+	}
+
+	//Enter in range for affect object
+	if (value.HasMember("EntryRadius"))
+	{
+		mEntryRadius = value["EntryRadius"].GetFloat();
+	}
+
+	//Exit range to affect Object
+	if (value.HasMember("ExitRadius"))
+	{
+		mExitRadius = value["ExitRadius"].GetFloat();
+	}
+
+	if (value.HasMember("IsAttractive"))
+	{
+		mIsAttractive = value["IsAttractive"].GetBool();
 	}
 }

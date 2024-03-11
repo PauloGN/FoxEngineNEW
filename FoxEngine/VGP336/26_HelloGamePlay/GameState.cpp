@@ -14,8 +14,12 @@ void GameState::Initialize()
 	GameObjectFactory::SetCustomMake(CustomFactory::CustomComponentMake);
 	GameWorld::SetCustomServiceMake(CustomFactory::CustomServiceMake);
 
-	mGameworld.LoadLevel("../../Assets/Templates/Levels/test_Level.json");
-	mGameworld.CreateSkySphere(L"Space03.jpg", 800);
+	mGameworld.LoadLevel("../../Assets/Templates/Levels/GamePlayLevel.json");
+	mGameworld.CreateSkySphere(L"Space03.jpg", 3000);
+
+	MagnetifyComponent* MC = mGameworld.GetGameObject("TPSSpaceShip")->GetComponent<MagnetifyComponent>();
+	GameObject* s1 = mGameworld.GetGameObject("S1");
+	MC->AddObject(*s1);
 
 	PhysicsService* ps = mGameworld.GetService<PhysicsService>();
 	if (ps != nullptr)
