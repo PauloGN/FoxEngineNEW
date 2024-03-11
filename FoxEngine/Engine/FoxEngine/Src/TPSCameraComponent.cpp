@@ -327,7 +327,7 @@ void TPSCameraComponent::DefineMoveSpeed(const float deltaTime)
 	if(targetMovementSpeed > movementSpeed)
 	{
 		movementSpeed = FoxMath::Lerp(movementSpeed, targetMovementSpeed, lerpRate);
-	}else if(movementSpeed > .0f)
+	}else if(movementSpeed > 0.0f)
 	{
 		movementSpeed = FoxMath::Lerp(movementSpeed, 0.0f, lerpRate);
 	}
@@ -347,7 +347,12 @@ void TPSCameraComponent::Rotate(const FoxMath::Vector3& cameraForward, const flo
 	}
 
 	// Calculate movement direction based on camera forward vector
-	const FoxMath::Vector3 movementDirection = mCameraSettings.OrientRotationToMovement ? lookAt : -FoxMath::GetForwardVectorFromQuaternion(mTransformComponent->rotation);
+	FoxMath::Vector3 movementDirection = mCameraSettings.OrientRotationToMovement ? lookAt : FoxMath::GetForwardVectorFromQuaternion(mTransformComponent->rotation);
+
+	if(!mCameraSettings.OrientRotationToMovement)
+	{
+		movementDirection.y = 0.0f;
+	}
 
 	// Define movement speeds
 	DefineMoveSpeed(deltaTime);
