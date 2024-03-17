@@ -114,6 +114,9 @@
     <ClInclude Include="Inc\SaveUtil.h">
       <Filter>Inc\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="Inc\MacroUtil.h">
+      <Filter>Inc\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\Precompiled.cpp">
@@ -183,6 +186,9 @@
       <Filter>Src\Components</Filter>
     </ClCompile>
     <ClCompile Include="Src\SaveUtil.cpp">
+      <Filter>Src\Ultilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MacroUtil.cpp">
       <Filter>Src\Ultilities</Filter>
     </ClCompile>
   </ItemGroup>

@@ -34,7 +34,8 @@ namespace FoxEngine
 		std::list<GameObject*> mOutOfRangeComponents;
 		Vector3* mPosition {};
 		// TRUE = attract -- FALSE = repel
-		bool mIsAttractive = false;
+		bool mMakeAllAttractive = false;
+		bool mMakeAllRepulsive = false;
 		//attraction or repeal speed
 		float mMoveSpeed = 1.0f;
 		//Min Distance to apply a custom behavior or effect

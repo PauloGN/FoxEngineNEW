@@ -104,18 +104,38 @@ void MagnetifyComponent::UpdateOutOfRangeComponentsList()
 
 void MagnetifyComponent::AttractionEffect(const float dt)
 {
-	// Checar lista antes de deletar.
-	
+		
 	for (auto& obj : mInRangeComponents)
 	{
-		auto& pos = obj->GetComponent<TransformComponent>()->position;
+		TransformComponent* tc = obj->GetComponent<TransformComponent>();
+		auto& pos = tc->position;
+		bool pole;
 
-		if(mIsAttractive && Distance(*mPosition, pos) <= minDistance)
+		if((mMakeAllAttractive && mMakeAllRepulsive) || (!mMakeAllAttractive && !mMakeAllRepulsive))
 		{
-			//Final effect
+			pole = obj->mHasAttraction;
 		}else
 		{
-			Vector3 dir = mIsAttractive ? *mPosition - pos : pos - *mPosition;
+			if(mMakeAllAttractive && !mMakeAllRepulsive)
+			{
+				pole = mMakeAllAttractive;
+
+			}else if(!mMakeAllAttractive && mMakeAllRepulsive)
+			{
+				pole = !mMakeAllRepulsive;
+			}else
+			{
+				pole = obj->mHasAttraction;
+			}
+		}
+
+		if(pole && Distance(*mPosition, pos) <= minDistance)
+		{
+			//Final effect
+			obj->mHasAttraction = !obj->mHasAttraction;
+		}else
+		{
+			Vector3 dir = pole ? *mPosition - pos : pos - *mPosition;
 			pos += dir * mMoveSpeed * dt;
 		}
 	}
@@ -127,13 +147,29 @@ void MagnetifyComponent::EditorUI()
 	const std::string headerTag = "Magnetic Component: " + GetOwner().GetName();
 	if (ImGui::CollapsingHeader(headerTag.c_str()))
 	{
-		//Camera Settings
 		ImGui::Text("Magnetic Settings");
-		ImGui::Checkbox("IsAttractive", &mIsAttractive);
 		ImGui::DragFloat("Move Speed Force: ", &mMoveSpeed);
 		ImGui::DragFloat("Min. Distance: ", &minDistance);
 		ImGui::DragFloat("EntryRadius: ", &mEntryRadius);
 		ImGui::DragFloat("ExitRadius: ", &mExitRadius);
+
+
+		if(ImGui::Checkbox("MakeAllAttractive", &mMakeAllAttractive))
+		{
+			if(mMakeAllAttractive)
+			{
+				mMakeAllRepulsive = false;
+			}
+		}
+
+		if (ImGui::Checkbox("MakeAllRepulsive", &mMakeAllRepulsive))
+		{
+			if (mMakeAllRepulsive)
+			{
+				mMakeAllAttractive = false;
+			}
+		}
+
 	}
 }
 
@@ -144,7 +180,8 @@ void MagnetifyComponent::Serialize(rapidjson::Document& doc, rapidjson::Value& v
 	SaveUtil::SaveFloat("MinDistance", minDistance, doc, componentValue);
 	SaveUtil::SaveFloat("EntryRadius", mEntryRadius, doc, componentValue);
 	SaveUtil::SaveFloat("ExitRadius", mExitRadius, doc, componentValue);
-	SaveUtil::SaveBool("IsAttractive", mIsAttractive, doc, componentValue);
+	SaveUtil::SaveBool("IsAttractive", mMakeAllAttractive, doc, componentValue);
+	SaveUtil::SaveBool("IsRepulsive", mMakeAllRepulsive, doc, componentValue);
 
 	//Save component name/data 
 	value.AddMember("MagnetifyComponent", componentValue, doc.GetAllocator());
@@ -158,6 +195,7 @@ void FoxEngine::MagnetifyComponent::Deserialize(const rapidjson::Value& value)
 	}
 
 	//Stop magnetify effect
+
 	if (value.HasMember("MinDistance"))
 	{
 		minDistance = value["MinDistance"].GetFloat();
@@ -175,8 +213,14 @@ void FoxEngine::MagnetifyComponent::Deserialize(const rapidjson::Value& value)
 		mExitRadius = value["ExitRadius"].GetFloat();
 	}
 
+	//pole
 	if (value.HasMember("IsAttractive"))
 	{
-		mIsAttractive = value["IsAttractive"].GetBool();
+		mMakeAllAttractive = value["IsAttractive"].GetBool();
+	}
+
+	if (value.HasMember("IsRepulsive"))
+	{
+		mMakeAllRepulsive = value["IsRepulsive"].GetBool();
 	}
 }

@@ -91,6 +91,9 @@ namespace FoxEngine
 
 		void Serialize(rapidjson::Document& doc);
 
+		// magnetic property
+		bool mHasAttraction = false;
+
 	private:
 
 		friend class GameWorld;

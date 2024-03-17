@@ -16,10 +16,9 @@ namespace FoxEngine
 		void Terminate() override;
 		void Update(float deltaTime) override;
 		void Serialize(rapidjson::Document& doc, rapidjson::Value& value) override;
-
+		void Deserialize(const rapidjson::Value& value)override;
 		void EditorUI() override;
 
-		void Deserialize(const rapidjson::Value& value)override;
 	private:
 
 		struct TiltData
@@ -39,6 +38,9 @@ namespace FoxEngine
 			float sensitivity = 0.8f;
 		};
 
+		float mBaseMovementSpeed {};
+		float mSprintMovementSpeed {};
+
 		void UpdateMouseInput(const float deltaTime);
 		void LateUpdate(Graphics::Camera& camera);
 		void Tilt(float deltaTime);
@@ -48,8 +50,8 @@ namespace FoxEngine
 		TransformComponent* mTransformComponent = nullptr;
 		CameraComponent* mCameraComponet = nullptr;
 
+		
 		Vector3 mEulerOffsetRotation{};
-
 		float mTargetDistance = 7.0f;
 		float mtargetZoomDistance = 2.0f;
 		float mTargetHeight = 1.0f;

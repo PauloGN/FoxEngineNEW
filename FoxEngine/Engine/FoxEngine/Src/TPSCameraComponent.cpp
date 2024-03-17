@@ -92,6 +92,8 @@ void TPSCameraComponent::EditorUI()
 		ImGui::DragFloat("TargetHeight: ", &mTargetHeight);
 		ImGui::DragFloat("Zoom Distance: ", &mtargetZoomDistance);
 		ImGui::DragFloat3("OffSetRotation: ", &mEulerOffsetRotation.x);
+		ImGui::DragFloat("BaseMovementSpeed", &mBaseMovementSpeed);
+		ImGui::DragFloat("SprintMovementSpeed", &mSprintMovementSpeed);
 
 		//Tilt Settings
 		ImGui::Spacing();
@@ -123,6 +125,8 @@ void TPSCameraComponent::Serialize(rapidjson::Document& doc, rapidjson::Value& v
 	{
 		SaveUtil::SaveVector3("OffSetRotation", mEulerOffsetRotation, doc, componentValue);
 	}
+	SaveUtil::SaveFloat("BaseMovementSpeed", mBaseMovementSpeed, doc, componentValue);
+	SaveUtil::SaveFloat("SprintMovementSpeed", mSprintMovementSpeed, doc, componentValue);
 
 	//Tilt Settings
 	if(mTiltData.hasTiltMechanic)
@@ -177,6 +181,14 @@ void FoxEngine::TPSCameraComponent::Deserialize(const rapidjson::Value& value)
 		mEulerOffsetRotation.x = rot[0].GetFloat();
 		mEulerOffsetRotation.y = rot[1].GetFloat();
 		mEulerOffsetRotation.z = rot[2].GetFloat();
+	}
+	if (value.HasMember("BaseMovementSpeed"))
+	{
+		mBaseMovementSpeed = value["BaseMovementSpeed"].GetFloat();
+	}
+	if (value.HasMember("SprintMovementSpeed"))
+	{
+		mSprintMovementSpeed = value["SprintMovementSpeed"].GetFloat();
 	}
 
 	//Tilt Settings
@@ -306,16 +318,14 @@ void TPSCameraComponent::Tilt(const float deltaTime)
 
 void TPSCameraComponent::DefineMoveSpeed(const float deltaTime)
 {
-	float baseMovementSpeed = 50.0f * deltaTime;
-	float sprintMovementSpeed = 200.0f * deltaTime;
 
-	if(baseMovementSpeed > gLastBaseMoveSpeed)
+	if (mBaseMovementSpeed > gLastBaseMoveSpeed)
 	{
-		gLastBaseMoveSpeed = baseMovementSpeed;
+		gLastBaseMoveSpeed = mBaseMovementSpeed * deltaTime;
 	}
-	if (sprintMovementSpeed > gLastMaxMoveSpeed)
+	if (mSprintMovementSpeed > gLastMaxMoveSpeed)
 	{
-		gLastMaxMoveSpeed = sprintMovementSpeed;
+		gLastMaxMoveSpeed = mSprintMovementSpeed * deltaTime;
 	}
 
 	// Define interpolation rate for movement speed

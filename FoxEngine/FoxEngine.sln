@@ -187,6 +187,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Preloads", "Preloads", "{DC
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "26_HelloGamePlay", "VGP336\26_HelloGamePlay\26_HelloGamePlay.vcxproj", "{4B0A7D20-BCB2-4DB1-9516-55BF36DF6346}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LoadFiles", "LoadFiles", "{5619B659-526C-4681-B5AF-5655E67DA8ED}"
+	ProjectSection(SolutionItems) = preProject
+		Assets\LoadFiles\MagnetifyObjList.txt = Assets\LoadFiles\MagnetifyObjList.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -648,6 +653,7 @@ Global
 		{C9658DFA-0D08-4992-9D7B-BB12DFE09D6B} = {0C4DEF16-1A8E-4AC6-A49D-737C60C6443C}
 		{DC517BE8-291D-422E-B645-18791316DB84} = {C1815E61-ACE5-43D7-94CE-731B1852B3F5}
 		{4B0A7D20-BCB2-4DB1-9516-55BF36DF6346} = {0C4DEF16-1A8E-4AC6-A49D-737C60C6443C}
+		{5619B659-526C-4681-B5AF-5655E67DA8ED} = {0DC052D2-7755-4B70-990D-F5D95DBD3D1D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F8AAEF0A-45CE-442C-8536-7E32257CE89E}

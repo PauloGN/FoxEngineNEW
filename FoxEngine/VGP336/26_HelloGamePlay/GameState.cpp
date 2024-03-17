@@ -19,13 +19,16 @@ void GameState::Initialize()
 
 	MagnetifyComponent* MC = mGameworld.GetGameObject("TPSSpaceShip")->GetComponent<MagnetifyComponent>();
 	GameObject* s1 = mGameworld.GetGameObject("S1");
+	s1->mHasAttraction = true;
 	MC->AddObject(*s1);
 
-	PhysicsService* ps = mGameworld.GetService<PhysicsService>();
-	if (ps != nullptr)
-	{
-		ps->SetEnabled(true);
-	}
+	LOAD_MAGNETIFY(mGameworld, "TPSSpaceShip", "../../Assets/Loadfiles/MagnetifyObjList.txt");
+
+	//PhysicsService* ps = mGameworld.GetService<PhysicsService>();
+	//if (ps != nullptr)
+	//{
+	//	ps->SetEnabled(true);
+	//}
 
 }
 void GameState::Terminate()
