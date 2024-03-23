@@ -50,7 +50,6 @@ namespace FoxEngine
 		TransformComponent* mTransformComponent = nullptr;
 		CameraComponent* mCameraComponet = nullptr;
 
-		
 		Vector3 mEulerOffsetRotation{};
 		float mTargetDistance = 7.0f;
 		float mtargetZoomDistance = 2.0f;

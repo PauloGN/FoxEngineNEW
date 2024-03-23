@@ -34,7 +34,7 @@
     },
 
     "S2": {
-      "Template": "../../Assets/Templates/Sphere.json",
+      "Template": "../../Assets/Templates/Sphere02.json",
       "Position": [ 0.0, 0.0, -20.0 ]
     },
 
@@ -44,7 +44,7 @@
     },
 
     "S4": {
-      "Template": "../../Assets/Templates/Sphere.json",
+      "Template": "../../Assets/Templates/Sphere02.json",
       "Position": [ 20.0, 0.0, -20.0 ]
     },
 
@@ -54,7 +54,7 @@
     },
 
     "S6": {
-      "Template": "../../Assets/Templates/Sphere.json",
+      "Template": "../../Assets/Templates/Sphere02.json",
       "Position": [ 25.0, 0.0, 0.0 ]
     },
 
@@ -64,7 +64,7 @@
     },
 
     "S8": {
-      "Template": "../../Assets/Templates/Sphere.json",
+      "Template": "../../Assets/Templates/Sphere02.json",
       "Position": [ 60.0, 0.0, -10.0 ]
     },
     "S9": {
@@ -73,7 +73,7 @@
     },
 
     "S10": {
-      "Template": "../../Assets/Templates/Sphere.json",
+      "Template": "../../Assets/Templates/Sphere02.json",
       "Position": [ 80.0, 0.0, 0.0 ]
     },
 
@@ -83,7 +83,7 @@
     },
 
     "S12": {
-      "Template": "../../Assets/Templates/Sphere.json",
+      "Template": "../../Assets/Templates/Sphere02.json",
       "Position": [ 90.0, 0.0, -50.0 ]
     },
 
@@ -93,7 +93,7 @@
     },
 
     "S14": {
-      "Template": "../../Assets/Templates/Sphere.json",
+      "Template": "../../Assets/Templates/Sphere02.json",
       "Position": [ 75.0, 0.0, 10.0 ]
     },
 
@@ -103,8 +103,86 @@
     },
 
     "S16": {
-      "Template": "../../Assets/Templates/Sphere.json",
+      "Template": "../../Assets/Templates/Sphere02.json",
       "Position": [ 0.0, 0.0, 0.0 ]
+    },
+    "S17": {
+      "Template": "../../Assets/Templates/Sphere.json",
+      "Position": [ 29.0, 0.0, -40.0 ]
+    },
+
+    "S18": {
+      "Template": "../../Assets/Templates/Sphere02.json",
+      "Position": [ 0.0, 0.0, -20.0 ]
+    },
+
+    "S19": {
+      "Template": "../../Assets/Templates/Sphere.json",
+      "Position": [ -15.0, 0.0, 0.0 ]
+    },
+
+    "S20": {
+      "Template": "../../Assets/Templates/Sphere02.json",
+      "Position": [ -20.0, 0.0, -20.0 ]
+    },
+
+    "S21": {
+      "Template": "../../Assets/Templates/Sphere.json",
+      "Position": [ -35.0, 0.0, -40.0 ]
+    },
+
+    "S22": {
+      "Template": "../../Assets/Templates/Sphere02.json",
+      "Position": [ -25.0, 0.0, 0.0 ]
+    },
+
+    "S23": {
+      "Template": "../../Assets/Templates/Sphere.json",
+      "Position": [ -80.0, 0.0, -20.0 ]
+    },
+
+    "S24": {
+      "Template": "../../Assets/Templates/Sphere02.json",
+      "Position": [ -60.0, 0.0, -10.0 ]
+    },
+    "S25": {
+      "Template": "../../Assets/Templates/Sphere.json",
+      "Position": [ -40.0, 0.0, -10.0 ]
+    },
+
+    "S26": {
+      "Template": "../../Assets/Templates/Sphere02.json",
+      "Position": [ -80.0, 0.0, 0.0 ]
+    },
+
+    "S27": {
+      "Template": "../../Assets/Templates/Sphere.json",
+      "Position": [ -80.0, 0.0, -20.0 ]
+    },
+
+    "S28": {
+      "Template": "../../Assets/Templates/Sphere02.json",
+      "Position": [ -90.0, 0.0, -50.0 ]
+    },
+
+    "S29": {
+      "Template": "../../Assets/Templates/Sphere.json",
+      "Position": [ -5.0, 0.0, -10.0 ]
+    },
+
+    "S30": {
+      "Template": "../../Assets/Templates/Sphere02.json",
+      "Position": [ -75.0, 0.0, 10.0 ]
+    },
+
+    "S31": {
+      "Template": "../../Assets/Templates/Sphere.json",
+      "Position": [ -80.0, 0.0, -20.0 ]
+    },
+
+    "S32": {
+      "Template": "../../Assets/Templates/Sphere02.json",
+      "Position": [ -30.0, 0.0, 0.0 ]
     }
   }
 }

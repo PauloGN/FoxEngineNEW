@@ -181,6 +181,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Preloads", "Preloads", "{DC517BE8-291D-422E-B645-18791316DB84}"
 	ProjectSection(SolutionItems) = preProject
 		Assets\Templates\Sphere.json = Assets\Templates\Sphere.json
+		Assets\Templates\Sphere02.json = Assets\Templates\Sphere02.json
 		Assets\Templates\TPSCharObject.json = Assets\Templates\TPSCharObject.json
 		Assets\Templates\TPSSpaceObject.json = Assets\Templates\TPSSpaceObject.json
 	EndProjectSection

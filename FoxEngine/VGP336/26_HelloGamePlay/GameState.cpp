@@ -15,17 +15,17 @@ void GameState::Initialize()
 	GameWorld::SetCustomServiceMake(CustomFactory::CustomServiceMake);
 
 	mGameworld.LoadLevel("../../Assets/Templates/Levels/GamePlayLevel.json");
-	mGameworld.CreateSkySphere(L"Space03.jpg", 3000);
+	mGameworld.CreateSkySphere(L"Space02.jpg", 3000);
 
 	MagnetifyComponent* MC = mGameworld.GetGameObject("TPSSpaceShip")->GetComponent<MagnetifyComponent>();
 	GameObject* s1 = mGameworld.GetGameObject("S1");
 	s1->mHasAttraction = true;
 	MC->AddObject(*s1);
 
-	// Create a custom effect using a lambda function
+	//custom effect
 	const CustomEffect customEffect = [](GameObject& obj) {
 		// Custom behavior
-		// For example, toggle the mHasAttraction flag
+		//Toggle the mHasAttraction flag
 		obj.mHasAttraction = !obj.mHasAttraction;
 		//Destroy game obj
 		const GameObjectHandle h = obj.GetHandle();

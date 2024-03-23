@@ -27,7 +27,6 @@ namespace
 	
 }
 
-
 void FoxEngine::TPSCameraComponent::Initialize()
 {
 	mTransformComponent = GetOwner().GetComponent<TransformComponent>();
@@ -63,18 +62,6 @@ void FoxEngine::TPSCameraComponent::Update(float deltaTime)
 	UpdateMouseInput(deltaTime);
 	LateUpdate(camera);
 	Rotate(-camera.GetDirection(), deltaTime);
-	// Third-person specific adjustments
-	//const float yOffset = 4.0f;
-	//const float distanceFromObject = 3.0f;
-
-	//// Calculate the target position for the camera based on the game object's position
-	//FoxMath::Vector3 targetPosition = mTransformComponent->position + FoxMath::Vector3(0.0f, yOffset, distanceFromObject);
-
-	//// Set the camera position to be behind the game object at the specified distance
-	//camera.SetPosition(targetPosition);
-
-	//// Set the camera look-at direction to point at the game object's position
-	//camera.SetLookAt(mTransformComponent->position);
 }
 
 void TPSCameraComponent::EditorUI()

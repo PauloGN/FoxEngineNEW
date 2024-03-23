@@ -1,0 +1,58 @@
+{
+    "Components": {
+        "TransformComponent": {
+            "Position": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Rotation": [
+                0.0,
+                0.0,
+                0.0
+            ],
+            "Scale": [
+                1.0,
+                1.0,
+                1.0
+            ]
+        },
+        "MeshComponent": {
+            "Shape": {
+                "Type": "Sphere",
+                "Slices": 10,
+                "Rings": 10,
+                "Radius": 1.0
+            },
+            "Material": {
+                "ColorAmbient": [
+                    0.0,
+                    0.35784316062927246,
+                    0.18944638967514038,
+                    1.0
+                ],
+                "ColorDiffuse": [
+                    0.9264705777168274,
+                    0.5826506614685059,
+                    0.027249161154031754,
+                    1.0
+                ],
+                "ColorSpecular": [
+                    1.0,
+                    0.23529410362243652,
+                    0.0,
+                    1.0
+                ],
+                "ColorEmissive": [
+                    0.05449821054935455,
+                    0.9264705777168274,
+                    0.0,
+                    1.0
+                ],
+                "SpecularPower": 15.0
+            },
+            "Textures": {},
+            "CastShadow": true
+        }
+    }
+}

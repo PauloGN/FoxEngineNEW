@@ -214,7 +214,6 @@ void MagnetifyComponent::AttractionEffect(const float dt)
 						// Handle exception raised by custom effect
 						ASSERT(false, "If the object was destroyed by the custom effect, ensure to call RemoveObject.");
 						LOG("If the object was destroyed by the custom effect, ensure to call RemoveObject.");
-						// Optionally, add a reminder or warning to the user
 					}
 
 					mDestroyComponents.clear();
