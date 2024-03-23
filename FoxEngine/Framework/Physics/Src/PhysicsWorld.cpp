@@ -67,10 +67,13 @@ void PhysicsWorld::Terminate()
 
 void PhysicsWorld::Update(float deltaTime, bool bUpdateSoftBody)
 {
-	mDynamicWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
-	if (bUpdateSoftBody)
+	if (mEnabled)
 	{
-		mSoftBodyWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
+		mDynamicWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
+		if (bUpdateSoftBody)
+		{
+			mSoftBodyWorld->stepSimulation(deltaTime, mSettings.simulationSteps, mSettings.fixedTimeStep);
+		}
 	}
 
 	for (PhysicsObject* po : mPhysicsObjects)
@@ -81,26 +84,34 @@ void PhysicsWorld::Update(float deltaTime, bool bUpdateSoftBody)
 
 void PhysicsWorld::DebugUI()
 {
-	ImGui::Checkbox("RenderPhysics", &mRenderDebugUI);
-	if (mRenderDebugUI)
+	if(mEnabled)
 	{
-		int debugMode = mDebugDrawer.getDebugMode();
-		bool isEnabled = (debugMode & btIDebugDraw::DBG_DrawWireframe) > 0;
-		if (ImGui::Checkbox("[DBG]DrawWireframe", &isEnabled))
+		ImGui::Checkbox("RenderPhysics", &mRenderDebugUI);
+		if (mRenderDebugUI)
 		{
-			debugMode = (isEnabled) ? debugMode | btIDebugDraw::DBG_DrawWireframe : debugMode & ~btIDebugDraw::DBG_DrawWireframe;
-		}
+			int debugMode = mDebugDrawer.getDebugMode();
+			bool isEnabled = (debugMode & btIDebugDraw::DBG_DrawWireframe) > 0;
+			if (ImGui::Checkbox("[DBG]DrawWireframe", &isEnabled))
+			{
+				debugMode = (isEnabled) ? debugMode | btIDebugDraw::DBG_DrawWireframe : debugMode & ~btIDebugDraw::DBG_DrawWireframe;
+			}
 
-		isEnabled = (debugMode & btIDebugDraw::DBG_DrawAabb) > 0;
-		if (ImGui::Checkbox("[DBG]DrawAABB", &isEnabled))
-		{
-			debugMode = (isEnabled) ? debugMode | btIDebugDraw::DBG_DrawAabb : debugMode & ~btIDebugDraw::DBG_DrawAabb;
-		}
+			isEnabled = (debugMode & btIDebugDraw::DBG_DrawAabb) > 0;
+			if (ImGui::Checkbox("[DBG]DrawAABB", &isEnabled))
+			{
+				debugMode = (isEnabled) ? debugMode | btIDebugDraw::DBG_DrawAabb : debugMode & ~btIDebugDraw::DBG_DrawAabb;
+			}
 
-		mDebugDrawer.setDebugMode(debugMode);
-		mDynamicWorld->debugDrawWorld();
-		mSoftBodyWorld->debugDrawWorld();
+			mDebugDrawer.setDebugMode(debugMode);
+			mDynamicWorld->debugDrawWorld();
+			mSoftBodyWorld->debugDrawWorld();
+		}
 	}
+}
+
+void PhysicsWorld::SetEnabled(bool enabled)
+{
+	mEnabled = enabled;
 }
 
 void PhysicsWorld::SetGravity(const FoxMath::Vector3& gravity)

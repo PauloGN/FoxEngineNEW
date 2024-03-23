@@ -80,7 +80,7 @@ void FoxEngine::Graphics::ShadowEffect::Render(const RenderObject & renderObject
 
 void FoxEngine::Graphics::ShadowEffect::DebugUI()
 {
-	if (ImGui::CollapsingHeader("ShadowEffect", ImGuiTreeNodeFlags_DefaultOpen))
+	if (ImGui::CollapsingHeader("ShadowEffect"))
 	{
 		ImGui::Text("DepthMap");
 		ImGui::Image(

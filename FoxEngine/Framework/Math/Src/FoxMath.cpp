@@ -208,7 +208,6 @@ Quaternion Quaternion::EulerToQuaternion(const Vector3& euler) noexcept
     return result;
 }
 
-
 Quaternion Quaternion::Lerp(const Quaternion& q0, const Quaternion& q1, float t)
 {
     return q0 * (1.0f - t) + (q1 * t);

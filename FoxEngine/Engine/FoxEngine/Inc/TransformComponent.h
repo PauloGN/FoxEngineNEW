@@ -15,7 +15,7 @@ namespace FoxEngine
 		void DebugUI()override;
 		void Serialize(rapidjson::Document& doc, rapidjson::Value& value) override;
 		void Deserialize(const rapidjson::Value& value)override;
-
+	
 	private:
 
 	};

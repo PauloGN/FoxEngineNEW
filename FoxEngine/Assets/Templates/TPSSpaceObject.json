@@ -2,13 +2,13 @@
     "Components": {
         "TransformComponent": {
             "Position": [
+                -171.62191772460938,
                 0.0,
-                0.0,
-                4.0
+                -73.9627685546875
             ],
             "Rotation": [
-                0.0,
-                50.74062728881836,
+                114.59152221679688,
+                76.95938110351563,
                 0.0
             ],
             "Scale": [
@@ -18,7 +18,7 @@
             ]
         },
         "ModelComponent": {
-            "FileName": "../../Assets/Models/Character/AlienMan.model",
+            "FileName": "../../Assets/Models/Character/source.model",
             "CastShadow": true,
             "Animations": []
         },
@@ -50,10 +50,32 @@
             ]
         },
         "TPSCameraComponent": {
+            "Sensitivity": 1.0,
+            "MinHeight": 5.0,
+            "MaxHeight": -4.0,
+            "OrientRotationToMovement": false,
             "TargetMaxDistance": 10.0,
             "TargetZoomDistance": 2.0,
-            "Sensitivity": 0.800000011920929,
-            "TargetHeight": 1.0
+            "TargetHeight": 0.5,
+            "OffSetRotation": [
+                0.0,
+                0.0,
+                1.5499999523162842
+            ],
+            "BaseMovementSpeed": 16.0,
+            "SprintMovementSpeed": 25.0,
+            "TiltMechanic": true,
+            "BackInterpolationRate": 2.0,
+            "InterpolationRate": 0.20000000298023224,
+            "RollAngle": 1.0
+        },
+        "MagnetifyComponent": {
+            "MoveSpeed": 0.5,
+            "MinDistance": 0.5,
+            "EntryRadius": 50.0,
+            "ExitRadius": 75.0,
+            "IsAttractive": false,
+            "IsRepulsive": false
         }
     }
 }

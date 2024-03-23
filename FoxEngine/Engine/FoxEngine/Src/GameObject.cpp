@@ -56,6 +56,7 @@ void GameObject::EditorUI()
 		if (ImGui::Button(("Edit: " + mName).c_str()))
 		{
 			// global data here to load the template
+			GameWorld::SetEditObject(mName);
 			MainApp().ChangeState("EditTemplateState");
 		}
 	}

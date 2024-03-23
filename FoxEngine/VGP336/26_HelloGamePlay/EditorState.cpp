@@ -1,4 +1,6 @@
 #include "EditorState.h"
+
+#include "CustomFactory.h"
 #include "Graphics/Inc/GraphicsSystem.h"
 #include "Input/Inc/InputSystem.h"
 
@@ -7,37 +9,17 @@ using namespace FoxEngine::Colors;
 using namespace FoxEngine::Input;
 using namespace FoxEngine::Graphics;
 
-namespace 
-{
-	bool CustomComponentMake(const char* componentName, const rapidjson::Value& value, GameObject& gameObject)
-	{
-		if(strcmp(componentName, "NewComponent") == 0)
-		{
-			// NewComponent* newComponent = gameObject.AddComponent<NewComponent>();
-			//newComponent->Deserialize(value);
-			return true;
-		}
-		return false;
-	}
-
-	bool CustomServiceMake(const char* componentName, const rapidjson::Value& value, GameWorld& gameWorld)
-	{
-		if (strcmp(componentName, "NewService") == 0)
-		{
-			// NewService* newService = gameWorld.AddComponent<NewService>();
-			//newService->Deserialize(value);
-			return true;
-		}
-		return false;
-	}
-}
-
 void EditorState::Initialize()
 {
-	GameObjectFactory::SetCustomMake(CustomComponentMake);
-	GameWorld::SetCustomServiceMake(CustomServiceMake);
+	GameObjectFactory::SetCustomMake(CustomFactory::CustomComponentMake);
+	GameWorld::SetCustomServiceMake(CustomFactory::CustomServiceMake);
 
-	mGameworld.LoadLevel("../../Assets/Templates/Levels/test_Level.json");
+	mGameworld.LoadLevel("../../Assets/Templates/Levels/GamePlayLevel.json");
+	PhysicsService* ps = mGameworld.GetService<PhysicsService>();
+	if (ps != nullptr)
+	{
+		ps->SetEnabled(false);
+	}
 }
 void EditorState::Terminate()
 {
@@ -56,9 +38,21 @@ void EditorState::Render()
 }
 void EditorState::DebugUI()
 {
+	ImGui::Begin("Editor State", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	mGameworld.EditorUI();
-}
 
+	if (ImGui::Button("Save : Editor State"))
+	{
+		mGameworld.SaveLevel(mGameworld.GetLevelFile());
+	}
+	ImGui::SameLine();
+	if (ImGui::Button("Exit : Editor State"))
+	{
+		MainApp().ChangeState("GameState");
+	}
+
+	ImGui::End();
+}
 void EditorState::SwapCamera()
 {
 	const InputSystem* input = Input::InputSystem::Get();

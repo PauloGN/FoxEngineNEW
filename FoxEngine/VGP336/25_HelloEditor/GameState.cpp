@@ -1,4 +1,6 @@
 #include "GameState.h"
+
+#include "CustomFactory.h"
 #include "Graphics/Inc/GraphicsSystem.h"
 #include "Input/Inc/InputSystem.h"
 
@@ -7,37 +9,19 @@ using namespace FoxEngine::Colors;
 using namespace FoxEngine::Input;
 using namespace FoxEngine::Graphics;
 
-namespace 
-{
-	bool CustomComponentMake(const char* componentName, const rapidjson::Value& value, GameObject& gameObject)
-	{
-		if(strcmp(componentName, "NewComponent") == 0)
-		{
-			// NewComponent* newComponent = gameObject.AddComponent<NewComponent>();
-			//newComponent->Deserialize(value);
-			return true;
-		}
-		return false;
-	}
-
-	bool CustomServiceMake(const char* componentName, const rapidjson::Value& value, GameWorld& gameWorld)
-	{
-		if (strcmp(componentName, "NewService") == 0)
-		{
-			// NewService* newService = gameWorld.AddComponent<NewService>();
-			//newService->Deserialize(value);
-			return true;
-		}
-		return false;
-	}
-}
-
 void GameState::Initialize() 
 {
-	GameObjectFactory::SetCustomMake(CustomComponentMake);
-	GameWorld::SetCustomServiceMake(CustomServiceMake);
+	GameObjectFactory::SetCustomMake(CustomFactory::CustomComponentMake);
+	GameWorld::SetCustomServiceMake(CustomFactory::CustomServiceMake);
 
 	mGameworld.LoadLevel("../../Assets/Templates/Levels/test_Level.json");
+
+	PhysicsService* ps = mGameworld.GetService<PhysicsService>();
+	if (ps != nullptr)
+	{
+		ps->SetEnabled(true);
+	}
+
 }
 void GameState::Terminate() 
 {
@@ -56,7 +40,15 @@ void GameState::Render()
 }
 void GameState::DebugUI()
 {
+	ImGui::Begin("GameState", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	mGameworld.DebugUI();
+
+	if (ImGui::Button("Edit: Game World"))
+	{
+		MainApp().ChangeState("EditorState");
+	}
+
+	ImGui::End();
 }
 
 void GameState::SwapCamera()

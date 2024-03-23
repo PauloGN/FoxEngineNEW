@@ -11,6 +11,7 @@
 #include "GameObjectHandle.h"
 #include "GameObjectFactory.h"
 #include "GameWorld.h"
+#include "MacroUtil.h"
 #include "TypeIds.h"
 
 //Components

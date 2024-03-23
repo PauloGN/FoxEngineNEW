@@ -19,6 +19,12 @@
     <Filter Include="Src\Services">
       <UniqueIdentifier>{b58bf0fe-31a5-437b-b9a2-d2c5b3f4b9ef}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Inc\Utilities">
+      <UniqueIdentifier>{caf06834-9e50-4c3d-ac5e-6efe31f092dc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Src\Ultilities">
+      <UniqueIdentifier>{38c1a2c5-ada6-493e-b0ca-fc5c1d34b755}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Inc\Common.h">
@@ -102,11 +108,14 @@
     <ClInclude Include="Inc\TPSCameraComponent.h">
       <Filter>Inc\Components</Filter>
     </ClInclude>
-    <ClInclude Include="Inc\SaveUtil.h">
-      <Filter>Inc</Filter>
-    </ClInclude>
     <ClInclude Include="Inc\MagnetifyComponent.h">
       <Filter>Inc\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\SaveUtil.h">
+      <Filter>Inc\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Inc\MacroUtil.h">
+      <Filter>Inc\Utilities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -173,11 +182,14 @@
     <ClCompile Include="Src\TPSCameraComponent.cpp">
       <Filter>Src\Components</Filter>
     </ClCompile>
-    <ClCompile Include="Src\SaveUtil.cpp">
-      <Filter>Src</Filter>
-    </ClCompile>
     <ClCompile Include="Src\MagnetifyComponent.cpp">
       <Filter>Src\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\SaveUtil.cpp">
+      <Filter>Src\Ultilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\MacroUtil.cpp">
+      <Filter>Src\Ultilities</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,9 +1,11 @@
 #include "Precompiled.h"
 #include "SoundEffectComponent.h"
 #include "GameObject.h"
+#include "SaveUtil.h"
 
 using namespace FoxEngine;
 using namespace FoxEngine::Audio;
+using namespace SaveUtil;
 
 void SoundEffectComponent::Initialize()
 {
@@ -14,6 +16,17 @@ void SoundEffectComponent::Initialize()
 void SoundEffectComponent::Terminate()
 {
 	// should probably remove effect?
+}
+
+void SoundEffectComponent::Serialize(rapidjson::Document& doc, rapidjson::Value& value)
+{
+	rapidjson::Value componentValue(rapidjson::kObjectType);
+
+	SaveString("FileName", mFileName.c_str(), doc, componentValue);
+	SaveBool("Looping", mLooping, doc, componentValue);
+
+	//Save component name/data 
+	value.AddMember("SoundEffectComponent", componentValue, doc.GetAllocator());
 }
 
 void SoundEffectComponent::Deserialize(const rapidjson::Value& value)

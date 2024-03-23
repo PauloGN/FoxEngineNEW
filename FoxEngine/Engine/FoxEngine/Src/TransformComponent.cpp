@@ -19,7 +19,7 @@ void TransformComponent::Serialize(rapidjson::Document& doc, rapidjson::Value& v
 	SaveVector3("Position", position, doc, componentValue);
 	//Rotation
 	rapidjson::Value rotArray(rapidjson::kArrayType);
-	Vector3 Euler = FoxMath::Vector3::QuaternionToEuler(rotation);
+	const Vector3 Euler = FoxMath::Vector3::QuaternionToEuler(rotation);
 	SaveVector3("Rotation", Euler, doc, componentValue);
 	//Scale
 	SaveVector3("Scale", scale, doc, componentValue);

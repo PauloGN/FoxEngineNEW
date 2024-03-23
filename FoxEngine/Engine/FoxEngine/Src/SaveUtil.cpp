@@ -12,6 +12,17 @@ void SaveUtil::SaveVector3(const char* key, const FoxMath::Vector3& v, rjDocumen
 	vecArray.PushBack(v.z, doc.GetAllocator());
 	member.AddMember(rapidjson::StringRef(key), vecArray, doc.GetAllocator());
 }
+
+void SaveUtil::SaveColor(const char* key, const Color& c, rjDocument& doc, rjValue& member)
+{
+	rapidjson::Value colorArray(rapidjson::kArrayType);
+	colorArray.PushBack(c.r, doc.GetAllocator());
+	colorArray.PushBack(c.g, doc.GetAllocator());
+	colorArray.PushBack(c.b, doc.GetAllocator());
+	colorArray.PushBack(c.a, doc.GetAllocator());
+	member.AddMember(rapidjson::StringRef(key), colorArray, doc.GetAllocator());
+}
+
 void SaveUtil::SaveQuaternion(const char* key, const FoxMath::Quaternion& q, rjDocument& doc, rjValue& member)
 {
 	rapidjson::Value quatArray(rapidjson::kArrayType);

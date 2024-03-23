@@ -11,6 +11,8 @@ namespace FoxEngine
 	public:
 
 		static void SetCustomServiceMake(CustomService customService);
+		static void SetEditObject(const std::string& objectName);
+		static const std::string& GetEditObject();
 
 		void Initialize(uint32_t capacity);
 		void Terminate();
@@ -22,11 +24,17 @@ namespace FoxEngine
 
 		GameObject* CreateGameObject(const std::filesystem::path& templateFile);
 		GameObject* GetGameObject(const GameObjectHandle& handle);
+		GameObject* GetGameObject(const std::string& name);
 		void DestroyObject(const GameObjectHandle& handle);
 
 		void LoadLevel(const std::filesystem::path& levelFile);
 		void SaveLevel(const std::filesystem::path& levelFile);
 		void SaveTemplate(const std::filesystem::path& templateFile, const GameObjectHandle& handle);
+		const std::filesystem::path& GetLevelFile() const { return mLevelFile; }
+
+		//SkySphere
+		void SetSkySphereRenderCamera(Graphics::Camera& camera);
+		void CreateSkySphere(const std::filesystem::path& templateFile, const float radius, const float skyRotationSpeed = 0.005f);
 
 #pragma region templatized
 
@@ -69,9 +77,10 @@ namespace FoxEngine
 		}
 #pragma endregion
 
+	bool IsValid(const GameObjectHandle& handle);
+
 	private:
 
-		bool IsValid(const GameObjectHandle& handle);
 		void ProcessDestroyList();
 
 		struct Slot
@@ -92,5 +101,12 @@ namespace FoxEngine
 
 		bool mInitialized = false;
 		bool mUpdating = false;
+
+		//SkySphere
+
+		float mSkyRotationRate = 0.005f;
+		bool hasSkySphere = false;
+		Graphics::SimpleEffect mSimpleEffect;
+		Graphics::RenderObject mSkySphere{};
 	};
 }

@@ -1,4 +1,6 @@
 #include "GameState.h"
+
+#include "CustomFactory.h"
 #include "Graphics/Inc/GraphicsSystem.h"
 #include "Input/Inc/InputSystem.h"
 
@@ -7,56 +9,61 @@ using namespace FoxEngine::Colors;
 using namespace FoxEngine::Input;
 using namespace FoxEngine::Graphics;
 
-namespace 
+void GameState::Initialize()
 {
-	bool CustomComponentMake(const char* componentName, const rapidjson::Value& value, GameObject& gameObject)
-	{
-		if(strcmp(componentName, "NewComponent") == 0)
-		{
-			// NewComponent* newComponent = gameObject.AddComponent<NewComponent>();
-			//newComponent->Deserialize(value);
-			return true;
-		}
-		return false;
-	}
+	GameObjectFactory::SetCustomMake(CustomFactory::CustomComponentMake);
+	GameWorld::SetCustomServiceMake(CustomFactory::CustomServiceMake);
 
-	bool CustomServiceMake(const char* componentName, const rapidjson::Value& value, GameWorld& gameWorld)
-	{
-		if (strcmp(componentName, "NewService") == 0)
-		{
-			// NewService* newService = gameWorld.AddComponent<NewService>();
-			//newService->Deserialize(value);
-			return true;
-		}
-		return false;
-	}
+	mGameworld.LoadLevel("../../Assets/Templates/Levels/GamePlayLevel.json");
+	mGameworld.CreateSkySphere(L"Space03.jpg", 3000);
+
+	MagnetifyComponent* MC = mGameworld.GetGameObject("TPSSpaceShip")->GetComponent<MagnetifyComponent>();
+	GameObject* s1 = mGameworld.GetGameObject("S1");
+	s1->mHasAttraction = true;
+	MC->AddObject(*s1);
+
+	// Create a custom effect using a lambda function
+	const CustomEffect customEffect = [](GameObject& obj) {
+		// Custom behavior
+		// For example, toggle the mHasAttraction flag
+		obj.mHasAttraction = !obj.mHasAttraction;
+		//Destroy game obj
+		const GameObjectHandle h = obj.GetHandle();
+		obj.GetWorld().DestroyObject(h);
+		};
+
+	// Set the custom effect for the MagnetifyComponent
+	MC->SetCustomEffect(customEffect);
+
+	LOAD_MAGNETIFY(mGameworld, "TPSSpaceShip", "../../Assets/Loadfiles/MagnetifyObjList.txt");
+
 }
-
-void GameState::Initialize() 
-{
-	GameObjectFactory::SetCustomMake(CustomComponentMake);
-	GameWorld::SetCustomServiceMake(CustomServiceMake);
-
-	mGameworld.LoadLevel("../../Assets/Templates/Levels/test_Level.json");
-}
-void GameState::Terminate() 
+void GameState::Terminate()
 {
 	mGameworld.Terminate();
 }
-void GameState::Update(float deltaTime) 
+void GameState::Update(float deltaTime)
 {
 	mGameworld.Update(deltaTime);
 
 	ChangeScreenColor();
 	SwapCamera();
 }
-void GameState::Render() 
+void GameState::Render()
 {
 	mGameworld.Render();
 }
 void GameState::DebugUI()
 {
+	ImGui::Begin("GameState", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	mGameworld.DebugUI();
+
+	if (ImGui::Button("Edit: Game World"))
+	{
+		MainApp().ChangeState("EditorState");
+	}
+
+	ImGui::End();
 }
 
 void GameState::SwapCamera()

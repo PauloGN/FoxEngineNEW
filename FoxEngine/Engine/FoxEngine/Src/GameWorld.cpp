@@ -10,18 +10,28 @@
 //components
 #include "TransformComponent.h"
 #include "RigidBodyComponent.h"
-#include <FoxEngine.h>
 
 using namespace FoxEngine;
 
 namespace 
 {
 	CustomService TryServiceMake;
+	std::string sEditTemplateName = "";
 }
 
 void GameWorld::SetCustomServiceMake(CustomService customService)
 {
 	TryServiceMake = customService;
+}
+
+void GameWorld::SetEditObject(const std::string& objectName)
+{
+	sEditTemplateName = objectName;
+}
+
+const std::string& GameWorld::GetEditObject()
+{
+	return sEditTemplateName;
 }
 
 void FoxEngine::GameWorld::Initialize(uint32_t capacity)
@@ -65,6 +75,12 @@ void FoxEngine::GameWorld::Terminate()
 		service.reset();
 	}
 
+	if(hasSkySphere)
+	{
+		mSkySphere.Terminate();
+		mSimpleEffect.Terminate();
+	}
+
 	mServices.clear();
 	mInitialized = false;
 }
@@ -75,6 +91,11 @@ void FoxEngine::GameWorld::Update(float deltaTime)
 	{
 		service->Update(deltaTime);
 	}
+
+	if(hasSkySphere)
+	{
+		mSkySphere.transform.vrotation.y += Constants::HalfPi * deltaTime * mSkyRotationRate;
+	}
 }
 
 void FoxEngine::GameWorld::Render()
@@ -82,6 +103,13 @@ void FoxEngine::GameWorld::Render()
 	for (auto& service : mServices)
 	{
 		service->Render();
+	}
+
+	if(hasSkySphere)
+	{
+		mSimpleEffect.Begin();
+			mSimpleEffect.Render(mSkySphere);
+		mSimpleEffect.End();
 	}
 }
 
@@ -99,11 +127,6 @@ void FoxEngine::GameWorld::DebugUI()
 	{
 		service->DebugUI();
 	}
-
-	if (ImGui::Button("Edit: Game World"))
-	{
-		MainApp().ChangeState("EditorState");
-	}
 }
 
 void GameWorld::EditorUI()
@@ -120,16 +143,6 @@ void GameWorld::EditorUI()
 	//{
 	//	service->DebugUI();
 	//}
-
-	if (ImGui::Button("Save World : GameWorld"))
-	{
-		SaveLevel(mLevelFile);
-	}
-	ImGui::SameLine();
-	if (ImGui::Button("Exit : GameWorld"))
-	{
-		MainApp().ChangeState("GameState");
-	}
 }
 
 GameObject* FoxEngine::GameWorld::CreateGameObject(const std::filesystem::path& templateFile)
@@ -162,6 +175,20 @@ GameObject* FoxEngine::GameWorld::CreateGameObject(const std::filesystem::path& 
 	return newObject.get();
 }
 
+void GameWorld::CreateSkySphere(const std::filesystem::path& templateFile, const float radius, const float skyRotationSpeed)
+{
+	Graphics::MeshPX sphere = Graphics::MeshBuilder::CreateSkySpherePX(256, 128, radius);
+	mSkySphere.meshBuffer.Initialize(sphere);
+	mSkySphere.diffuseMapId = Graphics::TextureManager::Get()->LoadTexture(templateFile);
+
+	hasSkySphere = true;
+
+	mSimpleEffect.Initialize();
+	auto& camera = GetService<CameraService>()->GetMain();
+	mSimpleEffect.SetCamera(camera);
+	mSkyRotationRate = skyRotationSpeed;
+}
+
 GameObject* FoxEngine::GameWorld::GetGameObject(const GameObjectHandle& handle)
 {
 	if (!IsValid(handle))
@@ -170,6 +197,19 @@ GameObject* FoxEngine::GameWorld::GetGameObject(const GameObjectHandle& handle)
 	}
 
 	return mGameObjectSlots[handle.mIndex].gameObject.get();
+}
+
+GameObject* GameWorld::GetGameObject(const std::string& name)
+{
+	for (auto& slot : mGameObjectSlots)
+	{
+		if (slot.gameObject != nullptr && slot.gameObject->GetName() == name)
+		{
+			return slot.gameObject.get();
+		}
+	}
+
+	return nullptr;
 }
 
 void FoxEngine::GameWorld::DestroyObject(const GameObjectHandle& handle)
@@ -239,18 +279,23 @@ void GameWorld::LoadLevel(const std::filesystem::path& levelFile)
 	uint32_t capacity = static_cast<int32_t>(doc["Capacity"].GetInt());
 	Initialize(capacity);
 
+	//OBJECTS
 	auto gameObjects = doc["GameObjects"].GetObj();
 	for(auto& gameObject : gameObjects)
 	{
+		std::string name = gameObject.name.GetString();
+		if (!sEditTemplateName.empty() && sEditTemplateName != name && name != "MainCamera")
+		{
+			continue;
+		}
 		const char* templateFile = gameObject.value["Template"].GetString();
 		GameObject* obj = CreateGameObject(templateFile);
 		
 		if(obj != nullptr)
 		{
-			std::string name = gameObject.name.GetString();
 			obj->SetName(name);
 
-			if(gameObject.value.HasMember("Position"))
+			if(sEditTemplateName.empty() && gameObject.value.HasMember("Position"))
 			{
 				const auto& pos = gameObject.value["Position"].GetArray();
 				const float x = pos[0].GetFloat();
@@ -291,6 +336,14 @@ void GameWorld::SaveTemplate(const std::filesystem::path& templateFile, const Ga
 		rapidjson::PrettyWriter<rapidjson::FileWriteStream> writer(writeStream);
 		doc.Accept(writer);
 		fclose(file);
+	}
+}
+
+void GameWorld::SetSkySphereRenderCamera(Graphics::Camera& camera)
+{
+	if(hasSkySphere)
+	{
+		mSimpleEffect.SetCamera(camera);
 	}
 }
 

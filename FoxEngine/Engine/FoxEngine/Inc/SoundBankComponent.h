@@ -13,6 +13,7 @@ namespace FoxEngine
 		void Initialize() override;
 		void Terminate() override;
 
+		void Serialize(rapidjson::Document& doc, rapidjson::Value& value) override;
 		void Deserialize(const rapidjson::Value& value) override;
 
 		void DebugUI() override;
