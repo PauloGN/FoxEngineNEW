@@ -37,6 +37,11 @@ void FoxEngine::TPSCameraComponent::Initialize()
 	updateService->Register(this);
 	input = Input::InputSystem::Get();
 
+	// Set obj rotation based on camera forward vector
+	const Camera& camera = mCameraComponet->GetCamera();
+	const FoxMath::Vector3 lookAt = FoxMath::Normalize(FoxMath::Vector3(-camera.GetDirection().x, 0.0f, -camera.GetDirection().z));
+	const float yaw = atan2(lookAt.x, lookAt.z);
+	mTransformComponent->rotation = FoxMath::Quaternion::CreateFromYawPitchRoll(0.0f, yaw, mEulerOffsetRotation.z);
 }
 
 void FoxEngine::TPSCameraComponent::Terminate()
@@ -70,7 +75,6 @@ void FoxEngine::TPSCameraComponent::Update(float deltaTime)
 
 	//// Set the camera look-at direction to point at the game object's position
 	//camera.SetLookAt(mTransformComponent->position);
-
 }
 
 void TPSCameraComponent::EditorUI()
@@ -159,7 +163,7 @@ void FoxEngine::TPSCameraComponent::Deserialize(const rapidjson::Value& value)
 	}
 	if (value.HasMember("OrientRotationToMovement"))
 	{
-		mCameraSettings.sensitivity = value["OrientRotationToMovement"].GetBool();
+		mCameraSettings.OrientRotationToMovement = value["OrientRotationToMovement"].GetBool();
 	}
 
 	//Object Settings
@@ -327,12 +331,12 @@ void TPSCameraComponent::DefineMoveSpeed(const float deltaTime)
 	{
 		gLastMaxMoveSpeed = mSprintMovementSpeed * deltaTime;
 	}
-
+	
 	// Define interpolation rate for movement speed
 	float lerpRate = 0.02f;
 
 	// Update object movement speed based on input
-	float targetMovementSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? gLastMaxMoveSpeed : gLastBaseMoveSpeed;
+	const float targetMovementSpeed = input->IsKeyDown(KeyCode::LSHIFT) ? gLastMaxMoveSpeed : gLastBaseMoveSpeed;
 
 	if(targetMovementSpeed > movementSpeed)
 	{

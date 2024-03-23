@@ -18,11 +18,13 @@ namespace FoxEngine
 
 		void AddObject(GameObject& go);
 		void RemoveObject(GameObject& go);
-
+		void DebugUI() override;
 
 		void EditorUI() override;
 		void Serialize(rapidjson::Document& doc, rapidjson::Value& value) override;
 		void Deserialize(const rapidjson::Value& value)override;
+
+		void SetCustomEffect(CustomEffect effect);
 
 	private:
 
@@ -32,6 +34,7 @@ namespace FoxEngine
 
 		std::list<GameObject*> mInRangeComponents;
 		std::list<GameObject*> mOutOfRangeComponents;
+		std::list<GameObject*> mDestroyComponents;
 		Vector3* mPosition {};
 		// TRUE = attract -- FALSE = repel
 		bool mMakeAllAttractive = false;
@@ -48,5 +51,9 @@ namespace FoxEngine
 		//Update timer
 		float timer = 0;
 		const float timeUpdateRate = .5f;
+
+		// Custom effect function
+		CustomEffect customEffect;
+		//bool canPerformAction = true;
 	};
 }

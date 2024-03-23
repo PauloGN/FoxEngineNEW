@@ -77,9 +77,10 @@ namespace FoxEngine
 		}
 #pragma endregion
 
+	bool IsValid(const GameObjectHandle& handle);
+
 	private:
 
-		bool IsValid(const GameObjectHandle& handle);
 		void ProcessDestroyList();
 
 		struct Slot

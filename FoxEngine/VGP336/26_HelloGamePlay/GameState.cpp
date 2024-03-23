@@ -22,13 +22,20 @@ void GameState::Initialize()
 	s1->mHasAttraction = true;
 	MC->AddObject(*s1);
 
-	LOAD_MAGNETIFY(mGameworld, "TPSSpaceShip", "../../Assets/Loadfiles/MagnetifyObjList.txt");
+	// Create a custom effect using a lambda function
+	const CustomEffect customEffect = [](GameObject& obj) {
+		// Custom behavior
+		// For example, toggle the mHasAttraction flag
+		obj.mHasAttraction = !obj.mHasAttraction;
+		//Destroy game obj
+		const GameObjectHandle h = obj.GetHandle();
+		obj.GetWorld().DestroyObject(h);
+		};
 
-	//PhysicsService* ps = mGameworld.GetService<PhysicsService>();
-	//if (ps != nullptr)
-	//{
-	//	ps->SetEnabled(true);
-	//}
+	// Set the custom effect for the MagnetifyComponent
+	MC->SetCustomEffect(customEffect);
+
+	LOAD_MAGNETIFY(mGameworld, "TPSSpaceShip", "../../Assets/Loadfiles/MagnetifyObjList.txt");
 
 }
 void GameState::Terminate()
